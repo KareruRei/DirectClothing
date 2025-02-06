@@ -4,7 +4,7 @@ import business.*;
 import ordernpayment.*;
 
 
-public class Main {
+public class Tite {
 
     // MAIN PROGRAM     ---------------------------------------------------------------------------------
     public static void main(String[] args) {
