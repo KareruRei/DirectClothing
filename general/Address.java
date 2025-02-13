@@ -6,7 +6,7 @@ final public class Address {
 	private String city;
 	private int zipCode;
 	private String state;
-	private String country;dfd
+	private String country;hgfh
 
 
     public Address(String adln1, String adln2, String city, int zipCode, String state, String country) {
