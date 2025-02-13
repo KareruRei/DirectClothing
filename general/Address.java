@@ -4,7 +4,7 @@ final public class Address {
     private String addressLine1;
 	private String addressLine2;
 	private String city;
-	private int zipCode;efwefvfbbfxbf
+	private int zipCode;
 	private String state;
 	private String count;
 
