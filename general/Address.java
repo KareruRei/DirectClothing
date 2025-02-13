@@ -4,9 +4,9 @@ final public class Address {
     private String addressLine1;
 	private String addressLine2;
 	private String city;
-	private int zipCode;
+	private int zipCode;efwef
 	private String state;
-	private String country;
+	private String count;
 
 
     public Address(String adln1, String adln2, String city, int zipCode, String state, String country) {
