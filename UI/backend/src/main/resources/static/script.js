@@ -1,16 +1,24 @@
 function showSidebar() {
-    var x = document.getElementById('sidebar')
-    if(x.className == "sidebar"){
-       x.className += " show";
-    } else{
-       x.className = "sidebar";
+    var sidebar = document.getElementById('sidebar');
+
+    if (sidebar.classList.contains("show")) {
+        sidebar.classList.remove("show"); // Hide sidebar
+    } else {
+        sidebar.classList.add("show"); // Show sidebar
     }
- }
+}
+document.addEventListener("DOMContentLoaded", function () {
+    let currentIndex = 0;
+    const totalSlides = 5; // Update this based on the number of slides
+    const radioButtons = document.querySelectorAll("input[name='slider']");
 
+    document.getElementById("prevBtn").addEventListener("click", function () {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        radioButtons[currentIndex].checked = true;
+    });
 
-const products = [
-    { id: 1, name: 'Product 1', price: 29.99 },
-    { id: 2, name: 'Product 2', price: 39.99 },
-    { id: 3, name: 'Product 3', price: 49.99 },
-    { id: 4, name: 'Product 4', price: 59.99 }
-];
+    document.getElementById("nextBtn").addEventListener("click", function () {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        radioButtons[currentIndex].checked = true;
+    });
+});
