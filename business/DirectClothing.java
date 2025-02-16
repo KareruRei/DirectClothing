@@ -1,15 +1,27 @@
 package business;
-import java.util.HashMap;
 import ordernpayment.Order;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
 // This class acts as a dummy class to store catalogs
-final public class DirectClothing {
+public final class DirectClothing {
     private float funds = 1000.00f;
-    private HashMap<String, Catalog> currentCatalogs; // Key: catalog key
-    private HashMap<Integer, Order> orders; // Key: customer id
+    private HashMap<String, Catalog> currentCatalogs = new HashMap<>();  // Key: catalog key
+    private Queue<Order> orderQueue = new LinkedList<>();
 
 
     public String toString() {return "DirectClothing Design";}
+
+
+    public synchronized void enqueueOrder(Order newOrder) {orderQueue.add(newOrder);}
+    public synchronized Order dequeueOrder() {return orderQueue.poll();}
+    public synchronized boolean orderQueueIsEmpty() {return orderQueue.isEmpty();}
+    public synchronized Order peekOrder() {return orderQueue.peek();}
+
+    public synchronized String getOrderQueueString() {return orderQueue.toString();}
 
     // Setter Methods
     public void setFunds(float newFunds) {funds = newFunds;}
@@ -17,23 +29,17 @@ final public class DirectClothing {
     // Getter Methods
     public float getFunds() {return funds;}
     public HashMap<String, Catalog> getCatalogs() {return currentCatalogs;}
-    public HashMap<Integer, Order> getOrders() {return orders;}
 
-    // Add to funds or Take from funds
+    // Add to funds or take from funds
     public void addToFunds(float amount) {funds += amount;}
     public void takeFromFunds(float amount) {funds -= amount;}
-    // Add to list of catalogs/orders
+
+    // Add to list of catalogs or take from list of catalogs
     public void addToCatalogs(Catalog newCatalog) {currentCatalogs.put(newCatalog.getKey(), newCatalog);}
-    public void addToOrders(Order newOrder) {orders.put(newOrder.getCustomer().getID(), newOrder);}
-    
     public void takeFromCatalogs(String catalogKey) {
         if (this.currentCatalogs.containsKey(catalogKey)) {
             this.currentCatalogs.remove(catalogKey);
         }
     }
-    public void takeFromOrders(int id) {
-        if (this.orders.containsKey(id)) {
-            this.orders.remove(id);
-        }
-    }
+
 }

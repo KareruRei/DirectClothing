@@ -72,8 +72,7 @@ public class Main {
         Catalog catalog2 = new Catalog("DirectClothing Catalog 2", "2G7Q5EOBNDG5", catalogItems2, Date.create(2024, 11, 27));
 
         // Setting up an order taker
-	    Employee oEC = new Employee("Sergio Perez", 241856, "0953-182-3512", Employee.Type.OEC, 587812002);
-	    Employee cSR = new Employee("Charles Leclerc", 785121, "0951-246-8914", Employee.Type.CSR, 958127437);
+	    OrderTaker oEC = new OrderTaker("Sergio Perez", 241856, "0953-182-3512", 587812002);
         
         // Setting up order lines
         OrderLine orderLine1 = new OrderLine(1, catalogItems1[0], Date.now(), catalog1); 
@@ -85,102 +84,29 @@ public class Main {
         Order order1 = new Order("2LIAOIBLSGG7YHW2", Date.now(), orderedItems, customer1, Order.Status.COMPLETED, oEC);
 
         // Setting up payment
+        @SuppressWarnings("unused")
         CheckPayment thePayment = new CheckPayment(order1.calcAmountOwed(), Payment.Status.PENDING, customer1, 
                                                    Payment.SupportedBanks.BPI, clothingSystem, 313472);
 
 
-        // USING GETTER METHODS  ---------------------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------
 
-        System.out.println("\n=====  CUSTOMER INFORMATION  ===========================================================================\n");
-        System.out.println("Name:               "+customer1.getName());
-        System.out.println("ID:                 "+customer1.getID());
-        System.out.println("Phone No.:          "+customer1.getPhone());
-        System.out.println("Shipping Address:   "+customer1.getShippingAddress());
-        System.out.println("Billing Address:    "+customer1.getBillingAddress());
+        WorkerThread workerThread = new WorkerThread(clothingSystem, new OrderTaker[]{oEC});
+        workerThread.start();
+
+        while (true) {
             
-        System.out.println("\n=====  SUPPLIERS INFORMATION  ===========================================================================\n");
-        System.out.println("Name:               "+supplier1.getName());
-        System.out.println("Address:            "+supplier1.getAddress());
-        System.out.println("Phone No.:          "+supplier1.getPhone());
-        System.out.print("\n");
-        System.out.println("Name:               "+supplier2.getName());
-        System.out.println("Address:            "+supplier2.getAddress());
-        System.out.println("Phone No.:          "+supplier2.getPhone());
-            
-        System.out.println("\n=====  ITEMS INFORMATION  ===========================================================================");
-        Product[] myItemList = {tshirt, pants, jacket, cardigan, polo, skirt};
-        for (Product anItem : myItemList) {
-            System.out.print("\n");
-            System.out.println("> Item Description:   "+anItem.getDescription());
-            System.out.println("  Item ID:            "+anItem.getItemID());
-            System.out.println("  Supplier:           "+anItem.getSupplier().getName());
-            System.out.println("  Quantity in Stock:  "+anItem.getQuantityInStock());
+            synchronized (clothingSystem) {
+                clothingSystem.enqueueOrder(order1);
+    
+                System.out.println("| MAIN THREAD -> " + clothingSystem.getOrderQueueString());
+            }
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-            
-        System.out.println("\n=====  CATALOG INFORMATION  ===========================================================================\n");
-        Catalog[] catalogList = {catalog1, catalog2};
-        for (Catalog aCatalog : catalogList) {
-            System.out.println("CATALOG NAME:       "+aCatalog.getName());
-            System.out.println("CATALOG KEY:        "+aCatalog.getKey());
-            System.out.println("DATE PRODUCED:      "+aCatalog.getDateProduced()+"\n");
-            System.out.println(" > Normal Items:");
-            aCatalog.getNormalItems().values().forEach( 
-                (v) -> {
-                    System.out.println("   - Item Description:   "+v.getItem().getDescription());
-                    System.out.println("     Item Price:         P "+v.getPrice()+"\n");
-                }
-            );
-            System.out.println(" > Monthly Specials:");
-            aCatalog.getMonthlySpecials().values().forEach(
-                (v) -> {
-                    System.out.println("   - Item Description:   "+v.getItem().getDescription());
-                    System.out.println("     Item Price:         P "+v.getPrice());
-                    System.out.println("     Item Discount:      "+v.getDiscount()+"% OFF");
-                    System.out.println("     Discounted Price:   P "+Catalog.solveDiscountedPrice(v.getPrice(), v.getDiscount())+"\n");
-                }
-            );
-            System.out.println(" > Close-out Items:");
-            aCatalog.getCloseOutItems().values().forEach(
-                (v) -> {
-                    System.out.println("   - Item Description:   "+v.getItem().getDescription());
-                    System.out.println("     Item Price:         P "+v.getPrice());
-                    System.out.println("     Item Discount:      "+v.getDiscount()+"% OFF");
-                    System.out.println("     Discounted Price:   P "+Catalog.solveDiscountedPrice(v.getPrice(), v.getDiscount())+"\n");
-                }
-            );
-        }
-            
-        System.out.println("=====  EMPLOYEE INFORMATION  ===========================================================================\n");
-        System.out.println("Name:               "+oEC.getName());
-        System.out.println("ID:                 "+oEC.getID());
-	    System.out.println("Type:               "+oEC.getType());
-        System.out.println("SSN:                "+oEC.getSSN());
-        System.out.print("\n");
-        System.out.println("Name:               "+cSR.getName());
-        System.out.println("ID:                 "+cSR.getID());
-	    System.out.println("Type:               "+cSR.getType());
-        System.out.println("SSN:                "+cSR.getSSN());
-            
-        System.out.println("\n=====  ORDER LINE INFORMATION  ===========================================================================");
-        for (OrderLine ordered : orderedItems) {
-            System.out.print("\n");
-            System.out.println("- Item Description:   "+ordered.getCatalogItem().getItem().getDescription());
-            System.out.println("  Amount Ordered:     "+ordered.getQuantity());
-            System.out.println("  From Catalog:       "+ordered.getFromCatalog().getName());
-            System.out.println("  Date Filled:        "+ordered.getDateFilled());
-        }
-
-        System.out.println("\n=====  ORDER INFORMATION  ===========================================================================\n");
-        System.out.println(order1.printOrder());
-
-        System.out.println("\n=====  PAYMENT INFORMATION  ===========================================================================\n");
-        System.out.println("Customer:           "+thePayment.getDrawer());
-        System.out.println("Amount:             P "+thePayment.getAmount());
-        System.out.println("Mode:               "+thePayment.getMode());
-        System.out.println("Bank:               "+thePayment.getDrawee());
-        System.out.println("Check Number:       "+thePayment.getCheckNum());
-        System.out.println("Payment Status:     "+thePayment.getStatus());
-
-        System.out.println("\n=======================================================================================================\n\n");
     }
 }

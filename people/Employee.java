@@ -1,29 +1,29 @@
 package people;
-
-public class Employee extends Person {
-    private int SSN;
-    private Type type;        
+import ordernpayment.Order;
 
 
-    public Employee(String name, int ID, String phone, Type myType, int SSN) {
+public abstract class Employee extends Person {
+    protected int SSN;
+    protected Order orderToProcess;
+    protected int processStep = 0;
+
+
+    public Employee(String name, int ID, String phone, int SSN) {
         super(name, ID, phone);
-	    this.type = myType;
         this.SSN = SSN;
     }
 
+    public abstract void doWork();
+
+    
+    public boolean isOccupied() {return orderToProcess != null;}
+    public void startWork() {processStep = 1;}
+
     // Setter Methods
     public void setSSN(int mySSN) {SSN = mySSN;}
-    public void setType(Type myType) {this.type = myType;}
+    public void setOrderToProcess(Order orderToProcess) {this.orderToProcess = orderToProcess;}
 
     // Getter Methods
     public int getSSN() {return SSN;}
-    public Type getType() {return this.type;}
-
-
-    public void placeOrder() {}
-
-
-
-
-    public static enum Type { OEC, CSR }
+    public Order getOrderToProcess() {return orderToProcess;}
 }
