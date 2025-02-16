@@ -2,7 +2,7 @@ package general;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-final public class Date { ttt
+final public class Date {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private LocalDate theDate;
 
