@@ -1,5 +1,7 @@
 package people;
 import general.Address;
+import ordernpayment.Order;
+import ordernpayment.OrderLine;
 import business.Catalog;
 import business.Product;
 
@@ -23,7 +25,12 @@ public class Customer extends Person {
     public Address getBillingAddress() {return billingAddress;}
 
     
-    public void placeOnlineOrder(Catalog whatCatalog, Product[] whatItems) {}
+    public void placeOnlineOrder(Catalog whatCatalog, OrderLine[] whatItems) {}
+        Order newOrder = new Order();
+        newOrder.setItemsOrdered(whatItems);
+        newOrder.setPayMethod("Online Payment");
+        DirectClothing.orderQueue.add(newOrder);
+    }
     public void sendOrderForm(Catalog whatCatalog, Product[] whatItems) {}
     public void makePayment() {}
     

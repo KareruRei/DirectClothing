@@ -13,6 +13,7 @@ public class Order {
     private Employee placedBy;
 
 
+    public Order() {}
     public Order(String id, Date date, OrderLine[] items, Customer customer, Status status, Employee placedBy) {
         this.orderID = id;
         this.dateOrdered = date;
