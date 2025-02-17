@@ -91,4 +91,12 @@ public class Order {
         COMPLETED,
         CANCELLED
     }
+
+
+
+
+    public void setPayMethod(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPayMethod'");
+    }
 }
