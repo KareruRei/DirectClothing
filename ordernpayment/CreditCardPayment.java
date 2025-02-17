@@ -1,3 +1,4 @@
+// notes cuz my notepad is so cluttered: add more variables, payment verification is here
 package ordernpayment;
 
 public class CreditCardPayment extends Payment {

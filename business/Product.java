@@ -5,7 +5,7 @@ public class Product {
     private String itemID;
 	private int quantityInStock;
     private Supplier supplier;
-
+    private float price;
 
     public Product(String desc, String id, int qty, Supplier supp) {
         this.description = desc;
@@ -20,13 +20,14 @@ public class Product {
     public void setItemID(String myID) {itemID = myID;}
     public void setQuantityInStock(int stock) {quantityInStock = stock;}
     public void setSupplier(Supplier mySupplier) {supplier = mySupplier;}
+    public void setPrice(float rawPrice) {price = rawPrice;}
 
     // Getter Methods
     public String getDescription() {return description;}
     public String getItemID() {return itemID;}
     public int getQuantityInStock() {return quantityInStock;}
     public Supplier getSupplier() {return supplier;}
-
+    public float getPrice() {return price;}
 
     public int addInventory(int newStock) {
         quantityInStock += newStock;
