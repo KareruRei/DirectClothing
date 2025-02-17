@@ -24,9 +24,10 @@ public class Payment {
     public Mode getMode() {return mode;}
     
     
-    public void verify() {}
-
-
+    public abstract void verify();
+    //implementation of CheckPayment and CreditCardPayment
+    //CheckPayment placeholder
+    //CreditCardPayment placeholder
 
 
     public static enum SupportedBanks {
