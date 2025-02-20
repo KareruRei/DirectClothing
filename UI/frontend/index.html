@@ -9,41 +9,119 @@
     
 </head>
 <body>
-    <section id="header">
-        <div class="title">
-            <a href="index.html">Direct Clothing</a>
+    <header>
+        <div class="logo">Direct Clothing</div>
+        <div class="icons">
+            <span><a href="#"><i class="fa far fa-user-circle"></i></a></span>
+            <span><a href="#"><i class="fa fa-file"></i></a></span>
+            <span onclick="openCart()" style="position: relative; cursor: pointer;">
+                <i class="fa fas fa-shopping-bag"></i>
+                <span id="cart-count" class="cart-count">0</span>
+            </span>            
         </div>
-        
+    </header>
+    
+    <div id="cart-ui" class="cart-ui">
+        <div class="cart-content">
+            <span class="close-cart" onclick="closeCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <button><a href="#">Checkout</a></button>
+        </div>
+    </div>
+    
 
-        <div class="nav">
-            <ul id="navbar">
-                <li><a href="user"><i class="fa-regular fa-user"></i></a></li>
-                <li><a href="cart"><i class="fa fa-shopping-cart"></i></a></li>
-            </ul>
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Summer Wear:2025</h1>
+            <p>The Summer Wear 2025 collection</p>
+            <button>Check Out</button>
         </div>
     </section>
 
-    <section  id="product1">
-        <h2>Featured Products</h2>
-        <p>Summer Selection: Smart Styles This Summer</p>
-        <div class="pro-container">
-            <div class="pro">
-                <img src="./img/1.jpg" alt="">
-                <div class="des">
-                    <span>Uniqlo</span>
-                    <h5>Coca Cola Collab</h5>
-                    <div class="star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </div>
-                    <h4>PHP 900</h4>
-                </div>
-                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+    <section class="summer-collection">
+        <div class="collection-text">
+            <h2>Blazing Chic</h2>
+            <p>Walk with style</p>
+        </div>
+    </section>
+
+    <section class="bestsellers">
+        <h2>Featured</h2>
+        <div class="products">
+            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Shirt', 'PHP 1,699')">
+                <img src="img/1.jpg" alt="coca-cola">
+                <p>Coca-Cola Shirt</p>
+                <p>PHP 1,699</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Shirt', 'PHP 1,699')">
+                <img src="img/1.jpg" alt="coca-cola">
+                <p>Coca-Cola Shirt</p>
+                <p>PHP 1,699</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Shirt', 'PHP 1,699')">
+                <img src="img/1.jpg" alt="coca-cola">
+                <p>Coca-Cola Shirt</p>
+                <p>PHP 1,699</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Shirt', 'PHP 1,699')">
+                <img src="img/1.jpg" alt="coca-cola">
+                <p>Coca-Cola Shirt</p>
+                <p>PHP 1,699</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
+            </div>
+            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 590')">
+                <img src="img/3.jpg" alt="blue">
+                <p>Blue Shirt</p>
+                <p>PHP 590</p>
             </div>
         </div>
+        
+        
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <img id="popup-img" src="" alt="Product Image">
+                <h2 id="popup-title"></h2>
+                <p id="popup-price"></p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+        </div>
+        
     </section>
 
     <script src="script.js"></script>
