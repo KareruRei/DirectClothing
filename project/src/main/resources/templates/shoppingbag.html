@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xlmns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Out</title>
+    <link rel="stylesheet" href="shoppingbag.css">
+</head>
+
+<body>
+
+    <div id="title">
+        <h1>Your Shopping Bag</h1>
+    </div>
+
+    <div id="content">
+        <div id="cart-container">
+
+            <div class="card" th:each="item : ${items}">
+                <div>
+                    <div>
+                        <img src="https://skoop.com.ph/cdn/shop/files/skoop-basiks-product_shots-crew_neck-storm-front.jpg?v=1702031067">
+                    </div>
+                    <div>
+                        <p>Blazing Chic Collection 2025</p>
+                        <p th:text="${item.getItem().getDescription()}"></p>
+                        <button>Remove</button>
+                    </div>
+                </div>
+                <div>
+                    <button>-</button>
+                    <input type="number" value="1" min="1">
+                    <button>+</button>
+                </div>
+                <div>
+                    <p class="if-discount" th:if="${item.getDiscount() != 0.00}" th:text="'Php. ' + ${item.getPrice()}"></p>
+                    <p th:text="'Php. ' + ${item.getDiscountedPrice()}"></p>
+                </div>
+            </div>
+
+        </div>
+        <div id="order-summary">
+            
+        </div>
+    </div>
+
+
+    <script></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Clothing</title>
+</head>
+
+<style>
+
+.table {
+	margin-top: 100px;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	border-collapse: separate;
+	border-spacing: 0 10px;
+	font-size: 16px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;	
+	overflow: hidden;
+}
+.table thead tr {
+	font-size: 1.10em;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 0 8px rgb(0, 0, 0.1);
+}
+.table tbody {
+	border-spacing: 10px;
+}
+.table tbody tr {
+	border-bottom: 1px solid gray;
+	box-shadow: 0 0 8px rgb(0, 0, 0.1);
+}
+.table tbody tr:last-of-type {
+	border-bottom: 3px solid rgb(21, 97, 52);
+}
+.table td {
+	background-color: rgb(231, 255, 228);
+	padding: 5px;
+}
+#prod-col {
+	width: 60%;
+	/* border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem; */
+}
+#qty-col {
+	width: 20%;
+}
+#ttl-col {
+	width: 20%;
+	/* border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem; */
+}
+.table thead th {
+	text-align: left;
+	background-color: rgb(55, 127, 84);
+	padding: 15px;
+}
+.cart-product {
+	padding-left: 10px;
+}
+.qty1 {
+	margin: 0px 8px;
+}
+.qty-button {
+	font-size: 14px;
+	background-color: rgb(116, 132, 147);
+	border: transparent;
+	border-radius: 1rem;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+}
+/* .left-row {
+	border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem;
+}
+.right-row {
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+} */
+
+</style>
+
+<body>
+
+	<button onclick="addRow()">Add Row</button>
+	
+    <table class="table" id="cart-table">
+	<thead>
+	    <tr>
+			<th id="prod-col">PRODUCT</th>
+			<th id="qty-col">QTY.</th>
+			<th id="ttl-col">SUBTOTAL</th>
+	    </tr>
+	</thead>
+	<tbody>
+	   
+	</tbody>
+
+    </table>    
+
+    <script>
+
+		function addQty(id, priceID) {
+			var span = document.getElementById(id);
+			span.textContent = Number(span.textContent) + 1;
+
+			var price = document.getElementById(priceID);
+			price.textContent = "Php. " + 699 * Number(span.textContent)
+		}
+		
+		function subQty(id, priceID) {
+			var span = document.getElementById(id);
+			var qty = Number(span.textContent);
+
+			if (qty > 1) {
+				span.textContent = Number(span.textContent) - 1;
+
+				var price = document.getElementById(priceID);
+				price.textContent = "Php. " + 699 * Number(span.textContent)
+			}
+		}
+
+
+		var cellNum = 1;
+	
+		function addRow() {
+			var table = document.getElementById("cart-table").getElementsByTagName("tbody")[0];
+			var newRow = table.insertRow();
+			
+			var cell1 = newRow.insertCell(0);
+			var cell2 = newRow.insertCell(1);
+			var cell3 = newRow.insertCell(2);
+
+			cell1.className = "cell left-row";
+			cell2.className = "cell centered";
+			cell3.className = "cell right-row centered";
+
+
+			var productDiv = document.createElement("div");
+			productDiv.className = "cart-product";
+
+			var productSpan = document.createElement("span");
+			productSpan.textContent = "Large V-Neck Shirt (Black)";
+			productDiv.appendChild(productSpan);
+
+			cell1.appendChild(productDiv);
+
+			var form = document.createElement("form");
+			form.action = "#";
+			form.method = "post";
+			
+			var quantityNum = document.createElement("span");
+			quantityNum.className = "qty1";
+			quantityNum.id = "itemQty"+cellNum;
+			quantityNum.textContent = "1";
+
+			var subButton = document.createElement("button");
+			subButton.textContent = "-";
+			subButton.className = "qty-button";
+			subButton.id = "subButton"+cellNum;
+
+			var addButton = document.createElement("button");
+			addButton.textContent = "+";
+			addButton.className = "qty-button";
+			addButton.id = "addButton"+cellNum;
+
+			// form.appendChild(subButton);
+			// form.appendChild(quantityNum);
+			// form.appendChild(addButton);
+			// cell2.append(form);
+			cell2.appendChild(subButton);
+			cell2.appendChild(quantityNum);
+			cell2.appendChild(addButton);
+
+			var price = document.createElement("span");
+			price.textContent = "Php. 699";
+			price.id = "price"+cellNum;
+
+			cell3.appendChild(price);
+
+			document.getElementById(subButton.id).addEventListener("click", function() {subQty(quantityNum.id, price.id);})
+			document.getElementById(addButton.id).addEventListener("click", function() {addQty(quantityNum.id, price.id);})
+
+			cellNum = cellNum + 1;
+		}
+
+    </script>
+
+</body>
+</html>
