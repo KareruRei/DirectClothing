@@ -8,6 +8,7 @@ import ordernpayment.OrderLine;
 public class Customer extends Person {
     private Address shippingAddress;
     private Address billingAddress;
+    private Cart myCart;
 
     public Customer(String name, int ID, String phone, Address shippingAddress, Address billingAddress) {
         super(name, ID, phone);
@@ -24,10 +25,7 @@ public class Customer extends Person {
     public Address getBillingAddress() {return billingAddress;}
 
     public void placeOnlineOrder(Catalog whatCatalog, OrderLine[] whatItems) {
-        Order newOrder = new Order();
-        newOrder.setItemsOrdered(whatItems);
-        // newOrder.setPayMethod("Online Payment");
-        // DirectClothing.orderQueue.add(newOrder);
+        
     }
 
     public void sendOrderForm(Catalog whatCatalog, Product[] whatItems) {
