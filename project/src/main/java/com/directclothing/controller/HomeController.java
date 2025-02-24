@@ -70,6 +70,6 @@ public class HomeController {
 
         model.addAttribute("items", catalogItems1);
 
-        return "shoppingbag";
+        return "index";
     }
 }
