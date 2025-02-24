@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import ordernpayment.Order;
+import order.Order;
 
 
 // This class acts as a dummy class to store catalogs

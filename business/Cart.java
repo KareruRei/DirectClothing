@@ -1,15 +1,14 @@
 package business;
   
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList; // tbf idk if im even gonna be using these often
+import java.util.List; // tbf idk if im even gonna be using these often
 
-import ordernpayment.Order;
-import ordernpayment.OrderLine;
-import people.Customer;
+import general.Date;
+import order.Order;
+import order.OrderLine;
+import people.Customer; //  THE ENTIRE Order CLASS STUFF HAHASDASUDAJS
 import people.Employee;
-import business.Catalog;
-import general.Date; //  THE ENTIRE Order CLASS STUFF HAHASDASUDAJS
 
 public class Cart {
   private HashMap<String, CartItem> items = new HashMap<>();

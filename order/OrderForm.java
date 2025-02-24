@@ -1,6 +1,5 @@
-package ordernpayment;
+package order;
 
-import business.OrderLine;
 import general.Address;
 import general.Date;
 import people.Customer;
@@ -12,7 +11,7 @@ public class OrderForm {
     private Address billingAddress;
     private Date orderDate;
 
-    public OrderForm(Customer customer, Catalog catalog, OrderLine[] items, Address shippingAddress, Address billingAddress, Date orderDate) {
+    public OrderForm(Customer customer, OrderLine[] items, Address shippingAddress, Address billingAddress, Date orderDate) {
         this.customer = customer;
         this.items = items;
         this.shippingAddress = shippingAddress;

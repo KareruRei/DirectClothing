@@ -1,7 +1,15 @@
-import general.*;
-import people.*;
-import business.*;
-import ordernpayment.*;
+import business.Catalog;
+import business.DirectClothing;
+import business.Item;
+import business.Product;
+import general.Address;
+import general.Date;
+import order.Order;
+import order.OrderLine;
+import people.Customer;
+import people.OrderTaker;
+import people.Supplier;
+import people.WorkerThread;
 
 
 public class Main {

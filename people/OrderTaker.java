@@ -1,7 +1,7 @@
 package people;
 
-import ordernpayment.Order;
-import ordernpayment.OrderLine;
+import order.Order;
+import order.OrderLine;
 
 
 public class OrderTaker extends Employee implements Worker {

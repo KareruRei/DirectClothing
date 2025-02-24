@@ -1,9 +1,11 @@
 package people;
+import business.Cart;
 import business.Catalog;
 import business.Product;
 import general.Address;
-import ordernpayment.Order;
-import ordernpayment.OrderLine;
+import order.Order;
+import order.OrderLine;
+
 
 public class Customer extends Person {
     private Address shippingAddress;
