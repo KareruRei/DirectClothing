@@ -1,14 +1,9 @@
 package people;
+import business.Catalog;
+import business.Product;
 import general.Address;
 import ordernpayment.Order;
 import ordernpayment.OrderLine;
-import ordernpayment.Payment;
-
-import java.util.Scanner;
-
-import business.Catalog;
-import business.DirectClothing;
-import business.Product;
 
 public class Customer extends Person {
     private Address shippingAddress;
@@ -31,30 +26,34 @@ public class Customer extends Person {
     public void placeOnlineOrder(Catalog whatCatalog, OrderLine[] whatItems) {
         Order newOrder = new Order();
         newOrder.setItemsOrdered(whatItems);
-        newOrder.setPayMethod("Online Payment");
-        DirectClothing.orderQueue.add(newOrder);
+        // newOrder.setPayMethod("Online Payment");
+        // DirectClothing.orderQueue.add(newOrder);
     }
 
     public void sendOrderForm(Catalog whatCatalog, Product[] whatItems) {
 
+    }
+
     public boolean makePayment(double amount, String paymentMethod) {
-        Payment payment = new Payment(amount, paymentMethod);
-        return payment.verify();
+        // Payment payment = new Payment(amount, paymentMethod);
+        // return payment.verify();
+
+        return false;
     }
 
     public boolean confirmOrder(Order customerOrder) {
-        System.out.println("Order Details:");
-        System.out.println(customerOrder);
+        // System.out.println("Order Details:");
+        // System.out.println(customerOrder);
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Do you confirm the order? (yes/no)");
-        String confirmation = scanner.nextLine();
+        // Scanner scanner = new Scanner(System.in);
+        // System.out.println("Do you confirm the order? (yes/no)");
+        // String confirmation = scanner.nextLine();
 
-        if (confirmation.equalsIgnoreCase("yes")) {
-            if (makePayment(customerOrder.getTotalAmount(), customerOrder.getPayMethod())) {
-                return true;
-            }
-        }
+        // if (confirmation.equalsIgnoreCase("yes")) {
+        //     if (makePayment(customerOrder.getTotalAmount(), customerOrder.getPayMethod())) {
+        //         return true;
+        //     }
+        // }
         return false;
     }
 }

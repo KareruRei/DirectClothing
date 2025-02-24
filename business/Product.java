@@ -1,11 +1,15 @@
 package business;
 
+import people.Supplier;
+
+
 public class Product {
     private String description;
     private String itemID;
 	private int quantityInStock;
     private Supplier supplier;
     private float price;
+    private String imageLink;
 
     public Product(String desc, String id, int qty, Supplier supp) {
         this.description = desc;
@@ -21,6 +25,7 @@ public class Product {
     public void setQuantityInStock(int stock) {quantityInStock = stock;}
     public void setSupplier(Supplier mySupplier) {supplier = mySupplier;}
     public void setPrice(float rawPrice) {price = rawPrice;}
+    public void setImageLink(String image) {imageLink = image;}
 
     // Getter Methods
     public String getDescription() {return description;}
@@ -28,6 +33,7 @@ public class Product {
     public int getQuantityInStock() {return quantityInStock;}
     public Supplier getSupplier() {return supplier;}
     public float getPrice() {return price;}
+    public String getImageLink() {return imageLink;}
 
     public int addInventory(int newStock) {
         quantityInStock += newStock;

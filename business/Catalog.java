@@ -1,5 +1,7 @@
 package business;
+
 import java.util.HashMap;
+
 import general.Date;
 
 public class Catalog {
@@ -18,7 +20,8 @@ public class Catalog {
         String id;
 
         for (Item item : catalogItems) {
-            id = item.getItem().getItemID();
+            item.setFromCatalog(this);
+            id = item.getSKU(); // changed item.getProduct to item.getItem for the new SKU 
 
             if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
             else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
@@ -37,7 +40,7 @@ public class Catalog {
         String id;
 
         for (Item item : catalogItems) {
-            id = item.getItem().getItemID();
+            id = item.getSKU();
 
             if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
             else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
@@ -48,24 +51,28 @@ public class Catalog {
         this.normalItems = new HashMap<>();
         for (Item item : catalogItems) {normalItems.put(item.getItem().getItemID(), item);}
     }
+
     public void setMonthlySpecials(Item[] catalogItems) {
         this.monthlySpecials = new HashMap<>();
         for (Item item : catalogItems) {monthlySpecials.put(item.getItem().getItemID(), item);}
     }
+
     public void setCloseOuts(Item[] catalogItems) {
         this.closeOuts = new HashMap<>();
         for (Item item : catalogItems) {closeOuts.put(item.getItem().getItemID(), item);}
     }
+
     public void addItems(Item[] catalogItems) {
         String id;
 
         for (Item item : catalogItems) {
-            id = item.getItem().getItemID();
+            id = item.getSKU();
 
             if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
             else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
             else {closeOuts.put(id, item);}
         }
+
     }
     public void setDateProduced(Date myDate) {dateProduced = myDate;}
 
@@ -104,6 +111,22 @@ public class Catalog {
         else if (monthlySpecials.containsKey(itemID)) {monthlySpecials.remove(itemID);}
         else if (closeOuts.containsKey(itemID)) {closeOuts.remove(itemID);}
     }
+
+    public Item getItemBySKU(String sku) {  // NEW STORAGE KEEPING UNIT - SKU STUFF these r all to get an item 
+        for (Item item : normalItems.values()) {
+            if (item.getSKU().equals(sku))
+                return item;
+        }
+        for (Item item : monthlySpecials.values()) {
+            if (item.getSKU().equals(sku))
+                return item;
+        }
+        for (Item item : closeOuts.values()) {
+            if (item.getSKU().equals(sku))
+                return item;
+        }
+        return null; // this returns null if no item was found with the given sku
+    }
     
     // Gets the time difference in months between two dates
     public int getMonthDelta(Date otherDate) {
@@ -111,38 +134,9 @@ public class Catalog {
     }
 
 
-
-
     public static enum Section {
         NORMAL_ITEM,
         MONTHLY_SPECIAL,
         CLOSEOUT_ITEM
-    }
-    public static class Item {
-        private Product theItem;
-        private float price;
-        private float discount = 0.00f;
-        private Section section = Section.NORMAL_ITEM;
-
-        public Item(Product theItem, float price, Section section, float discount) {
-            this.theItem = theItem;
-            this.price = price;
-            this.discount = discount;
-            this.section = section;
-        }
-
-        public String toString() {return this.theItem.getDescription();}
-
-        // Setter Methods
-        public void setItem(Product theItem) {this.theItem = theItem;}
-        public void setPrice(float price) {this.price = price;}
-        public void setDiscount(float discount) {this.discount = discount;}
-        public void setSection(Section section) {this.section = section;}
-
-        // Getter Methods
-        public Product getItem() {return theItem;}
-        public float getPrice() {return price;}
-        public float getDiscount() {return discount;}
-        public Section getSection() {return section;}
     }
 }

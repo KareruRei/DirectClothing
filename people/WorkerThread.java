@@ -1,13 +1,11 @@
-package general;
+package people;
 
 import business.DirectClothing;
-import people.InventoryManager;
-import people.OrderTaker;
 
 public class WorkerThread extends Thread {
     DirectClothing business;
     OrderTaker orderTakers[];
-    InventoryManager invManagers[];
+    
 
     public WorkerThread(DirectClothing business, OrderTaker[] OT_List) {
         this.business = business;

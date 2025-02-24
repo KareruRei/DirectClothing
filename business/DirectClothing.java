@@ -1,14 +1,14 @@
 package business;
-import ordernpayment.Order;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import ordernpayment.Order;
+
 
 // This class acts as a dummy class to store catalogs
 public final class DirectClothing {
-    private float funds = 1000.00f;
+    private double funds = 1000.00f;
     private HashMap<String, Catalog> currentCatalogs = new HashMap<>();  // Key: catalog key
     private Queue<Order> orderQueue = new LinkedList<>();
 
@@ -24,10 +24,10 @@ public final class DirectClothing {
     public synchronized String getOrderQueueString() {return orderQueue.toString();}
 
     // Setter Methods
-    public void setFunds(float newFunds) {funds = newFunds;}
+    public void setFunds(double newFunds) {funds = newFunds;}
 
     // Getter Methods
-    public float getFunds() {return funds;}
+    public double getFunds() {return funds;}
     public HashMap<String, Catalog> getCatalogs() {return currentCatalogs;}
 
     // Add to funds or take from funds

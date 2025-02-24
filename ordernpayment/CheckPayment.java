@@ -29,5 +29,31 @@ public class CheckPayment extends Payment {
     public int getCheckNum() {return checkNumber;}
 
 
-    public void verify(Order theOrder) {}
+    public void verify(Order theOrder) {
+        /*
+        @Override
+        public void verify(Order theOrder) {
+        System.out.println("Verifying Check Payment with Order...");
+
+        if (drawer == null || drawee == null || payee == null || checkNumber <= 0 || theOrder == null) {
+            System.out.println("Verification failed. Invalid check details or order (null or invalid values).");
+            setStatus(Status.REFUSED);
+            return;
+        }
+
+        if (drawer.getDirectClothing() != payee) {
+            System.out.println("Verification failed. Invalid check.");
+            setStatus(Status.REFUSED);
+            return;
+        }
+
+        if (theOrder.getTotalAmount() != getAmount()) {
+            System.out.println("Verification failed. Order amount does not match payment amount.");
+            setStatus(Status.REFUSED);
+            return;
+        }
+
+        idk if tama to :')
+        */
+    }
 }  
