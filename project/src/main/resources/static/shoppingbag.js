@@ -1,9 +1,25 @@
 
 window.onload = function() {
-    let items = document.getElementsByClassName("card");
+    var cardNum = 1;
+    var cart = document.getElementById("cart-container");
+    var cards = cart.children;
 
-    for (item of items) {
-        
+    for (let card of cards) {
+        card.id = "card_no"+cardNum;
+
+        let cardChildren = card.children;
+
+        cardChildren[0].children[1].children[2].id = "removeButton_no"+cardNum;
+
+        cardChildren[1].children[0].id = "subButton_no"+cardNum;
+        cardChildren[1].children[1].id = "quantity_no"+cardNum;
+        cardChildren[1].children[2].id = "addButton_no"+cardNum;
+
+        document.getElementById("subButton_no"+cardNum).addEventListener("click", function() {subQty(cardChildren[1].children[1].id);});
+        document.getElementById("addButton_no"+cardNum).addEventListener("click", function() {addQty(cardChildren[1].children[1].id);});
+        document.getElementById("removeButton_no"+cardNum).addEventListener("click", function() {toggleItemRemoval(card.id);});
+
+        cardNum++;
     }
 };
 
@@ -81,35 +97,32 @@ window.onload = function() {
 //     card.appendChild(priceDiv);
 //     document.getElementById("cart-container").appendChild(card);
 
-//     document.getElementById(subButton.id).addEventListener("click", function() {subQty(quantity.id);});
-//     document.getElementById(addButton.id).addEventListener("click", function() {addQty(quantity.id);});
-//     document.getElementById(removeButton.id).addEventListener("click", function() {toggleItemRemoval(card.id);});
+    // document.getElementById(subButton.id).addEventListener("click", function() {subQty(quantity.id);});
+    // document.getElementById(addButton.id).addEventListener("click", function() {addQty(quantity.id);});
+    // document.getElementById(removeButton.id).addEventListener("click", function() {toggleItemRemoval(card.id);});
 
 //     productNum++;
 // }
 
-// function toggleItemRemoval(cardId) {
-//     var item = document.getElementById(cardId);
+function toggleItemRemoval(cardId) {
+    var item = document.getElementById(cardId);
 
-//     item.classList.toggle("shrink");
+    item.classList.toggle("shrink");
 
-//     item.addEventListener("transitionend", function() {document.getElementById(cardId).remove();});
-// }
-// function createGridTransition(prevGridRow) {
+    item.addEventListener("transitionend", function() {document.getElementById(cardId).remove();});
+}
 
-// }
+function addQty(numId) {
+    var qtyNum = document.getElementById(numId);
+    qtyNum.value = Number(qtyNum.value) + 1;
+}
+function subQty(numId) {
+    var qtyNum = document.getElementById(numId);
+    var value = Number(qtyNum.value);
 
-// function addQty(numId) {
-//     var qtyNum = document.getElementById(numId);
-//     qtyNum.value = Number(qtyNum.value) + 1;
-// }
-// function subQty(numId) {
-//     var qtyNum = document.getElementById(numId);
-//     var value = Number(qtyNum.value);
-
-//     if (value > 1) {
-//         qtyNum.value = value - 1;
-//     }
+    if (value > 1) {
+        qtyNum.value = value - 1;
+    }
 
 
-// }
+}
