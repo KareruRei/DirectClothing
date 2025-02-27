@@ -40,9 +40,22 @@
 
         </div>
         <div id="order-summary">
-            
-        </div>
+            <h1>Order Summary</h1>
+            <div th:each="item : ${items}" class="order-item">
+                <div>
+                    <p class="catalog">Blazing Chic Collection 2025</p>
+                    <p class="product" th:text="${item.getItem().getDescription()}"></p>
+                </div>
+                <p class="quantity">x1</p>
+                <p class="price" th:text="'Php ' + ${item.getDiscountedPrice()}"></p>
+            </div>
+        
+            <h3>Total</h3>
+            <p class="total" th:text="'Php ' + ${totalAmount}"></p>
+            <button class="place-order">Place Order</button>
+        </div>             
     </div>
+
 
 
     <script src="shoppingbag.js"></script>

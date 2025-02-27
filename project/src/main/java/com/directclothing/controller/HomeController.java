@@ -68,8 +68,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-        model.addAttribute("items", catalogItems1);
+        model.addAttribute("items", catalogItems2);
 
-        return "index";
+        return "shoppingbag";
     }
 }
