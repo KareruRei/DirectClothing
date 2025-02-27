@@ -1,14 +1,18 @@
 package com.directclothing.service.people;
 
-import com.directclothing.service.ordernpayment.Order;
-import com.directclothing.service.ordernpayment.OrderLine;
+import com.directclothing.service.order.Order;
+import com.directclothing.service.order.OrderLine;
 
 
-public class OrderTaker extends Employee {
+public class OrderTaker extends Employee implements Worker {
+    private Order orderToProcess;
 
     public OrderTaker(String name, int ID, String phone, int SSN) {
         super(name, ID, phone, SSN);
     }
+
+    public void setOrderToProcess(Order orderToProcess) {this.orderToProcess = orderToProcess;}
+    public Order getOrderToProcess() {return orderToProcess;}
 
 
     @Override
@@ -22,6 +26,12 @@ public class OrderTaker extends Employee {
             default: break;
         }
     }
+    @Override
+    public void completeWork() {
+
+    }
+    @Override
+    public boolean isOccupied() {return orderToProcess != null;}
 
 
     public void processInfo() {

@@ -1,42 +1,36 @@
-package com.directclothing.service.ordernpayment;
-
-import com.directclothing.service.business.Catalog;
+package com.directclothing.service.order;
+import com.directclothing.service.business.Item;
 import com.directclothing.service.general.Date;
-
 
 public class OrderLine {
     private int quantity;
-    private Catalog.Item theItem;
+    private Item theItem;
 	private Date dateFilled;
-	private Catalog fromCatalog;
 
 
-    public OrderLine(int quantity, Catalog.Item theItem, Date dateFilled, Catalog fromCatalog) {
+    public OrderLine(int quantity, Item theItem, Date dateFilled) {
         this.quantity = quantity;
         this.theItem = theItem;
         this.dateFilled = dateFilled;
-        this.fromCatalog = fromCatalog;
     }
 
     // Setter Methods
     public void setQuantity(int myQuantity) {quantity = myQuantity; }
-    public void setCatalogItem(Catalog.Item myItem) {theItem = myItem;}
+    public void setCatalogItem(Item myItem) {theItem = myItem;}
     public void setDateFilled(Date myDate) {dateFilled = myDate;}
-    public void setFromCatalog(Catalog myCatalog) {fromCatalog = myCatalog;}
 
     // Getter Methods
     public int getQuantity() {return quantity;}
-    public Catalog.Item getCatalogItem() {return theItem;}
+    public Item getCatalogItem() {return theItem;}
     public Date getDateFilled() {return dateFilled;}
-    public Catalog getFromCatalog() {return fromCatalog;}
         
     public float calcRawPrice() {
         String id = theItem.getItem().getItemID();
-        return fromCatalog.getItemPrice(id) * quantity;
+        return theItem.getFromCatalog().getItemPrice(id) * quantity;
     }
     public float calcOrderLinePrice() {
         String id = theItem.getItem().getItemID();
-        return fromCatalog.getDiscountedPrice(id) * quantity;
+        return theItem.getFromCatalog().getDiscountedPrice(id) * quantity;
     }
     public void fillOrder() {}
 }
