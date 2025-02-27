@@ -11,11 +11,13 @@ public class Product {
     private float price;
     private String imageLink;
 
-    public Product(String desc, String id, int qty, Supplier supp) {
+    public Product(String desc, String id, int qty, Supplier supp, float prc, String image) {
         this.description = desc;
         this.itemID = id;
         this.quantityInStock = qty;
         this.supplier = supp;
+        this.price = prc;
+        this.imageLink = image;
     }
     public String toString() {return this.description;}
 
