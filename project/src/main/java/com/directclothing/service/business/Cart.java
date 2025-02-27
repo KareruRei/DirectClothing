@@ -68,7 +68,7 @@ public class Cart {
         }
       } // if item does not exist idk how to implement a warning/message for "This item does not exist" without terminal
       else {
-        throw new IllegalStateException("This item does not exist"); // lmao idk if this even is suitable
+        return "This item does not exist"; // lmao idk if this even is suitable
       }
   }
 
@@ -118,7 +118,7 @@ public class Cart {
 
   public Order checkOut(Employee placedBy) { // ok so this is supposed to connect to order HOPEFULLY 
     if (items.isEmpty()) {
-      throw new IllegalStateException("Cannot checkout with an empty cart.");
+      return "Cannot checkout with an empty cart.";
     }
     String orderID = generateOrderID();
     Date dateOrdered = Date.now();
