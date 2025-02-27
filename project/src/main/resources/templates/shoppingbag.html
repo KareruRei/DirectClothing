@@ -50,9 +50,12 @@
                 <p class="price" th:text="'Php ' + ${item.getDiscountedPrice()}"></p>
             </div>
         
-            <h3>Total</h3>
-            <p class="total" th:text="'Php ' + ${totalAmount}"></p>
-            <button class="place-order">Place Order</button>
+            <div class="total-container">
+                <h3>Total</h3>
+                <p class="total" th:text="'Php ' + ${totalAmount}"></p>
+            </div>
+            
+            <button>Place Order</button>
         </div>             
     </div>
 
