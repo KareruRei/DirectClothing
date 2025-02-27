@@ -48,11 +48,7 @@ public class CheckPayment extends Payment {
             return;
         }
 
-        if (theOrder.getTotalAmount() != getAmount()) {
-            System.out.println("Verification failed. Order amount does not match payment amount.");
-            setStatus(Status.REFUSED);
-            return;
-        }
+        return false;
 
         idk if tama to :')
         */
