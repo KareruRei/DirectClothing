@@ -1,14 +1,11 @@
-package com.directclothing.service.general;
+package com.directclothing.service.people;
 
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.people.InventoryManager;
-import com.directclothing.service.people.OrderTaker;
-
 
 public class WorkerThread extends Thread {
     DirectClothing business;
     OrderTaker orderTakers[];
-    InventoryManager invManagers[];
+    
 
     public WorkerThread(DirectClothing business, OrderTaker[] OT_List) {
         this.business = business;
@@ -21,21 +18,24 @@ public class WorkerThread extends Thread {
         // Thread will execute for the entire length of program runtime
         while (true) {
 
-            // (Code inside loop is synchronized to make it thread safe)
-            for (OrderTaker ot : orderTakers)
+            // Code inside loop is synchronized to make it thread safe
+            for (OrderTaker ot : orderTakers) {
                 synchronized (business) {
                     // If order taker is not occupied, and there are orders in the queue,
                     // assign the order to the order taker
-                    if (!ot.isOccupied())
+                    if (!ot.isOccupied() && !business.orderQueueIsEmpty())
                         if (!business.orderQueueIsEmpty()) {
                             ot.setOrderToProcess(business.dequeueOrder());
                             ot.startWork();
-                        }
-                    // If order taker is occupied, call doWork() method
-                    else ot.doWork();
-                }
 
-            System.out.println("| THREAD 1 -> " + business.getOrderQueueString());
+                            System.out.println("| THREAD 1 -> " + business.getOrderQueueString());
+                        }
+                }
+            }
+
+            for (OrderTaker ot : orderTakers)
+                if (ot.isOccupied()) ot.doWork();
+
 
             // Sleep the thead for 1 second
             try {

@@ -1,20 +1,19 @@
-package com.directclothing.service.ordernpayment;
-
+package com.directclothing.service.payment;
 
 public class Payment {
     private float amount = 0.00f;
     private Status paymentStatus;
-    // private Mode mode;
+    private Method payMethod;
 
 
     public Payment(float amount, Status status) {
         this.amount = amount;
         this.paymentStatus = status;
-        // this.mode = Mode.CHECK;
-        // if (this instanceof CheckPayment) {this.mode = Mode.CHECK;}
-        // else if (this instanceof CreditCardPayment) {this.mode = Mode.CREDIT_CARD;}
+
+        if (this instanceof CheckPayment) {this.payMethod = Method.CHECK;}
+        else if (this instanceof CreditCardPayment) {this.payMethod = Method.CREDIT_CARD;}
     }
-    public String toString() {return "P "+Float.toString(amount);}
+    public String toString() {return "Php. "+Float.toString(amount);}
 
     // Setter Methods
     public void setAmount(float myFlt) {amount = myFlt;}
@@ -23,12 +22,13 @@ public class Payment {
     // Getter Methods
     public float getAmount() {return amount;}
     public Status getStatus() {return paymentStatus;}
-    // public Mode getMode() {return mode;}
+    public Method getMethod() {return payMethod;}
     
     
-    public void verify() {}
-
-
+    // public abstract void verify();
+    //implementation of CheckPayment and CreditCardPayment
+    //CheckPayment placeholder
+    //CreditCardPayment placeholder
 
 
     public static enum SupportedBanks {
@@ -43,5 +43,5 @@ public class Payment {
         REFUNDED,
         COMPLETE
     }
-    public static enum Mode { CHECK, CREDIT_CARD }
+    public static enum Method { CHECK, CREDIT_CARD }
 }
