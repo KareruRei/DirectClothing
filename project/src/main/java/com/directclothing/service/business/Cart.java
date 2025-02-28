@@ -51,6 +51,7 @@ public class Cart {
   public void addItem(Catalog catalog, String itemID, int quantity) {
 
       Item item = catalog.getNormalItems().get(itemID);
+      
       if (item == null) { // for future references this is if item/itemid does not exist/not set
           item = catalog.getMonthlySpecials().get(itemID);
       }

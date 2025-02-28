@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Direct Clothing</title>
-    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="/homepage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
 </head>
@@ -17,7 +17,7 @@
             <span onclick="openCart()" style="position: relative; cursor: pointer;">
                 <i class="fa fas fa-shopping-bag"></i>
                 <span id="cart-count" class="cart-count">0</span>
-            </span>             
+            </span>
         </div>
     </header>
     
@@ -31,20 +31,14 @@
     </div>
     
 
-    <section class="hero">
+    <section th:each="catalog : ${catalogs}" class="hero">
         <div class="hero-text">
-            <h1>Summer Wear:2025</h1>
-            <p>The Summer Wear 2025 collection</p>
-            <button><a href="summer">Out</a></button>
+            <h1 th:text="${catalog.name}"></h1>
+            <p th:text="${catalog.dateProduced}"></p>
+            <button><a th:href="@{'/catalog?key=' + ${catalog.key}}">Out</a></button>
         </div>
     </section>
 
-    <section class="summer-collection">
-        <div class="collection-text">
-            <h2>Blazing Chic</h2>
-            <p>Walk with style</p>
-        </div>
-    </section>
 
     <section class="bestsellers">
         <h2>Featured</h2>

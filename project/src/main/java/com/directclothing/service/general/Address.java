@@ -17,6 +17,9 @@ final public class Address {
         this.state = state;
         this.country = country;
     }
+    public Address() {
+        
+    }
     public String toString() {return addressLine1+", "+addressLine2+", "+city+" City, "+zipCode+" "+state+", "+country;}
 
 	// Setter Methods
