@@ -16,49 +16,48 @@
     <div id="content">
         <div id="cart-container">
 
-            <div class="card" th:each="item : ${shoppingItems}">
+            <div class="card" th:each="cartItem : ${shoppingItems}" th:id="${cartItem.getItem().getSKU()}">
                 <div>
                     <div>
-                        <img src="https://skoop.com.ph/cdn/shop/files/skoop-basiks-product_shots-crew_neck-storm-front.jpg?v=1702031067">
+                        <img th:src="@{'/' + ${cartItem.getItem().getProduct().getImageLink()}}">
                     </div>
                     <div>
-                        <p th:text="${item.getItem().getFromCatalog()}"></p>
-                        <p th:text="${item.getItem().getProduct().getDescription()}"></p>
+                        <p th:text="${cartItem.getItem().getFromCatalog()}"></p>
+                        <p th:text="${cartItem.getItem().getProduct().getDescription()}"></p>
                         <button>Remove</button>
                     </div>
                 </div>
                 <div>
                     <button>-</button>
-                    <input type="number" value="1" min="1">
+                    <input type="number" th:value="${cartItem.getQuantity()}" min="1">
                     <button>+</button>
                 </div>
                 <div>
-                    <p class="if-discount" th:if="${item.getItem().getDiscount() != 0.00}" th:text="'Php. ' + ${item.getItem().getPrice()}"></p>
-                    <p th:text="'Php. ' + ${item.getItem().getDiscountedPrice()}"></p>
+                    <p class="if-discount" th:if="${cartItem.getItem().getDiscount() != 0.00}" th:text="'PHP ' + ${cartItem.getItem().getPrice()}"></p>
+                    <p th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}"></p>
                 </div>
             </div>
 
         </div>
         <div id="order-summary">
             <h1>Order Summary</h1>
-            <div th:each="item : ${shoppingItems}" class="order-item">
+            <div th:each="cartItem : ${shoppingItems}" class="order-item">
                 <div>
-                    <p class="catalog">Blazing Chic Collection 2025</p>
-                    <p class="product" th:text="${item.getItem().getProduct().getDescription()}"></p>
+                    <p class="catalog" th:text="${cartItem.getItem().getFromCatalog()}"></p>
+                    <p class="product" th:text="${cartItem.getItem().getProduct().getDescription()}"></p>
                 </div>
-                <p class="quantity">x1</p>
-                <p class="price" th:text="'Php ' + ${item.getItem().getDiscountedPrice()}"></p>
+                <p class="quantity" th:text="'Qty. ' + ${cartItem.getQuantity()}"></p>
+                <p class="price" th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}"></p>
             </div>
         
             <div class="total-container">
                 <h3>Total</h3>
-                <p class="total" th:text="'Php ' + ${totalAmount}"></p>
+                <p class="total" th:text="'PHP ' + ${totalAmount}"></p>
             </div>
             
             <button onclick="payment()">Place Order</button>
         </div>             
     </div>
-
 
 
     <script src="shoppingbag.js"></script>

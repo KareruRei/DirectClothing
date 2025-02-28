@@ -1,7 +1,7 @@
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;
-    document.getElementById('popup-price').innerText = price;
+    document.getElementById('popup-price').innerText = "PHP " + price;
     document.getElementById('popup').style.display = "flex";
 
     document.getElementById('add-to-cart').onclick = function() {addToCart(itemID);}

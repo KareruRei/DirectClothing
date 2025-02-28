@@ -36,5 +36,8 @@ public class Item {
     public Catalog.Section getSection() {return section;}
     public String getSKU() {return SKU;} // sku getter
     public Catalog getFromCatalog() {return this.fromCatalog;}
-    public float getDiscountedPrice() {return discountedPrice;}
+    public float getDiscountedPrice() {
+        String formatted = String.format("%.2f", discountedPrice);
+        return Float.parseFloat(formatted);
+    }
 }

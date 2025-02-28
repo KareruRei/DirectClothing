@@ -1,7 +1,23 @@
+function showTab(tabName) {
+
+    let tabContents = document.getElementsByClassName('tab-content');
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+    }
+
+    let tabButtons = document.getElementsByClassName('tab-button');
+    for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+    }
+
+    document.getElementById(tabName).classList.add('active');
+    this.classList.add('active');
+}
+
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;
-    document.getElementById('popup-price').innerText = price;
+    document.getElementById('popup-price').innerText = "PHP " + price;
     document.getElementById('popup').style.display = "flex";
 
     document.getElementById('add-to-cart').onclick = function() {addToCart(itemID);}
@@ -10,6 +26,16 @@ function openPopup(itemID, image, title, price) {
 function closePopup() {
     document.getElementById('popup').style.display = "none";
 }
+
+// let lastKnownState = history.state;
+// window.addEventListener('popstate', function(event) {
+//     let currentState = history.state;
+//     if (currentState < lastKnownState) {
+//         this.fetch("/");
+//     } else if (currentState > lastKnownState) {
+//         this.fetch("/shopping-bag");
+//     }
+// });
 
 window.onclick = function(event) {
     let popup = document.getElementById('popup');

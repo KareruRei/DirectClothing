@@ -77,11 +77,11 @@ public class Cart {
     return total;
   }
 
-  public float getFinalPrice(String id) {
+  public float getFinalPrice() {
     float total = 0.0f;
 
     for (CartItem cartItem : items.values()) {
-      total += cartItem.getItem().getFromCatalog().getDiscountedPrice(id) * cartItem.getQuantity();
+      total += cartItem.getItem().getDiscountedPrice() * cartItem.getQuantity();
     }
     return total;
   }

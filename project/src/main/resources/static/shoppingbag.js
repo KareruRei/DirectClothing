@@ -1,133 +1,51 @@
 
 window.onload = function() {
-    var cardNum = 1;
     var cart = document.getElementById("cart-container");
     var cards = cart.children;
 
     for (let card of cards) {
-        card.id = "card_no"+cardNum;
-
+        let cardID = card.id;
         let cardChildren = card.children;
 
-        cardChildren[0].children[1].children[2].id = "removeButton_no"+cardNum;
+        cardChildren[0].children[1].children[2].id = "removeButton_id"+cardID;
 
-        cardChildren[1].children[0].id = "subButton_no"+cardNum;
-        cardChildren[1].children[1].id = "quantity_no"+cardNum;
-        cardChildren[1].children[2].id = "addButton_no"+cardNum;
+        cardChildren[1].children[0].id = "subButton_id"+cardID;
+        cardChildren[1].children[1].id = "quantity_id"+cardID;
+        cardChildren[1].children[2].id = "addButton_id"+cardID;
 
-        document.getElementById("subButton_no"+cardNum).addEventListener("click", function() {subQty(cardChildren[1].children[1].id);});
-        document.getElementById("addButton_no"+cardNum).addEventListener("click", function() {addQty(cardChildren[1].children[1].id);});
-        document.getElementById("removeButton_no"+cardNum).addEventListener("click", function() {toggleItemRemoval(card.id);});
-
-        cardNum++;
+        document.getElementById("subButton_id"+cardID).addEventListener("click", function() {changeQty(cardChildren[1].children[1].id, card.id, -1);});
+        document.getElementById("addButton_id"+cardID).addEventListener("click", function() {changeQty(cardChildren[1].children[1].id, card.id, 1);});
+        document.getElementById("removeButton_id"+cardID).addEventListener("click", function() {toggleItemRemoval(card.id);});
     }
 };
 function payment() {
-
-    alert("Paying na tangina!");
-    closePopup(); 
+    alert("Paying na!");
+    closePopup();
 }
 
-// let productNum = 1;
-// let isHolding = false;
-// let intervalId;
-
-// function addItem(desc, discount, price) {
-//     var card = document.createElement("div");
-//     card.className = "card";
-//     card.id = "item"+productNum;
-
-//     var productDiv = document.createElement("div");
-//     var qtyDiv = document.createElement("div");
-//     var priceDiv = document.createElement("div");
-
-//     /* Product Cell */
-//     var productImg = document.createElement("div");
-//     var image = document.createElement("img");
-//     image.src = "https://skoop.com.ph/cdn/shop/files/skoop-basiks-product_shots-crew_neck-storm-front.jpg?v=1702031067";
-//     productImg.appendChild(image);
-
-//     var productTxt = document.createElement("div");
-//     var txt = document.createElement("p");
-//     txt.textContent = "Blazing Chic Collection 2025";
-//     productTxt.appendChild(txt);
-//     var catalog = document.createElement("p");
-//     catalog.textContent = desc;
-//     productTxt.appendChild(catalog);
-
-//     var removeButton = document.createElement("button");
-//     removeButton.textContent = "Remove";
-//     removeButton.id = "removeItem"+productNum;
-//     productTxt.appendChild(removeButton);
-
-//     productDiv.appendChild(productImg);
-//     productDiv.appendChild(productTxt);
-
-//     /* Quantity Cell */
-//     var subButton = document.createElement("button");
-//     var addButton = document.createElement("button");
-//     var quantity = document.createElement("input");
-
-//     subButton.textContent = "-";
-//     subButton.id = "subButton"+productNum;
-//     addButton.textContent = "+";
-//     addButton.id = "addButton"+productNum;
-
-//     quantity.type = "number";
-//     quantity.inputMode = "numeric";
-//     quantity.id = "itemQuantity"+productNum;
-//     quantity.value = "1";
-
-//     qtyDiv.appendChild(subButton);
-//     qtyDiv.appendChild(quantity);
-//     qtyDiv.appendChild(addButton);
-    
-//     /* Subtotal Cell */
-//     var priceSpan = document.createElement("p");
-//     priceSpan.textContent = "Php. " + price;
-//     priceSpan.id = "productPrice"+productNum;
-//     priceDiv.appendChild(priceSpan);
-    
-//     if (discount != 0) {
-//         priceDiv.className = "strike-through";
-
-//         var discSpan = document.createElement("p");
-//         discSpan.textContent = "Php. " + price * ((100.0 - discount)/100.0);
-//         priceDiv.appendChild(discSpan);
-//     }
-
-
-//     card.appendChild(productDiv);
-//     card.appendChild(qtyDiv);
-//     card.appendChild(priceDiv);
-//     document.getElementById("cart-container").appendChild(card);
-
-    // document.getElementById(subButton.id).addEventListener("click", function() {subQty(quantity.id);});
-    // document.getElementById(addButton.id).addEventListener("click", function() {addQty(quantity.id);});
-    // document.getElementById(removeButton.id).addEventListener("click", function() {toggleItemRemoval(card.id);});
-
-//     productNum++;
-// }
-
-function toggleItemRemoval(cardId) {
-    var item = document.getElementById(cardId);
-
-    item.classList.toggle("shrink");
-
-    item.addEventListener("transitionend", function() {document.getElementById(cardId).remove();});
-}
-
-function addQty(numId) {
+function changeQty(numId, itemID, change) {
     var qtyNum = document.getElementById(numId);
-    qtyNum.value = Number(qtyNum.value) + 1;
+    qtyNum.value = Number(qtyNum.value) + change;
+    if (qtyNum.value < 1) qtyNum.value = 1;
+    
+    fetch("/change-qty?itemID=" + itemID + "&newQty=" + qtyNum.value, {method: 'POST'})
 }
-function subQty(numId) {
-    var qtyNum = document.getElementById(numId);
-    var value = Number(qtyNum.value);
 
-    if (value > 1) {
-        qtyNum.value = value - 1;
-    }
+function toggleItemRemoval(itemID) {
+    var item = document.getElementById(itemID);
 
-
+    
+    fetch("/item-removed", {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain',},
+        body: String(itemID)
+    })
+    .then(response => {
+        if (response.status === 500) alert("Item does not exist! Failed to remove item from cart.");
+        return response.text();
+    })
+    .then(cartSize => {
+        item.classList.toggle("shrink");
+        item.addEventListener("transitionend", function() {document.getElementById(itemID).remove();});
+    })
 }

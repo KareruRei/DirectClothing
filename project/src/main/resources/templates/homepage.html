@@ -31,7 +31,7 @@
                     <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
                     <div>
                         <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
-                        <p th:text="${cartItem.item.getDiscountedPrice()}"></p>
+                        <p th:text="'PHP ' + ${cartItem.item.getDiscountedPrice()}"></p>
                         <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
                     </div>
                 </div>

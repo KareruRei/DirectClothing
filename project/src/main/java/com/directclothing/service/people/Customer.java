@@ -34,6 +34,9 @@ public class Customer extends Person {
     public void placeInCart(Catalog whichCat, String itemID) {
         this.myCart.addItem(whichCat, itemID, 1);
     }
+    public void changeCartItemQty(String itemID, int qty) {
+        this.myCart.getItems().get(itemID).setQuantity(qty);
+    }
     public void removeItemFromCart(String itemID) {
         this.myCart.removeItem(itemID);
     }

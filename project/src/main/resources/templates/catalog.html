@@ -31,7 +31,7 @@
                     <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
                     <div>
                         <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
-                        <p th:text="${cartItem.item.getDiscountedPrice()}"></p>
+                        <p th:text="'PHP ' + ${cartItem.item.getDiscountedPrice()}"></p>
                         <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                     <p th:text="${catalogItem.getProduct().getDescription()}"></p>
                     <p class="if-discount" th:if="${catalogItem.getDiscount() != 0.00}" th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
-                    <p class="normal"th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
+                    <p class="normal"th:text="'PHP ' + ${catalogItem.getPrice()}"></p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                     <p th:text="${catalogItem.getProduct().getDescription()}"></p>
                     <p class="if-discount" th:if="${catalogItem.getDiscount() != 0.00}" th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
-                    <p th:text="'Php. ' + ${catalogItem.getDiscountedPrice()}"></p>
+                    <p th:text="'PHP ' + ${catalogItem.getDiscountedPrice()}"></p>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
                     <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                     <p th:text="${catalogItem.getProduct().getDescription()}"></p>
                     <p class="if-discount" th:if="${catalogItem.getDiscount() != 0.00}" th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
-                    <p th:text="'Php. ' + ${catalogItem.getDiscountedPrice()}"></p>
+                    <p th:text="'PHP ' + ${catalogItem.getDiscountedPrice()}"></p>
                 </div>
             </div>
         </div>

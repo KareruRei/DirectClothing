@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Item;
 import com.directclothing.service.business.Product;
 import com.directclothing.service.general.Address;
@@ -147,8 +147,17 @@ public class MainController {
     public String directToShoppingBag(Model model) {
 
         model.addAttribute("shoppingItems", customer1.getCart().viewCartItems());        
+        model.addAttribute("totalAmount", customer1.getCart().getFinalPrice());
 
         return "shoppingbag";
+    }
+
+    @PostMapping("/change-qty")
+    public ResponseEntity<Integer> changeQuantity(@RequestParam("itemID") String itemID, @RequestParam("newQty") Integer newQty) {
+
+        customer1.changeCartItemQty(itemID, newQty);
+
+        return ResponseEntity.ok(customer1.getCart().getItems().get(itemID).getQuantity());
     }
     
 }
