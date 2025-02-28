@@ -23,9 +23,11 @@ public class Catalog {
             item.setFromCatalog(this);
             id = item.getSKU(); // changed item.getProduct to item.getItem for the new SKU 
 
-            if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
-            else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
-            else {closeOuts.put(id, item);}
+            switch (item.getSection()) {
+                case NORMAL_ITEM: normalItems.put(id, item); break;
+                case MONTHLY_SPECIAL: monthlySpecials.put(id, item); break;
+                case CLOSEOUT_ITEM: closeOuts.put(id, item); break;
+            }
         }
     }
     public String toString() {return name;}
@@ -51,28 +53,40 @@ public class Catalog {
     }
     public void setNormalItems(Item[] catalogItems) {
         this.normalItems = new HashMap<>();
-        for (Item item : catalogItems) {normalItems.put(item.getProduct().getProductID(), item);}
+        for (Item item : catalogItems) {
+            item.setFromCatalog(this);
+            normalItems.put(item.getProduct().getProductID(), item);
+        }
     }
 
     public void setMonthlySpecials(Item[] catalogItems) {
         this.monthlySpecials = new HashMap<>();
-        for (Item item : catalogItems) {monthlySpecials.put(item.getProduct().getProductID(), item);}
+        for (Item item : catalogItems) {
+            item.setFromCatalog(this);
+            monthlySpecials.put(item.getProduct().getProductID(), item);
+        }
     }
 
     public void setCloseOuts(Item[] catalogItems) {
         this.closeOuts = new HashMap<>();
-        for (Item item : catalogItems) {closeOuts.put(item.getProduct().getProductID(), item);}
+        for (Item item : catalogItems) {
+            item.setFromCatalog(this);
+            closeOuts.put(item.getProduct().getProductID(), item);
+        }
     }
 
     public void addItems(Item[] catalogItems) {
         String id;
 
         for (Item item : catalogItems) {
+            item.setFromCatalog(this);
             id = item.getSKU();
 
-            if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
-            else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
-            else {closeOuts.put(id, item);}
+            switch (item.getSection()) {
+                case NORMAL_ITEM: normalItems.put(id, item); break;
+                case MONTHLY_SPECIAL: monthlySpecials.put(id, item); break;
+                case CLOSEOUT_ITEM: closeOuts.put(id, item); break;
+            }
         }
 
     }

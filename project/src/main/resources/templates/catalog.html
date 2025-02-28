@@ -26,7 +26,7 @@
             <span class="close-cart" onclick="closeCart()">&times;</span>
             <h2>Your Cart</h2>
             <div id="cart-items"></div>
-            <button><a href="#">Checkout</a></button>
+            <button><a href="/shopping-bag">Checkout</a></button>
         </div>
     </div>
 
@@ -40,7 +40,8 @@
             th:data-imageLink="@{'/' + ${catalogItem.getProduct().getImageLink()}}"
             th:data-description="${catalogItem.getProduct().getDescription()}"
             th:data-price="${catalogItem.getPrice()}"
-            th:onclick="openPopup(this.getAttribute('data-itemSKU'), this.getAttribute('data-imageLink'), this.getAttribute('data-description'), this.getAttribute('data-price'))">
+            th:onclick="openPopup(this.getAttribute('data-itemSKU'), this.getAttribute('data-imageLink'), this.getAttribute('data-description'), this.getAttribute('data-price'))"
+            >
 
                 <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                 <p th:text="${catalogItem.getProduct().getDescription()}"></p>
@@ -100,26 +101,42 @@
             let title = document.getElementById('popup-title').innerText;
             let price = document.getElementById('popup-price').innerText;
             let image = document.getElementById('popup-img').src;
-
-            cart.push({ title, price, image });
-
-            cartCount++;
-            document.getElementById('cart-count').innerText = cartCount;
-            document.getElementById('cart-count').style.display = "inline";
             
             var catalogKey = [[${catalogKey}]];
-
+            
             fetch("/item-added?catalog=" + catalogKey , {
                 method: 'POST', 
                 headers: {'Content-Type': 'text/plain',},
                 body: itemID
             })
                 .then(response => {
-                    if (response.ok) alert("Added to cart!");
-                    else if (response.status === 500) alert("Item does not exist! Failed to add item to cart.");
+                    if (response.ok) {
+                        alert("Added to cart!");
+                        document.getElementById('cart-count').innerText = cartCount;
+                        document.getElementById('cart-count').style.display = "inline";
+
+                    } else if (response.status === 500) alert("Item does not exist! Failed to add item to cart.");
+
+                    return response.json();
+                })
+                .then(cartSize => {
+                    if (response.ok) {
+                        var cartContainer = document.getElementById('cart-items');
+                        cartContainer.innerHTML += `
+                            <div class="cart-item">
+                                <img src="${image}" alt="${title}">
+                                <div>
+                                    <p>${title}</p>
+                                    <p>${price}</p>
+                                    <button onclick="removeFromCart()">Remove</button>
+                                </div>
+                            </div>
+                        `;
+                        document.getElementById('cart-count').innerText = cartSize;
+                    }
                 })
 
-            closePopup(); 
+            closePopup();
         }
     </script>
     <script src="/catalog.js"></script>

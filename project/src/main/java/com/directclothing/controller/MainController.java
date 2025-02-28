@@ -1,21 +1,19 @@
 package com.directclothing.controller;
 
-import java.lang.reflect.Array;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.business.Item;
 import com.directclothing.service.business.Cart;
+import com.directclothing.service.business.Item;
 import com.directclothing.service.business.Product;
 import com.directclothing.service.general.Address;
 import com.directclothing.service.general.Date;
@@ -100,31 +98,53 @@ public class MainController {
     }
 
     @GetMapping("/catalog")
-    public String redirToCatalog(@RequestParam("key") String key, Model model) {
+    public String directToCatalog(@RequestParam("key") String key, Model model) {
 
         model.addAttribute("catalogKey", key);
 
-        for (Catalog cat : catalogList) {
-            if (cat.getKey().equals(key)) {
-                model.addAttribute("normalItems", cat.getNormalItems().values());
-                model.addAttribute("monthlySpecials", cat.getMonthlySpecials().values());
-                model.addAttribute("closeOuts", cat.getCloseOutItems().values());
-                break;
-            }
-        }
+        Catalog chosenCatalog = clothingSystem.getCatalogs().get(key);
+        model.addAttribute("normalItems", chosenCatalog.getNormalItems().values());
+        model.addAttribute("monthlySpecials", chosenCatalog.getMonthlySpecials().values());
+        model.addAttribute("closeOuts", chosenCatalog.getCloseOutItems().values());
 
         return "catalog";
     }
 
     @PostMapping("/item-added")
-    public ResponseEntity<String> addItemToCart(@RequestParam("catalog") String catalogKey, @RequestBody String data) {
+    public ResponseEntity<Integer> addItemToCart(@RequestParam("catalog") String catalogKey, @RequestBody String data) {
 
         try {
             customer1.placeInCart(clothingSystem.getCatalogs().get(catalogKey), data);
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Item does not exist in catalog! Failed to add item to cart.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customer1.getCart().getCartSize());
         }
 
-        return ResponseEntity.ok("Item successfully added to cart!");
+        return ResponseEntity.ok(customer1.getCart().getCartSize());
     }
+
+    @PostMapping("/item-removed")
+    public ResponseEntity<Integer> removeItemFromCart(@RequestBody String data) {
+
+        try {
+            customer1.removeItemFromCart(data);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customer1.getCart().getCartSize());
+        }
+
+        return ResponseEntity.ok(customer1.getCart().getCartSize());
+    }
+
+    @PostMapping("/get-customercart")
+    public ResponseEntity<Cart> getCustomerCart() {
+        return ResponseEntity.ok(customer1.getCart());
+    }
+
+    @GetMapping("/shopping-bag")
+    public String directToShoppingBag(Model model) {
+
+        model.addAttribute("shoppingItems", customer1.getCart().viewCartItems());        
+
+        return "shoppingbag";
+    }
+    
 }
