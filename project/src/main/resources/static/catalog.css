@@ -30,7 +30,10 @@ header {
     font-size: 24px;
     font-weight: 700;
 }
-
+.logo a{
+    text-decoration: none;
+    color: black;
+}
 .icons span {
     margin-left: 10px;
     font-size: 20px;
@@ -149,65 +152,86 @@ header {
 
 .bestsellers {
     text-align: center;
-    padding: 50px 0;
+    padding: 40px 20px;
+    background: #f5f5f5; /* Light background to make text more visible */
+}
+
+.tabs {
     display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 100px;
 }
 
-.bestsellers h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: #ccc;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
+.tab-button.active {
+    background: black;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+.if-discount {
+    font-size: 0.95em;
+    color: darkred;
+    text-decoration: line-through;
+}
 .products {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
+    padding: 20px;
 }
 
-.product a{
-    text-decoration: none;
-    color: black;
-}
 .product {
     background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px);
-    max-width: 300px;
-    box-sizing: border-box;
+    text-align: center;
+    width: 180px; /* Reduced width */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (max-width: 900px) {
-    .product {
-        width: calc(50% - 20px); 
-    }
-}
-
-@media (max-width: 600px) {
-    .product {
-        width: 100%; 
-    }
-}
-
-.product:hover{
-    transform: scale(1.05);
+.product:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 .product img {
-    width: 150px;
-    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
 
-.bestsellers button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: black;
-    color: white;
-    border: none;
-    cursor: pointer;
+.product p {
+    margin: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
 }
+
+.product p:nth-child(4) {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+}
+
 
 .popup {
     display: none;
