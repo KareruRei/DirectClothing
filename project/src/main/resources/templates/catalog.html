@@ -16,7 +16,7 @@
             <span><a href="#"><i class="fa fa-file"></i></a></span>
             <span onclick="openCart()" style="position: relative; cursor: pointer;">
                 <i class="fa fas fa-shopping-bag"></i>
-                <span id="cart-count" class="cart-count">0</span>
+                <span id="cart-count" class="cart-count" th:text="${cartSize}" th:style="${cartSize == 0 ? 'display: none;' : 'display: inline;'}"></span>
             </span>
         </div>
     </header>
@@ -25,7 +25,17 @@
         <div class="cart-content">
             <span class="close-cart" onclick="closeCart()">&times;</span>
             <h2>Your Cart</h2>
-            <div id="cart-items"></div>
+            <div id="cart-items">
+                <div class="cart-item" th:each="cartItem : ${cartItems}" th:id="${cartItem.item.getSKU()}">
+
+                    <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
+                    <div>
+                        <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
+                        <p th:text="${cartItem.item.getDiscountedPrice()}"></p>
+                        <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
+                    </div>
+                </div>
+            </div>
             <button><a href="/shopping-bag">Checkout</a></button>
         </div>
     </div>
@@ -99,6 +109,7 @@
         
     </section>
 
+    <script src="/catalog.js"></script>
     <script th:inline="javascript">
         function addToCart(itemID) {
             let title = document.getElementById('popup-title').innerText;
@@ -115,34 +126,35 @@
                 .then(response => {
                     if (response.ok) {
                         alert("Added to cart!");
-                        document.getElementById('cart-count').innerText = cartCount;
-                        document.getElementById('cart-count').style.display = "inline";
-
+                        let cartContainer = document.getElementById('cart-items');
+                        
                     } else if (response.status === 500) alert("Item does not exist! Failed to add item to cart.");
-
-                    return response.json();
+                    
+                    return response.text();
                 })
                 .then(cartSize => {
-                    if (response.ok) {
-                        var cartContainer = document.getElementById('cart-items');
-                        cartContainer.innerHTML += `
-                            <div class="cart-item">
-                                <img src="${image}" alt="${title}">
-                                <div>
-                                    <p>${title}</p>
-                                    <p>${price}</p>
-                                    <button onclick="removeFromCart()">Remove</button>
-                                </div>
-                            </div>
-                        `;
-                        document.getElementById('cart-count').innerText = cartSize;
+                    var cartContainer = document.getElementById('cart-items');
+                    if (cartSize === "1") {
+                        cartContainer.innerHTML = '';
                     }
+                    
+                    cartContainer.innerHTML += `
+                        <div class="cart-item" id="${itemID}">
+                            <img src="${image}">
+                            <div>
+                                <p>${title}</p>
+                                <p>${price}</p>
+                                <button onclick="removeFromCart('${itemID}')">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('cart-count').style.display = "inline";
+                    document.getElementById('cart-count').innerText = cartSize;
                 })
 
             closePopup();
         }
     </script>
-    <script src="/catalog.js"></script>
 
 </body>
 </html>

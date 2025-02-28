@@ -102,6 +102,10 @@ public class Cart {
     return cartSize;
   }
 
+  public HashMap<String, CartItem> getItems() {
+    return items;
+  }
+
   public Order checkOut(Employee placedBy) { // ok so this is supposed to connect to order HOPEFULLY 
     if (items.isEmpty()) {
       throw new IllegalStateException ("Cannot checkout with an empty cart.");

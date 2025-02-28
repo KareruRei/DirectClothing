@@ -1,7 +1,3 @@
-let cart = [];
-let cartCount = 0;
-
-
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;
@@ -26,59 +22,33 @@ window.onclick = function(event) {
     }
 }
 
-function updateCart() {
-    let cartContainer = document.getElementById('cart-items');
-    cartContainer.innerHTML = "";
-
-    if (cart.length === 0) {
-        cartContainer.innerHTML = "<p>Cart is empty</p>";
-    } else {
-
-        fetch("/get-customercart", {method: 'POST'})
-        .then(response => response.json())
-        .then(jsonString => {
-            const jsObj = JSON.parse(jsonString);
-            const itemList = jsObj.items;
-            
-            Object.keys(itemList).forEach(key => {
-
-                var itemImage = itemList[key].theProduct.imageLink;
-                var itemTitle = itemList[key].theProduct.description;
-                var itemPrice = itemList[key].discountedPrice;
-
-                cartContainer.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${itemImage}" alt="${itemTitle}">
-                        <div>
-                            <p>${itemTitle}</p>
-                            <p>${itemPrice}</p>
-                            <button onclick="removeFromCart()">Remove</button>
-                        </div>
-                    </div>
-                `;
-            })
-        })
-    }
-}
-
 function removeFromCart(itemID) {
             
     fetch("/item-removed", {
         method: 'POST',
         headers: {'Content-Type': 'text/plain',},
-        body: itemID
+        body: String(itemID)
     })
         .then(response => {
             if (response.status === 500) alert("Item does not exist! Failed to remove item from cart.");
-            return response.json();
+            return response.text();
         })
         .then(cartSize => {
-            if (response.ok) {
-                document.getElementById('cart-count').innerText = cartSize;
+            var cartContainer = document.getElementById('cart-items');
+
+            document.getElementById('cart-count').innerText = cartSize;
+            if (cartSize === "0") {
+                document.getElementById('cart-count').style.display = "none";
+                cartContainer.innerHTML = "<p>Cart is empty</p>";
+            }
+            
+            for (let cartItem of cartContainer.children) {
+                if (cartItem.id === itemID) {
+                    cartItem.remove();
+                    break;
+                }
             }
         })
-        
-    updateCart();
 }
 
 function closeCart() {
@@ -86,5 +56,10 @@ function closeCart() {
 }
 
 function openCart() {
+    var cartContainer = document.getElementById('cart-items');
+    if (cartContainer.children.length === 0) {
+        cartContainer.innerHTML = "<p>Cart is empty</p>";
+    }
+
     document.getElementById('cart-ui').style.display = "flex";
 }

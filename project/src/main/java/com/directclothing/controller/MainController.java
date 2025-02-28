@@ -59,19 +59,19 @@ public class MainController {
 
         // Creating objects of the catalog class
         private static Item[] catalogItems1 = {
-            new Item(tshirt, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "001"),
-            new Item(pants, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "002"),
-            new Item(polo, 749.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "003"),
-            new Item(jacket, 1199.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "004"),
-            new Item(cardigan, 799.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "005"),
-            new Item(skirt, 499.99f, Catalog.Section.CLOSEOUT_ITEM, 50.00f, "006")
+            new Item(tshirt, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A001"),
+            new Item(pants, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A002"),
+            new Item(polo, 749.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A003"),
+            new Item(jacket, 1199.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A004"),
+            new Item(cardigan, 799.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A005"),
+            new Item(skirt, 499.99f, Catalog.Section.CLOSEOUT_ITEM, 50.00f, "A006")
         };
         private static Item[] catalogItems2 = {
-            new Item(jacket, 1199.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "007"),
-            new Item(cardigan, 799.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "008"),
-            new Item(tshirt, 699.99f, Catalog.Section.MONTHLY_SPECIAL, 25.00f, "009"),
-            new Item(pants, 599.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "010"),
-            new Item(polo, 749.99f, Catalog.Section.CLOSEOUT_ITEM, 60.00f, "011")
+            new Item(jacket, 1199.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A007"),
+            new Item(cardigan, 799.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A008"),
+            new Item(tshirt, 699.99f, Catalog.Section.MONTHLY_SPECIAL, 25.00f, "A009"),
+            new Item(pants, 599.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A010"),
+            new Item(polo, 749.99f, Catalog.Section.CLOSEOUT_ITEM, 60.00f, "A011")
         };
 
         private static Catalog catalog1 = new Catalog("DirectClothing Catalog 1", "2URJYRLU1PP5", catalogItems1, Date.create(2024, 2, 14));
@@ -93,6 +93,8 @@ public class MainController {
     public String home(Model model) {
 
         model.addAttribute("catalogs", catalogList);
+        model.addAttribute("cartItems", customer1.getCart().getItems().values());
+        model.addAttribute("cartSize", customer1.getCart().getCartSize());
 
         return "homepage";
     }
@@ -101,6 +103,8 @@ public class MainController {
     public String directToCatalog(@RequestParam("key") String key, Model model) {
 
         model.addAttribute("catalogKey", key);
+        model.addAttribute("cartItems", customer1.getCart().getItems().values());
+        model.addAttribute("cartSize", customer1.getCart().getCartSize());
 
         Catalog chosenCatalog = clothingSystem.getCatalogs().get(key);
         model.addAttribute("normalItems", chosenCatalog.getNormalItems().values());
