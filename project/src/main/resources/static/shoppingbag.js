@@ -22,6 +22,11 @@ window.onload = function() {
         cardNum++;
     }
 };
+function payment() {
+
+    alert("Paying na tangina!");
+    closePopup(); 
+}
 
 // let productNum = 1;
 // let isHolding = false;

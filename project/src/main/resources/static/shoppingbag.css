@@ -132,9 +132,6 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-input[type="number"] {
-    -moz-appearance: textfield;
-}
 .if-discount {
     font-size: 0.95em;
     color: darkred;
@@ -184,15 +181,30 @@ input[type="number"] {
     margin-top: 15px;
     font-weight: bold;
 }
-.total {
-    font-size: 22px;
+.total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.total{
+    font-size: 20px;
     font-weight: bold;
     color: darkred;
-    text-align: right;
 }
-.place-order{
-    font-size: 20px;
-    color: black;
-    align-items: right;
-    border-radius: 2rem;
+#order-summary button {
+    background-color: black !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    margin-top: 20px !important;
+    cursor: pointer !important;
 }
+#order-summary button:hover {
+    background-color: #c5c5c5 !important;
+    border-radius: 5px !important;
+}
+  
+
