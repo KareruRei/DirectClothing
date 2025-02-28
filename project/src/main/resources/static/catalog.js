@@ -1,11 +1,14 @@
 let cart = [];
 let cartCount = 0;
 
-function openPopup(image, title, price) {
+
+function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;
     document.getElementById('popup-price').innerText = price;
     document.getElementById('popup').style.display = "flex";
+
+    document.getElementById('add-to-cart').onclick = function() {addToCart(itemID);}
 }
 
 function closePopup() {
@@ -21,21 +24,6 @@ window.onclick = function(event) {
     if (event.target === cartUI) {
         closeCart();
     }
-}
-
-function addToCart() {
-    let title = document.getElementById('popup-title').innerText;
-    let price = document.getElementById('popup-price').innerText;
-    let image = document.getElementById('popup-img').src;
-
-    cart.push({ title, price, image });
-
-    cartCount++;
-    document.getElementById('cart-count').innerText = cartCount;
-    document.getElementById('cart-count').style.display = "inline";
-
-    alert("Added to cart!");
-    closePopup(); 
 }
 
 function openCart() {

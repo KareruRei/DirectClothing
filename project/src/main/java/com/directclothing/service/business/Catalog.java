@@ -42,24 +42,26 @@ public class Catalog {
         for (Item item : catalogItems) {
             id = item.getSKU();
 
-            if (item.getSection() == Section.NORMAL_ITEM) {normalItems.put(id, item);}
-            else if (item.getSection() == Section.MONTHLY_SPECIAL) {monthlySpecials.put(id, item);}
-            else {closeOuts.put(id, item);}
+            switch (item.getSection()) {
+                case NORMAL_ITEM: normalItems.put(id, item); break;
+                case MONTHLY_SPECIAL: monthlySpecials.put(id, item); break;
+                case CLOSEOUT_ITEM: closeOuts.put(id, item); break;
+            }
         }
     }
     public void setNormalItems(Item[] catalogItems) {
         this.normalItems = new HashMap<>();
-        for (Item item : catalogItems) {normalItems.put(item.getItem().getItemID(), item);}
+        for (Item item : catalogItems) {normalItems.put(item.getProduct().getProductID(), item);}
     }
 
     public void setMonthlySpecials(Item[] catalogItems) {
         this.monthlySpecials = new HashMap<>();
-        for (Item item : catalogItems) {monthlySpecials.put(item.getItem().getItemID(), item);}
+        for (Item item : catalogItems) {monthlySpecials.put(item.getProduct().getProductID(), item);}
     }
 
     public void setCloseOuts(Item[] catalogItems) {
         this.closeOuts = new HashMap<>();
-        for (Item item : catalogItems) {closeOuts.put(item.getItem().getItemID(), item);}
+        for (Item item : catalogItems) {closeOuts.put(item.getProduct().getProductID(), item);}
     }
 
     public void addItems(Item[] catalogItems) {
@@ -102,7 +104,7 @@ public class Catalog {
         return getItemPrice(itemID) * ((100.00f - getItemDiscount(itemID))/100.00f);
     }
     public static float solveDiscountedPrice(float price, float discount) {
-        return price * ((100.00f - discount)/100.00f);
+        return price * (1.f - discount/100.00f);
     }
 
     // Remove Methods

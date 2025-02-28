@@ -25,11 +25,11 @@ public class OrderLine {
     public Date getDateFilled() {return dateFilled;}
         
     public float calcRawPrice() {
-        String id = theItem.getItem().getItemID();
+        String id = theItem.getProduct().getProductID();
         return theItem.getFromCatalog().getItemPrice(id) * quantity;
     }
     public float calcOrderLinePrice() {
-        String id = theItem.getItem().getItemID();
+        String id = theItem.getProduct().getProductID();
         return theItem.getFromCatalog().getDiscountedPrice(id) * quantity;
     }
     public void fillOrder() {}

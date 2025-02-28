@@ -46,7 +46,7 @@ public class OrderTaker extends Employee implements Worker {
 
     public void checkInventory() {
         for (OrderLine line : orderToProcess.getItemsOrdered())
-            if (line.getCatalogItem().getItem().getQuantityInStock() < line.getQuantity()) {
+            if (line.getCatalogItem().getProduct().getQuantityInStock() < line.getQuantity()) {
                 // do stuff
                 return;
             }
@@ -56,7 +56,7 @@ public class OrderTaker extends Employee implements Worker {
 
     public void allocateStock() {
         for (OrderLine line : orderToProcess.getItemsOrdered())
-            line.getCatalogItem().getItem().sellInventory(line.getQuantity());
+            line.getCatalogItem().getProduct().sellInventory(line.getQuantity());
     }
 
     public void completeOrder() {
