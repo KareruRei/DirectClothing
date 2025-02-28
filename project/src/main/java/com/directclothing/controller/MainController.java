@@ -26,7 +26,7 @@ import jakarta.annotation.PostConstruct;
 
 
 @Controller
-public class HomeController {
+public class MainController {
 
         // Setting up a dummy object for the clothing system
         private static DirectClothing clothingSystem = new DirectClothing();
@@ -106,7 +106,9 @@ public class HomeController {
 
         for (Catalog cat : catalogList) {
             if (cat.getKey().equals(key)) {
-                model.addAttribute("catalogItems", cat.getNormalItems().values());
+                model.addAttribute("normalItems", cat.getNormalItems().values());
+                model.addAttribute("monthlySpecials", cat.getMonthlySpecials().values());
+                model.addAttribute("closeOuts", cat.getCloseOutItems().values());
                 break;
             }
         }

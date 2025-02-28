@@ -104,7 +104,7 @@ public class Catalog {
         return getItemPrice(itemID) * ((100.00f - getItemDiscount(itemID))/100.00f);
     }
     public static float solveDiscountedPrice(float price, float discount) {
-        return price * ((100.00f - discount)/100.00f);
+        return price * (1.f - discount/100.00f);
     }
 
     // Remove Methods

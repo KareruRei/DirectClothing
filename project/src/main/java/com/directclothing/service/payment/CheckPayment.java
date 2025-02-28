@@ -1,7 +1,9 @@
 package com.directclothing.service.payment;
+
 import com.directclothing.service.people.Customer;
 import com.directclothing.service.business.DirectClothing;
 import com.directclothing.service.order.Order;
+
 
 public class CheckPayment extends Payment {
     private Customer drawer; // The customer who wrote the check

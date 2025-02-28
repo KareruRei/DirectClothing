@@ -31,10 +31,10 @@
     </div>
 
     <section class="bestsellers">
-        <h2>Catalog Items</h2>
+        <h2>Normal Items</h2>
         <div class="products">
             <div
-            th:each="catalogItem : ${catalogItems}"
+            th:each="catalogItem : ${normalItems}"
             class="product"
             th:data-itemSKU="${catalogItem.getSKU()}"
             th:data-imageLink="@{'/' + ${catalogItem.getProduct().getImageLink()}}"
@@ -45,6 +45,40 @@
                 <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                 <p th:text="${catalogItem.getProduct().getDescription()}"></p>
                 <p th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
+            </div>
+        </div>
+
+        <h2>Monthly Specials</h2>
+        <div class="products">
+            <div
+            th:each="catalogItem : ${monthlySpecials}"
+            class="product"
+            th:data-itemSKU="${catalogItem.getSKU()}"
+            th:data-imageLink="@{'/' + ${catalogItem.getProduct().getImageLink()}}"
+            th:data-description="${catalogItem.getProduct().getDescription()}"
+            th:data-price="${catalogItem.getDiscountedPrice()}"
+            th:onclick="openPopup(this.getAttribute('data-itemSKU'), this.getAttribute('data-imageLink'), this.getAttribute('data-description'), this.getAttribute('data-price'))">
+
+                <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
+                <p th:text="${catalogItem.getProduct().getDescription()}"></p>
+                <p th:text="'Php. ' + ${catalogItem.getDiscountedPrice()}"></p>
+            </div>
+        </div>
+
+        <h2>Close-Out Items</h2>
+        <div class="products">
+            <div
+            th:each="catalogItem : ${closeOuts}"
+            class="product"
+            th:data-itemSKU="${catalogItem.getSKU()}"
+            th:data-imageLink="@{'/' + ${catalogItem.getProduct().getImageLink()}}"
+            th:data-description="${catalogItem.getProduct().getDescription()}"
+            th:data-price="${catalogItem.getDiscountedPrice()}"
+            th:onclick="openPopup(this.getAttribute('data-itemSKU'), this.getAttribute('data-imageLink'), this.getAttribute('data-description'), this.getAttribute('data-price'))">
+
+                <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
+                <p th:text="${catalogItem.getProduct().getDescription()}"></p>
+                <p th:text="'Php. ' + ${catalogItem.getDiscountedPrice()}"></p>
             </div>
         </div>
         

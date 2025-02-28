@@ -1,7 +1,7 @@
 package com.directclothing.service.people;
 
 
-public abstract class Employee extends Person {
+public class Employee extends Person {
     protected int SSN;
     protected int processStep = 0;
 

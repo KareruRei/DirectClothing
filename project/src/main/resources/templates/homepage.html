@@ -33,15 +33,9 @@
 
     <section th:each="catalog : ${catalogs}" class="hero">
         <div class="hero-text">
-<<<<<<< HEAD
             <h1 th:text="${catalog.name}"></h1>
             <p th:text="${catalog.dateProduced}"></p>
             <button><a th:href="@{'/catalog?key=' + ${catalog.key}}">Out</a></button>
-=======
-            <h1>Summer Wear:2025</h1>
-            <p>The Summer Wear 2025 collection</p>
-            <button><a href="summer">Check Out</a></button>
->>>>>>> 9afc3e7c3c8dda749d7ffe56661662f36c5891c6
         </div>
     </section>
 

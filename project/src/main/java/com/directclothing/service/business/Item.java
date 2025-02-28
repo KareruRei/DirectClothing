@@ -34,4 +34,8 @@ public class Item {
     public Catalog.Section getSection() {return section;}
     public String getSKU() {return SKU;} // sku getter
     public Catalog getFromCatalog() {return this.fromCatalog;}
+
+    public float getDiscountedPrice() {
+        return price * (1.f - discount / 100.00f);
+    }
 }
