@@ -67,32 +67,30 @@ public class MainController {
         private static Product trenchCoat = new Product("Long Trench Coat", "789QRS012TUV", 1029, supplier2, "img/Long Trench Coat.webp");
         private static Product jumpsuit = new Product("Elegant Black Jumpsuit", "345WXY678ZAB", 859, supplier1, "img/Elegant Black Jumpsuit.jpg");
 
-
-        private static Item[] catalogItems1 = {
+        private static Item[] maleCatalogItems = {
             new Item(tshirt, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A001"),
             new Item(pants, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A002"),
-            new Item(polo, 749.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A003"),
-            new Item(jacket, 1199.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A004"),
-            new Item(cardigan, 799.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A005"),
-            new Item(skirt, 499.99f, Catalog.Section.CLOSEOUT_ITEM, 50.00f, "A006"),
-            new Item(jeans, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A007"),
-            new Item(dress, 729.99f, Catalog.Section.MONTHLY_SPECIAL, 10.00f, "A008"),
-            new Item(shorts, 399.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A009"),
-            new Item(blazer, 899.99f, Catalog.Section.CLOSEOUT_ITEM, 25.00f, "A010")
+            new Item(jacket, 1199.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A003"),
+            new Item(polo, 749.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A004"),
+            new Item(jeans, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A005"),
+            new Item(shorts, 399.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A006"),
+            new Item(blazer, 899.99f, Catalog.Section.CLOSEOUT_ITEM, 25.00f, "A007"),
+            new Item(sweater, 649.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A008"),
+            new Item(overalls, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A009")
         };
-
-        private static Item[] catalogItems2 = {
-            new Item(sweater, 649.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A011"),
-            new Item(leggings, 479.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A012"),
-            new Item(overalls, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A013"),
+        private static Item[] femaleCatalogItems = {
+            new Item(cardigan, 799.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A010"),
+            new Item(skirt, 499.99f, Catalog.Section.CLOSEOUT_ITEM, 50.00f, "A011"),
+            new Item(dress, 729.99f, Catalog.Section.MONTHLY_SPECIAL, 10.00f, "A012"),
+            new Item(leggings, 479.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A013"),
             new Item(trenchCoat, 1029.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A014"),
             new Item(jumpsuit, 859.99f, Catalog.Section.CLOSEOUT_ITEM, 30.00f, "A015")
-        };
+};
 
-        private static Catalog catalog1 = new Catalog("DirectClothing Catalog 1", "2URJYRLU1PP5", catalogItems1, Date.create(2024, 2, 14));
-        private static Catalog catalog2 = new Catalog("DirectClothing Catalog 2", "2G7Q5EOBNDG5", catalogItems2, Date.create(2024, 11, 27));
+        private static Catalog maleCatalog = new Catalog("Male", "2URJYRLU1PP5", maleCatalogItems, Date.create(2024, 2, 14));
+        private static Catalog femaleCatalog = new Catalog("Female", "2G7Q5EOBNDG5", femaleCatalogItems, Date.create(2024, 11, 27));
 
-        private static Catalog[] catalogList = {catalog1, catalog2};
+        private static Catalog[] catalogList = {maleCatalog, femaleCatalog};
 
 
 
