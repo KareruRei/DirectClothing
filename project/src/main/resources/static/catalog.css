@@ -163,6 +163,13 @@ header {
     margin-top: 100px;
 }
 
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
 .tab-button {
     padding: 10px 20px;
     border: none;
@@ -185,6 +192,8 @@ header {
 .tab-content.active {
     display: block;
 }
+
+
 .if-discount {
     font-size: 0.95em;
     color: darkred;
