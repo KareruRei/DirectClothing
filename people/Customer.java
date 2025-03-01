@@ -1,11 +1,10 @@
-package com.directclothing.service.people;
-
-import com.directclothing.service.business.Cart;
-import com.directclothing.service.business.Catalog;
-import com.directclothing.service.business.Product;
-import com.directclothing.service.general.Address;
-import com.directclothing.service.order.Order;
-import com.directclothing.service.order.OrderLine;
+package people;
+import business.Cart;
+import business.Catalog;
+import business.Product;
+import general.Address;
+import order.Order;
+import order.OrderLine;
 
 
 public class Customer extends Person {
@@ -17,29 +16,15 @@ public class Customer extends Person {
         super(name, ID, phone);
         this.shippingAddress = shippingAddress;
         this.billingAddress = billingAddress;
-        myCart = new Cart(this);
     }
 
     // Setter Methods
     public void setShippingAddress(Address myAddress) {shippingAddress = myAddress;}
     public void setBillingAddress(Address myAddress) {billingAddress = myAddress;}
-    public void setCart(Cart myCart) {this.myCart = myCart;}
 
     // Getter Methods
     public Address getShippingAddress() {return shippingAddress;}
     public Address getBillingAddress() {return billingAddress;}
-    public Cart getCart() {return this.myCart;}
-
-    
-    public void placeInCart(Catalog whichCat, String itemID) {
-        this.myCart.addItem(whichCat, itemID, 1);
-    }
-    public void changeCartItemQty(String itemID, int qty) {
-        this.myCart.getItems().get(itemID).setQuantity(qty);
-    }
-    public void removeItemFromCart(String itemID) {
-        this.myCart.removeItem(itemID);
-    }
 
     public void placeOnlineOrder(Catalog whatCatalog, OrderLine[] whatItems) {
         

@@ -5,6 +5,7 @@ public class Item {
     private Product theProduct;
     private float price;
     private float discount = 0.00f;
+    private float discountedPrice;
     private String SKU; // new Storage Keeping Unit variable
     private Catalog.Section section = Catalog.Section.NORMAL_ITEM;
     private Catalog fromCatalog;
@@ -13,6 +14,7 @@ public class Item {
         this.theProduct = theProduct;
         this.price = price;
         this.discount = discount;
+        this.discountedPrice = price * (1.f - discount / 100.00f);
         this.section = section;
         this.SKU = SKU;
     }
@@ -34,8 +36,8 @@ public class Item {
     public Catalog.Section getSection() {return section;}
     public String getSKU() {return SKU;} // sku getter
     public Catalog getFromCatalog() {return this.fromCatalog;}
-
     public float getDiscountedPrice() {
-        return price * (1.f - discount / 100.00f);
+        String formatted = String.format("%.2f", discountedPrice);
+        return Float.parseFloat(formatted);
     }
 }

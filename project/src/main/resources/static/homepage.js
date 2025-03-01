@@ -1,11 +1,10 @@
-let cart = [];
-let cartCount = 0;
-
-function openPopup(image, title, price) {
+function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;
-    document.getElementById('popup-price').innerText = price;
+    document.getElementById('popup-price').innerText = "PHP " + price;
     document.getElementById('popup').style.display = "flex";
+
+    document.getElementById('add-to-cart').onclick = function() {addToCart(itemID);}
 }
 
 function closePopup() {
@@ -23,57 +22,44 @@ window.onclick = function(event) {
     }
 }
 
-function addToCart() {
-    let title = document.getElementById('popup-title').innerText;
-    let price = document.getElementById('popup-price').innerText;
-    let image = document.getElementById('popup-img').src;
+function removeFromCart(itemID) {
+            
+    fetch("/item-removed", {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain',},
+        body: String(itemID)
+    })
+        .then(response => {
+            if (response.status === 500) alert("Item does not exist! Failed to remove item from cart.");
+            return response.text();
+        })
+        .then(cartSize => {
+            var cartContainer = document.getElementById('cart-items');
 
-    cart.push({ title, price, image });
-
-    cartCount++;
-    document.getElementById('cart-count').innerText = cartCount;
-    document.getElementById('cart-count').style.display = "inline";
-
-    alert("Added to cart!");
-    closePopup(); 
-}
-
-function openCart() {
-    let cartContainer = document.getElementById('cart-items');
-    cartContainer.innerHTML = "";
-
-    if (cart.length === 0) {
-        cartContainer.innerHTML = "<p>Cart is empty</p>";
-    } else {
-        cart.forEach((item, index) => {
-            cartContainer.innerHTML += `
-                <div class="cart-item">
-                    <img src="${item.image}" alt="${item.title}">
-                    <div>
-                        <p>${item.title}</p>
-                        <p>${item.price}</p>
-                        <button onclick="removeFromCart(${index})">Remove</button>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    document.getElementById('cart-ui').style.display = "flex";
+            document.getElementById('cart-count').innerText = cartSize;
+            if (cartSize === "0") {
+                document.getElementById('cart-count').style.display = "none";
+                cartContainer.innerHTML = "<p>Cart is empty</p>";
+            }
+            
+            for (let cartItem of cartContainer.children) {
+                if (cartItem.id === itemID) {
+                    cartItem.remove();
+                    break;
+                }
+            }
+        })
 }
 
 function closeCart() {
     document.getElementById('cart-ui').style.display = "none";
 }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    cartCount--;
-    document.getElementById('cart-count').innerText = cartCount;
-
-    if (cartCount === 0) {
-        document.getElementById('cart-count').style.display = "none";
+function openCart() {
+    var cartContainer = document.getElementById('cart-items');
+    if (cartContainer.children.length === 0) {
+        cartContainer.innerHTML = "<p>Cart is empty</p>";
     }
 
-    openCart();
+    document.getElementById('cart-ui').style.display = "flex";
 }

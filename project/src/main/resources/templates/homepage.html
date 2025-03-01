@@ -16,7 +16,7 @@
             <span><a href="#"><i class="fa fa-file"></i></a></span>
             <span onclick="openCart()" style="position: relative; cursor: pointer;">
                 <i class="fa fas fa-shopping-bag"></i>
-                <span id="cart-count" class="cart-count">0</span>
+                <span id="cart-count" class="cart-count" th:text="${cartSize}" th:style="${cartSize == 0 ? 'display: none;' : 'display: inline;'}"></span>
             </span>
         </div>
     </header>
@@ -25,8 +25,18 @@
         <div class="cart-content">
             <span class="close-cart" onclick="closeCart()">&times;</span>
             <h2>Your Cart</h2>
-            <div id="cart-items"></div>
-            <button><a href="#">Checkout</a></button>
+            <div id="cart-items">
+                <div class="cart-item" th:each="cartItem : ${cartItems}" th:id="${cartItem.item.getSKU()}">
+
+                    <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
+                    <div>
+                        <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
+                        <p th:text="'PHP ' + ${cartItem.item.getDiscountedPrice()}"></p>
+                        <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <button><a href="/shopping-bag">Checkout</a></button>
         </div>
     </div>
     
@@ -48,61 +58,6 @@
                 <p>Coca-Cola Sweater</p>
                 <p>PHP 1,699</p>
             </div>
-            <div class="product" onclick="openPopup('img/2.jpg', 'Coca-Cola Shirt', 'PHP 599')">
-                <img src="/img/2.jpg" alt="coca-cola-shirt">
-                <p>Coca-Cola Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 599')">
-                <img src="/img/3.jpg" alt="blue-shirt">
-                <p>Blue Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/4.jpg', 'Snoopy Sweater ', 'PHP 1,099')">
-                <img src="/img/4.jpg" alt="snoopy-sweater">
-                <p>Snoopy Sweater</p>
-                <p>PHP 1,099</p>
-            </div>
-            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Sweater', 'PHP 1,699')">
-                <img src="/img/1.jpg" alt="coca-cola">
-                <p>Coca-Cola Sweater</p>
-                <p>PHP 1,699</p>
-            </div>
-            <div class="product" onclick="openPopup('img/2.jpg', 'Coca-Cola Shirt', 'PHP 599')">
-                <img src="/img/2.jpg" alt="coca-cola-shirt">
-                <p>Coca-Cola Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 599')">
-                <img src="/img/3.jpg" alt="blue-shirt">
-                <p>Blue Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/4.jpg', 'Snoopy Sweater ', 'PHP 1,099')">
-                <img src="/img/4.jpg" alt="snoopy-sweater">
-                <p>Snoopy Sweater</p>
-                <p>PHP 1,099</p>
-            </div>
-            <div class="product" onclick="openPopup('img/1.jpg', 'Coca-Cola Sweater', 'PHP 1,699')">
-                <img src="/img/1.jpg" alt="coca-cola">
-                <p>Coca-Cola Sweater</p>
-                <p>PHP 1,699</p>
-            </div>
-            <div class="product" onclick="openPopup('img/2.jpg', 'Coca-Cola Shirt', 'PHP 599')">
-                <img src="/img/2.jpg" alt="coca-cola-shirt">
-                <p>Coca-Cola Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/3.jpg', 'Blue Shirt', 'PHP 599')">
-                <img src="/img/3.jpg" alt="blue-shirt">
-                <p>Blue Shirt</p>
-                <p>PHP 599</p>
-            </div>
-            <div class="product" onclick="openPopup('img/4.jpg', 'Snoopy Sweater ', 'PHP 1,099')">
-                <img src="/img/4.jpg" alt="snoopy-sweater">
-                <p>Snoopy Sweater</p>
-                <p>PHP 1,099</p>
-            </div>
         </div>
         
         
@@ -118,6 +73,48 @@
         
     </section>
 
+    <script th:inline="javascript">
+        function addToCart(itemID) {
+            let title = document.getElementById('popup-title').innerText;
+            let price = document.getElementById('popup-price').innerText;
+            let image = document.getElementById('popup-img').src;
+            
+            var catalogKey = [[${catalogKey}]];
+            
+            fetch("/item-added?catalog=" + catalogKey , {
+                method: 'POST', 
+                headers: {'Content-Type': 'text/plain',},
+                body: itemID
+            })
+                .then(response => {
+                    if (response.status === 500) throw new Error("Item does not exist! Failed to add item to cart.");
+                    
+                    return response.text();
+                })
+                .then(cartSize => {
+                    var cartContainer = document.getElementById('cart-items');
+                    if (cartSize === "0") cartContainer.innerHTML = "";
+
+                    cartContainer.innerHTML += `
+                        <div class="cart-item" id="${itemID}">
+                            <img src="${image}">
+                            <div>
+                                <p>${title}</p>
+                                <p>${price}</p>
+                                <button onclick="removeFromCart('${itemID}')">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('cart-count').style.display = "inline";
+                    document.getElementById('cart-count').innerText = cartSize;
+
+                    alert("Added to cart!");
+                })
+                .catch(error => alert(error));
+
+            closePopup();
+        }
+    </script>
     <script src="homepage.js"></script>
 </body>
 </html>
