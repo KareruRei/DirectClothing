@@ -64,6 +64,23 @@ public class MainController {
         private static Product overalls = new Product("Denim Overalls", "135KLM246NOP", 699, supplier1, "img/Denim Overalls.jpg");
         private static Product trenchCoat = new Product("Long Trench Coat", "789QRS012TUV", 1029, supplier2, "img/Long Trench Coat.webp");
         private static Product jumpsuit = new Product("Elegant Black Jumpsuit", "345WXY678ZAB", 859, supplier1, "img/Elegant Black Jumpsuit.jpg");
+        private static Product hoodie = new Product("Loose Fit Cotton Hoodie", "10XP3XQ07VVMCVB9", 439, supplier1, "img/Loose Fit Cotton Hoodie.jpg");
+        private static Product chinos = new Product("Slim Fit Navy Chinos", "1JTHTJM4VUP20GV9", 547, supplier1, "img/Slim Fit Navy Chinos.jpg");
+        private static Product bomberJacket = new Product("Black Bomber Jacket", "1ANJCY4437WRWHQ9", 401, supplier1, "img/Black Bomber Jacket.jpg");
+        private static Product turtleneck = new Product("Ribbed Turtleneck Sweater", "1IF7MF9IPDD4VET9", 387, supplier2, "img/Ribbed Turtleneck Sweater.jpg");
+        private static Product wrapSkirt = new Product("Wrap Midi Skirt", "12CZB14MEC8LIYD9", 461, supplier2, "img/Wrap Midi Skirt.jpg");
+        private static Product henleyShirt = new Product("Long Sleeve Henley Shirt", "1S51UGMNMPFAF099", 526, supplier2, "img/Long Sleeve Henley Shirt.jpg");
+        private static Product cargoPants = new Product("Relaxed Fit Cargo Pants", "123ABC456DEF", 599, supplier1, "img/Relaxed Fit Cargo Pants.jpg");
+        private static Product maxiDress = new Product("Bohemian Maxi Dress", "789GHI012JKL", 729, supplier2, "img/Bohemian Maxi Dress.jpg");
+        private static Product denimShorts = new Product("High-Waisted Denim Shorts", "345MNO678PQR", 399, supplier1, "img/High-Waisted Denim Shorts.jpg");
+        private static Product peacoat = new Product("Wool Blend Peacoat", "567STU890VWX", 899, supplier2, "img/Wool Blend Peacoat.webp");
+        private static Product fleeceSweater = new Product("Soft Fleece Pullover", "901YZA234BCD", 649, supplier1, "img/Soft Fleece Pullover.jpg");
+        private static Product joggers = new Product("Tapered Fit Joggers", "567EFG890HIJ", 479, supplier2, "img/Tapered Fit Joggers.webp");
+        private static Product dungarees = new Product("Classic Denim Dungarees", "135KLM246NOP", 699, supplier1, "img/Classic Denim Dungarees.jpg");
+        private static Product parkaCoat = new Product("Waterproof Parka Coat", "789QRS012TUV", 1029, supplier2, "img/Waterproof Parka Coat.jpg");
+        private static Product romper = new Product("Casual Cotton Romper", "345WXY678ZAB", 859, supplier1, "img/Casual Cotton Romper.jpg");
+
+
 
         private static Item[] catalogItems1 = {
             new Item(tshirt, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A001"),
@@ -85,7 +102,6 @@ public class MainController {
             new Item(trenchCoat, 1029.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A014"),
             new Item(jumpsuit, 859.99f, Catalog.Section.CLOSEOUT_ITEM, 30.00f, "A015")
         };
-
         private static Catalog catalog1 = new Catalog("DirectClothing Catalog 1", "2URJYRLU1PP5", catalogItems1, Date.create(2024, 2, 14));
         private static Catalog catalog2 = new Catalog("DirectClothing Catalog 2", "2G7Q5EOBNDG5", catalogItems2, Date.create(2024, 11, 27));
 
