@@ -30,6 +30,7 @@ public class Cart {
   public void addItem(Catalog catalog, String itemID, int quantity) {
 
       Item item = catalog.getNormalItems().get(itemID);
+
       
       if (item == null) { // for future references this is if item/itemid does not exist/not set
           item = catalog.getMonthlySpecials().get(itemID);
@@ -39,6 +40,10 @@ public class Cart {
       }
 
       if (item != null) {
+        if (item.getProduct().getQuantityInStock() < quantity) {
+          throw new IllegalStateException("Not enough stock for this item.");
+        }
+
         if (items.containsKey(itemID)) { // if item exists in cart, updates the quantity
           CartItem cartItem = items.get(itemID);
           cartItem.setQuantity(cartItem.getQuantity() + quantity);

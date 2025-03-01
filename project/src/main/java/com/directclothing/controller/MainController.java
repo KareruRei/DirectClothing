@@ -85,7 +85,6 @@ public class MainController {
     public void init() {
         for (Catalog cat : catalogList)
             clothingSystem.addToCatalogs(cat);
-
     }
         
 
@@ -116,11 +115,14 @@ public class MainController {
 
     @PostMapping("/item-added")
     public ResponseEntity<Integer> addItemToCart(@RequestParam("catalog") String catalogKey, @RequestBody String data) {
-
+        
+        Catalog catalog = clothingSystem.getCatalogs().get(catalogKey);
+        int qtyInStock = catalog.getItemBySKU(data).getProduct().getQuantityInStock();
+    
         try {
-            customer1.placeInCart(clothingSystem.getCatalogs().get(catalogKey), data);
+            customer1.placeInCart(catalog, data);
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customer1.getCart().getCartSize());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(qtyInStock);
         }
 
         return ResponseEntity.ok(customer1.getCart().getCartSize());
@@ -155,8 +157,12 @@ public class MainController {
     @PostMapping("/change-qty")
     public ResponseEntity<Integer> changeQuantity(@RequestParam("itemID") String itemID, @RequestParam("newQty") Integer newQty) {
 
-        customer1.changeCartItemQty(itemID, newQty);
+        int qtyInStock = customer1.getCart().getItems().get(itemID).getItem().getProduct().getQuantityInStock();
+        if (qtyInStock < newQty)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(qtyInStock);
+            
 
+        customer1.changeCartItemQty(itemID, newQty);
         return ResponseEntity.ok(customer1.getCart().getItems().get(itemID).getQuantity());
     }
     

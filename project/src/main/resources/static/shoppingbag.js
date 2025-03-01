@@ -25,10 +25,24 @@ function payment() {
 
 function changeQty(numId, itemID, change) {
     var qtyNum = document.getElementById(numId);
-    qtyNum.value = Number(qtyNum.value) + change;
-    if (qtyNum.value < 1) qtyNum.value = 1;
+
+    newQty = Number(qtyNum.value) + change;
+    if (newQty < 1) newQty = 1;
     
-    fetch("/change-qty?itemID=" + itemID + "&newQty=" + qtyNum.value, {method: 'POST'})
+    fetch("/change-qty?itemID=" + itemID + "&newQty=" + newQty, {method: 'POST'})
+    .then(response => {
+        if (response.status === 500) {
+            throw new Error("Failed to change quantity. Not enough stock!");
+        } else {
+            return response.text();
+        }
+    })
+    .then(newQty => {
+        qtyNum.value = newQty;
+    })
+    .catch(error => {
+        alert(error);
+    });
 }
 
 function toggleItemRemoval(itemID) {
