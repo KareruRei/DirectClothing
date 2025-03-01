@@ -24,35 +24,35 @@
                     <div>
                         <p th:text="${cartItem.getItem().getFromCatalog()}"></p>
                         <p th:text="${cartItem.getItem().getProduct().getDescription()}"></p>
-                        <button>Remove</button>
+                        <button th:id="'removeButton_id' + ${cartItem.getItem().getSKU()}">Remove</button>
                     </div>
                 </div>
                 <div>
-                    <button>-</button>
-                    <input type="number" th:value="${cartItem.getQuantity()}" min="1">
-                    <button>+</button>
+                    <button th:id="'addButton_id' + ${cartItem.getItem().getSKU()}">-</button>
+                    <input type="number" th:id="'quantity_id' + ${cartItem.getItem().getSKU()}" th:value="${cartItem.getQuantity()}" min="1">
+                    <button th:id="'subButton_id' + ${cartItem.getItem().getSKU()}">+</button>
                 </div>
                 <div>
-                    <p class="if-discount" th:if="${cartItem.getItem().getDiscount() != 0.00}" th:text="'PHP ' + ${cartItem.getItem().getPrice()}"></p>
-                    <p th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}"></p>
+                    <p class="if-discount" th:if="${cartItem.getItem().getDiscount() != 0.00}" th:id="'rawPrice_id' + ${cartItem.getItem().getSKU()}" th:text="'PHP ' + ${cartItem.getItem().getPrice()}"></p>
+                    <p th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}" th:id="'discountedPrice_id' + ${cartItem.getItem().getSKU()}"></p>
                 </div>
             </div>
 
         </div>
         <div id="order-summary">
             <h1>Order Summary</h1>
-            <div th:each="cartItem : ${shoppingItems}" class="order-item">
+            <div th:each="cartItem : ${shoppingItems}" class="order-item" th:id="'orderLine_id' + ${cartItem.getItem().getSKU()}">
                 <div>
                     <p class="catalog" th:text="${cartItem.getItem().getFromCatalog()}"></p>
                     <p class="product" th:text="${cartItem.getItem().getProduct().getDescription()}"></p>
                 </div>
-                <p class="quantity" th:text="'Qty. ' + ${cartItem.getQuantity()}"></p>
-                <p class="price" th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}"></p>
+                <p class="quantity" th:text="'Qty. ' + ${cartItem.getQuantity()}" th:id="'orderLineQty_id' + ${cartItem.getItem().getSKU()}"></p>
+                <p class="price" th:text="'PHP ' + ${cartItem.getItem().getDiscountedPrice()}" th:id="'orderLinePrice_id' + ${cartItem.getItem().getSKU()}"></p>
             </div>
         
             <div class="total-container">
                 <h3>Total</h3>
-                <p class="total" th:text="'PHP ' + ${totalAmount}"></p>
+                <p class="total" th:text="'PHP ' + ${totalAmount}" id="totalAmt"></p>
             </div>
             
             <button onclick="payment()">Place Order</button>

@@ -1,8 +1,9 @@
 package com.directclothing.service.business;
 
+
 public class Item {
 
-    private Product theProduct;
+    private Product product;
     private float price;
     private float discount = 0.00f;
     private float discountedPrice;
@@ -11,7 +12,7 @@ public class Item {
     private Catalog fromCatalog;
 
     public Item(Product theProduct, float price, Catalog.Section section, float discount, String SKU) {
-        this.theProduct = theProduct;
+        this.product = theProduct;
         this.price = price;
         this.discount = discount;
         this.discountedPrice = price * (1.f - discount / 100.00f);
@@ -19,10 +20,10 @@ public class Item {
         this.SKU = SKU;
     }
 
-    public String toString() {return this.theProduct.getDescription();}
+    public String toString() {return this.product.getDescription();}
 
     // Setter Methods
-    public void setProduct(Product theProduct) {this.theProduct = theProduct;}
+    public void setProduct(Product theProduct) {this.product = theProduct;}
     public void setPrice(float price) {this.price = price;}
     public void setDiscount(float discount) {this.discount = discount;}
     public void setSection(Catalog.Section section) {this.section = section;}
@@ -30,7 +31,7 @@ public class Item {
     public void setFromCatalog(Catalog cat) {this.fromCatalog = cat;}
 
     // Getter Methods
-    public Product getProduct() {return theProduct;}
+    public Product getProduct() {return product;}
     public float getPrice() {return price;}
     public float getDiscount() {return discount;}
     public Catalog.Section getSection() {return section;}
