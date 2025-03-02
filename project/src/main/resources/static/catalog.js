@@ -1,18 +1,16 @@
 function showTab(tabName) {
-
     let tabContents = document.getElementsByClassName('tab-content');
     for (let i = 0; i < tabContents.length; i++) {
         tabContents[i].classList.remove('active');
     }
-
     let tabButtons = document.getElementsByClassName('tab-button');
     for (let i = 0; i < tabButtons.length; i++) {
         tabButtons[i].classList.remove('active');
     }
-
     document.getElementById(tabName).classList.add('active');
-    this.classList.add('active');
+    event.currentTarget.classList.add('active');
 }
+
 
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
