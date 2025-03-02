@@ -11,35 +11,8 @@
 <body>
     <header>
         <div class="logo"><a href="/">Direct Clothing</a></div>
-        <div class="icons">
-            <span><a href="#"><i class="fa far fa-user-circle"></i></a></span>
-            <span><a href="#"><i class="fa fa-file"></i></a></span>
-            <span id="mini-cart-button" onclick="openCart()" style="position: relative; cursor: pointer;">
-                <i class="fa fas fa-shopping-bag"></i>
-                <span id="cart-count" class="cart-count" th:text="${cartSize}" th:style="${cartSize == 0 ? 'display: none;' : 'display: inline;'}"></span>
-            </span>
-        </div>
     </header>
     
-    <div id="cart-ui" class="cart-ui">
-        <div class="cart-content">
-            <span class="close-cart" onclick="closeCart()">&times;</span>
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <div class="cart-item" th:each="cartItem : ${shoppingItems}" th:id="${cartItem.item.getSKU()}">
-
-                    <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
-                    <div>
-                        <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
-                        <p th:text="'PHP ' + ${cartItem.item.getDiscountedPrice()}"></p>
-                        <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
-                    </div>
-                </div>
-            </div>
-            <button><a href="/shopping-bag">Checkout</a></button>
-        </div>
-    </div>
-
     <div id="content">
         <div id="cart-container">
             <h1>Shopping Bag</h1>
