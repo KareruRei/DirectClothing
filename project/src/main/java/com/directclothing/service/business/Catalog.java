@@ -1,5 +1,6 @@
 package com.directclothing.service.business;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.directclothing.service.general.Date;
@@ -145,8 +146,34 @@ public class Catalog {
     }
     
     // Gets the time difference in months between two dates
-    public int getMonthDelta(Date otherDate) {
-        return this.dateProduced.getDate().getMonthValue() - otherDate.getDate().getMonthValue();
+    public int getTimeDelta(Date otherDate) {
+        return this.dateProduced.getIntValue() - otherDate.getIntValue();
+    }
+
+    public static Catalog[] sortCatalogs(Collection<Catalog> catalogs) {
+        Catalog[] sortedCatalog = new Catalog[catalogs.size()];
+        int counter = 0;
+
+        for (Catalog cat : catalogs) {
+            sortedCatalog[counter++] = cat;
+        }
+
+        Catalog tempCatalogHolder;
+        
+        for (int i=0; i < sortedCatalog.length ; i++) {
+            
+            for (int j=sortedCatalog.length-1; j > i; j--) {
+
+                tempCatalogHolder = sortedCatalog[j];
+                if (sortedCatalog[j-1].getTimeDelta(tempCatalogHolder.getDateProduced()) >= 0)
+                    break;
+
+                sortedCatalog[j] = sortedCatalog[j-1];
+                sortedCatalog[j-1] = tempCatalogHolder;
+            }
+        }
+
+        return sortedCatalog;
     }
 
 

@@ -33,7 +33,9 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model) {
 
-        model.addAttribute("catalogs", clothingSystem.getCatalogs().values());
+        Catalog[] catalogs = Catalog.sortCatalogs(clothingSystem.getCatalogs().values());
+
+        model.addAttribute("catalogs", catalogs);
         model.addAttribute("cartItems", customer1.getCart().getItems().values());
         model.addAttribute("cartSize", customer1.getCart().getCartSize());
 

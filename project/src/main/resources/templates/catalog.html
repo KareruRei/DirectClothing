@@ -14,7 +14,7 @@
         <div class="icons">
             <span><a href="#"><i class="fa far fa-user-circle"></i></a></span>
             <span><a href="#"><i class="fa fa-file"></i></a></span>
-            <span onclick="openCart()" style="position: relative; cursor: pointer;">
+            <span id="mini-cart-button" onclick="openCart()" style="position: relative; cursor: pointer;">
                 <i class="fa fas fa-shopping-bag"></i>
                 <span id="cart-count" class="cart-count" th:text="${cartSize}" th:style="${cartSize == 0 ? 'display: none;' : 'display: inline;'}"></span>
             </span>

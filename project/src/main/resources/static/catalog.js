@@ -80,6 +80,7 @@ function removeFromCart(itemID) {
 
 function closeCart() {
     document.getElementById('cart-ui').style.display = "none";
+    enableCardEventListeners();
 }
 
 function openCart() {
@@ -89,4 +90,17 @@ function openCart() {
     }
 
     document.getElementById('cart-ui').style.display = "flex";
+    disableCardEventListeners();
+}
+
+function enableCardEventListeners() {
+    const cards = document.querySelectorAll(".product");
+
+    cards.forEach(card => {card.style.pointerEvents = 'auto';});
+}
+
+function disableCardEventListeners() {
+    const cards = document.querySelectorAll(".product");
+
+    cards.forEach(card => {card.style.pointerEvents = 'none';});
 }
