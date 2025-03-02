@@ -28,7 +28,6 @@ public class MainController {
     @Autowired private DirectClothing clothingSystem;
     @Autowired private Customer customer1;
     
-        
 
     @GetMapping("/")
     public String home(Model model) {

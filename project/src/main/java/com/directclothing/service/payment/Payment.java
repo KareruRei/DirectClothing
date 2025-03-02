@@ -6,9 +6,9 @@ public class Payment {
     private Method payMethod;
 
 
-    public Payment(float amount, Status status) {
+    public Payment(float amount) {
         this.amount = amount;
-        this.paymentStatus = status;
+        this.paymentStatus = Status.PENDING;
 
         if (this instanceof CheckPayment) {this.payMethod = Method.CHECK;}
         else if (this instanceof CreditCardPayment) {this.payMethod = Method.CREDIT_CARD;}
@@ -25,15 +25,7 @@ public class Payment {
     public Method getMethod() {return payMethod;}
     
 
-
-    public static enum SupportedBanks {
-        Metrobank, Union_Bank, BPI, BDO,
-        PNB, AUB, RCBC, Security_Bank,
-        Citibank, Landbank
-    }
-    public static enum SupportedCreditCards {
-        VISA, MasterCard, AmericanExpress, UnionPay, JCB
-    }
+    
     public static enum Status {
         PENDING,
         VERIFIED,

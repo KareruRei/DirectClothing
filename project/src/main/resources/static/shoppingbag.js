@@ -184,3 +184,12 @@ function disableCardEventListeners() {
 
     cards.forEach(card => {card.style.pointerEvents = 'none';});
 }
+
+
+function openPaymentInput() {
+    document.getElementById('payment-window').style.display = "flex";
+}
+
+function closePaymentInput() {
+    document.getElementById('payment-window').style.display = "none";
+}
