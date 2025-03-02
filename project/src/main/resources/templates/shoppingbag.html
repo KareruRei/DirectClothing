@@ -11,35 +11,8 @@
 <body>
     <header>
         <div class="logo"><a href="/">Direct Clothing</a></div>
-        <div class="icons">
-            <span><a href="#"><i class="fa far fa-user-circle"></i></a></span>
-            <span><a href="#"><i class="fa fa-file"></i></a></span>
-            <span id="mini-cart-button" onclick="openCart()" style="position: relative; cursor: pointer;">
-                <i class="fa fas fa-shopping-bag"></i>
-                <span id="cart-count" class="cart-count" th:text="${cartSize}" th:style="${cartSize == 0 ? 'display: none;' : 'display: inline;'}"></span>
-            </span>
-        </div>
     </header>
     
-    <div id="cart-ui" class="cart-ui">
-        <div class="cart-content">
-            <span class="close-cart" onclick="closeCart()">&times;</span>
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <div class="cart-item" th:each="cartItem : ${shoppingItems}" th:id="${cartItem.item.getSKU()}">
-
-                    <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
-                    <div>
-                        <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
-                        <p th:text="'PHP ' + ${cartItem.item.getDiscountedPrice()}"></p>
-                        <button th:data-itemSKU="${cartItem.item.getSKU()}" th:onclick="removeFromCart(this.getAttribute('data-itemSKU'))">Remove</button>
-                    </div>
-                </div>
-            </div>
-            <button><a href="/shopping-bag">Checkout</a></button>
-        </div>
-    </div>
-
     <div id="content">
         <div id="cart-container">
             <h1>Shopping Bag</h1>
@@ -89,71 +62,45 @@
 
 
     <div id="payment-window">
-        <div id="payment-window-content">
-            <span class="close" onclick="closePaymentInput()">&times;</span>
-    
-            <h2>Payment Details</h2>
-    
-            <h4>Total Amount</h4>
-            <span th:text="'PHP ' + ${totalAmount}"></span>
-    
-            <div id="select-paymethod-container">
-                <h4>Select Payment Method</h4>
+        <span class="close" onclick="document.getElementById('payment-window').style.display='none'">&times;</span>
+        <h2>Payment Details</h2>
+        <h4>Total Amount</h4>
+        <span>PHP 0.00</span>
+        <div class="tab-container">
+            <div class="tab active" onclick="showTab('check')">Check</div>
+            <div class="tab" onclick="showTab('creditCard')">Credit Card</div>
+        </div>
+        
+        <div id="check-form" class="payment-form active">
+            <form method="POST" action="/order-by-cp">
+                <label for="bank">Bank</label>
+                <select id="bank" name="bank"></select>
+                <label for="drawer">Drawer</label>
+                <input type="text" id="drawer" name="drawer" placeholder="Enter drawer name">
+                <label for="account-num">Account Number</label>
+                <input type="text" id="account-num" name="account-num" placeholder="Must be 8-12 digits">
+                <label for="payee">Payee</label>
+                <input type="text" id="payee" name="payee" value="Direct Clothing" readonly>
+                <label for="routing-num">Routing Number</label>
+                <input type="text" id="routing-num" name="routing-num" readonly>
+                <label for="check-num">Check Number</label>
+                <input type="text" id="check-num" name="check-num" readonly>
+                <input type="submit" value="Place Order">
+            </form>
+        </div>
 
-                <div id="select-paymethod">
-                    <label for="check">Check</label>
-                    <input type="radio" name="pay-method" id="check" value="check"><br>
-    
-                    <label for="creditCard">Credit Card</label>
-                    <input type="radio" name="pay-method" id="creditCard" value="creditCard">
-                </div>
-            </div>
-    
-            <div id="ccp-form-div" class="payment-form">
-                <form id="ccp-form" method="POST" action="/order-by-ccp" onsubmit="return validateCCPForm()">
-                    <label for="creditCard">Credit Card</label><br>
-                    <select id="creditCard" name="creditCard">
-                        <!-- <option th:each="ccp : ${credCardOptions}" th:value="${cpp.name()}" th:text="${cpp.getDisplayName()}">VISA</option> -->
-                    </select>
-    
-                    <label for="creditCardNumber">Card number</label><br>
-                    <input type="text" id="creditCardNumber" name="creditCardNumber" value="Enter credit card number"><br>
-    
-                    <label for="cvv">CVV</label><br>
-                    <input type="text" id="cvv" name="cvv" value="Enter CVV"><br>
-    
-                    <label for="cardHolderName">Cardholder name</label><br>
-                    <input type="text" id="cardHolderName" name="cardHolderName" value="Enter your name"><br>
-    
-                    <input type="submit" value="Place Order">
-                </form>
-            </div>
-    
-            <div id="cp-form-div" class="payment-form">
-                <form id="cp-form" method="POST" action="/order-by-cp" onsubmit="return validateCPForm()">
-                    <label for="bank">Bank</label>
-                    <select id="bank" name="bank">
-                        <!-- <option th:each="bank : ${bankOptions}" th:value="${bank.name()}" th:text="${bank.getDisplayName()}"></option> -->
-                    </select>
-    
-                    <label for="drawer">Drawer</label>
-                    <input type="text" id="drawer" name="drawer" value="Enter drawer name"><br>
-    
-                    <label for="account-num">Account Number</label>
-                    <input type="text" id="account-num" name="accountNum" value="Must be 8-12 digits"><br>
-    
-                    <label for="payee">Payee</label>
-                    <input type="text" id="payee" name="payee" value="Direct Clothing" readonly><br>
-    
-                    <label for="routing-num">Routing Number</label>
-                    <input type="text" id="routing-num" name="routingNum" readonly><br>
-    
-                    <label for="check-num">Check Number</label><br>
-                    <input type="text" id="check-num" name="checkNum" th:value="${checkNum}" readonly><br>
-    
-                    <input type="submit" value="Place Order">
-                </form>
-            </div>
+        <div id="creditCard-form" class="payment-form">
+            <form method="POST" action="/order-by-ccp">
+                <label for="creditCard">Credit Card</label>
+                <select id="creditCard" name="creditCard"></select>
+                <label for="creditCardNumber">Card number</label>
+                <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="Enter credit card number">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="Enter CVV">
+                <label for="cardHolderName">Cardholder name</label>
+                <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Enter your name">
+                <input type="submit" value="Place Order">
+            </form>
         </div>
     </div>
 

@@ -97,7 +97,6 @@ public class CatalogConfig {
         return new Catalog("Winter", "2LJRU8H2HSV5", winterCatalogItems, Date.create(2025, 11, 3));
     }
 
-    
     private Item[] combineSummerItems() {  // combine male and female items for summer and winter  catalog
         Item[] summerItems = new Item[maleCatalogItems.length + femaleCatalogItems.length];
         System.arraycopy(maleCatalogItems, 0, summerItems, 0, maleCatalogItems.length);
