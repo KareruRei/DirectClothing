@@ -106,7 +106,7 @@ Payment confirmation page.
 
     <script>
         //Get order and put it in an array. If no order, create empty array
-        const orderInfo = JSON.parse(localStorage.getItem("orderInfo")) || [];
+        /*const orderInfo = JSON.parse(localStorage.getItem("orderInfo")) || [];
 
         const orderTable = document.getElementById("orderItems");
         const orderTotalPrice = document.getElementById("orderTotal");
@@ -120,6 +120,7 @@ Payment confirmation page.
             productPrice.textContent = item.price.toFixed(2);
             orderTotal += item.price;
         });
+        */
 
         //Display total price
         orderTotalPrice.textContent = orderTotal.toFixed(2);
