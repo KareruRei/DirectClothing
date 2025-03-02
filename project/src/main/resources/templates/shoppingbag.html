@@ -43,7 +43,7 @@
 
     <div id="content">
         <div id="cart-container">
-            <h1>Shpopping Bag</h1>
+            <h1>Shopping Bag</h1>
             <div class="card" th:each="cartItem : ${shoppingItems}" th:id="${cartItem.getItem().getSKU()}">
                 <div>
                     <div>
@@ -83,7 +83,7 @@
                 <p class="total" th:text="'PHP ' + ${totalAmount}" id="totalAmt"></p>
             </div>
             
-            <button onclick="payment()">Place Order</button>
+            <button onclick="payment()"><a href="#">Place Order</a></button>
         </div>             
     </div>
 
