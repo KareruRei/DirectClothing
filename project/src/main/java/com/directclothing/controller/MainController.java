@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.directclothing.dto.CartUpdateDTO;
 import com.directclothing.dto.CartUpdateRequest;
+import com.directclothing.dto.Payment_FormData;
 import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
@@ -128,5 +130,13 @@ public class MainController {
 
         return "paymentpage";
     }
-    
+
+    @PostMapping("/order")
+    public String directToOrder(@ModelAttribute Payment_FormData formData, Model model) {
+
+        
+        
+
+        return "orderdetails";
+    }
 }
