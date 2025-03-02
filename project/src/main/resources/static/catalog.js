@@ -1,18 +1,16 @@
 function showTab(tabName) {
-
     let tabContents = document.getElementsByClassName('tab-content');
     for (let i = 0; i < tabContents.length; i++) {
         tabContents[i].classList.remove('active');
     }
-
     let tabButtons = document.getElementsByClassName('tab-button');
     for (let i = 0; i < tabButtons.length; i++) {
         tabButtons[i].classList.remove('active');
     }
-
     document.getElementById(tabName).classList.add('active');
-    this.classList.add('active');
+    document.getElementById(tabName + "-button").classList.add('active');
 }
+
 
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
@@ -52,18 +50,20 @@ function removeFromCart(itemID) {
             
     fetch("/item-removed", {
         method: 'POST',
-        headers: {'Content-Type': 'text/plain',},
-        body: String(itemID)
+        headers: {'Content-Type': 'text/plain', 'Accept': 'application/json'},
+        body: itemID
     })
         .then(response => {
-            if (response.status === 500) alert("Item does not exist! Failed to remove item from cart.");
-            return response.text();
+            if (response.status === 500) throw new Error("Item does not exist! Failed to remove item from cart.");
+            return response.json();
         })
-        .then(cartSize => {
+        .then(cartUpdate => {
+
             var cartContainer = document.getElementById('cart-items');
 
-            document.getElementById('cart-count').innerText = cartSize;
-            if (cartSize === "0") {
+            document.getElementById('cart-count').innerText = cartUpdate.cartSize;
+
+            if (cartUpdate.cartSize === 0) {
                 document.getElementById('cart-count').style.display = "none";
                 cartContainer.innerHTML = "<p>Cart is empty</p>";
             }
@@ -75,6 +75,7 @@ function removeFromCart(itemID) {
                 }
             }
         })
+        .catch(error => {alert(error);});
 }
 
 function closeCart() {

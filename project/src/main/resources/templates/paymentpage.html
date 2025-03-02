@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<!--
+Payment confirmation page.
+
+- Redirects the user from the cart to the payment confirmation page.
+- Choose between check or credit card payment
+    - Add fields for check payment
+    - Add fields for credit card payment
+- Add confirmation for payment
+- Add verification methods for payment
+-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Clothing</title>
+    <link rel="stylesheet" href="/homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <h1>Order Summary</h1>
+
+    <div id="orderSummary">
+        <h2>Your Order</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="orderItems"></tbody>
+            <tfoot>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td id="orderTotal">0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!--Payment method selection-->
+    <div>
+        <input type="radio" name="pay-method" id="check" value="check">
+        <label for="check">Check</label><br>
+        <input type="radio" name="pay-method" id="creditCard" value="creditCard">
+        <label for="creditCard">Credit Card</label><br>
+    </div>
+
+
+    <!-- <label for="payment-type">Payment Method:</label>
+    <select id="payment-type">
+        <option value="credit-card">Credit Card</option>
+        <option value="check">Check</option>
+    </select> -->
+
+    <!--Credit Card Payment-->
+    <div id="credit-card-payment" class="payment-method">
+        <h3>Credit Card Payment</h3>
+        <label for="creditCard">Credit Card Bank:</label><br>
+        <input type="text" id="creditCard" name="creditCard"><br>
+
+        <label for="creditCardNumber">Credit Card Number:</label><br>
+        <input type="text" id="creditCardNumber" name="creditCardNumber"><br>
+
+        <label for="cvv">CVV:</label><br>
+        <input type="text" id="cvv" name="cvv"><br>
+
+        <label for="cardHolderName">Card Holder Name:</label><br>
+        <input type="text" id="cardHolderName" name="cardHolderName"><br>
+    </div>
+
+    <!--Check Payment-->
+    <div id="check-payment" class="payment-method hidden">
+        <h3>Check Payment</h3>
+        <label for="drawer">Drawer:</label>
+        <input type="text" id="drawer" name="drawer"><br><br>
+
+        <label for="drawee">Drawee:</label>
+        <input type="text" id="drawee" name="drawee"><br><br>
+
+        <label for="payee">Payee:</label>
+        <input type="text" id="payee" name="payee"><br><br>
+
+        <label for="check-info">Check Number:</label>
+        <input type="text" id="check-info" name="check-info" placeholder="Check Number or Amount"><br><br>
+    </div>
+
+    <!--Confirmation Button-->
+    <button id="confirm-purchase">Place Order</button>
+
+    <style>
+        .payment-method {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+
+        //Payment Method
+        const paymentMethodSelect = document.getElementById("paymentMethod");
+        const checkDetailsDiv = document.getElementById("checkDetails");
+        const creditCardDetailsDiv = document.getElementById("creditCardDetails");
+        const paymentSummaryDiv = document.getElementById("paymentSummary");
+
+        paymentMethodSelect.addEventListener("change", function() {
+            if (this.value === "check") {
+                checkDetailsDiv.classList.remove("hidden");
+                creditCardDetailsDiv.classList.add("hidden");
+            } else if (this.value === "creditCard") {
+                creditCardDetailsDiv.classList.remove("hidden");
+                checkDetailsDiv.classList.add("hidden");
+            } else {
+                checkDetailsDiv.classList.add("hidden");
+                creditCardDetailsDiv.classList.add("hidden");
+            }
+        });
+
+        function displayPaymentDetails() {
+            let paymentDetails = {};
+            if (paymentMethodSelect.value === "check") {
+                paymentDetails = {
+                    paymentMethod: "Check",
+                    drawer: document.getElementById("drawer").value,
+                    drawee: document.getElementById("drawee").value,
+                    payee: document.getElementById("payee").value,
+                    checkNumber: document.getElementById("checkNumber").value,
+                    amount: document.getElementById("checkAmount").value
+                };
+            }
+            else if (paymentMethodSelect.value === "creditCard") {
+                paymentDetails = {
+                    paymentMethod: "Credit Card",
+                    creditCard: document.getElementById("creditCard").value,
+                    creditCardNumber: document.getElementById("creditCardNumber").value,
+                    cvv: document.getElementById("cvv").value,
+                    cardHolderName: document.getElementById("cardHolderName").value,
+                    amount: document.getElementById("creditAmount").value
+                };
+            }
+            else {
+                alert("Please select a payment method.");
+                return;
+            }
+            let summaryHTML = "<h2>Payment Summary</h2>";
+            for (const key in paymentDetails) {
+                summaryHTML += `<p><strong>${key}:</strong> ${paymentDetails[key]}</p>`;
+            }
+            paymentSummaryDiv.innerHTML = summaryHTML;
+        }
+    </script>
+
+</body>
+</html>

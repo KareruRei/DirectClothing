@@ -4,7 +4,6 @@ import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.Product;
 import com.directclothing.service.general.Address;
-import com.directclothing.service.order.Order;
 import com.directclothing.service.order.OrderLine;
 
 
@@ -12,32 +11,39 @@ public class Customer extends Person {
     private Address shippingAddress;
     private Address billingAddress;
     private Cart myCart;
+    private int paymentAttempts;
 
     public Customer(String name, int ID, String phone, Address shippingAddress, Address billingAddress) {
         super(name, ID, phone);
+        this.paymentAttempts = 0;
         this.shippingAddress = shippingAddress;
         this.billingAddress = billingAddress;
-        myCart = new Cart(this);
+        this.myCart = new Cart(this);
     }
 
     // Setter Methods
     public void setShippingAddress(Address myAddress) {shippingAddress = myAddress;}
     public void setBillingAddress(Address myAddress) {billingAddress = myAddress;}
     public void setCart(Cart myCart) {this.myCart = myCart;}
-
+    public void setPaymentAttempts(int paymentAttempts) {this.paymentAttempts = paymentAttempts;}
+    
     // Getter Methods
     public Address getShippingAddress() {return shippingAddress;}
     public Address getBillingAddress() {return billingAddress;}
     public Cart getCart() {return this.myCart;}
+    public int getPaymentAttempts() {return paymentAttempts;}
+
+    public void incrementPaymentAttempts() {this.paymentAttempts++;}
+    public void resetPaymentAttempts() {this.paymentAttempts = 0;}
 
     
-    public void placeInCart(Catalog whichCat, String itemID) {
+    public void addToCart(Catalog whichCat, String itemID) {
         this.myCart.addItem(whichCat, itemID, 1);
     }
     public void changeCartItemQty(String itemID, int qty) {
         this.myCart.getItems().get(itemID).setQuantity(qty);
     }
-    public void removeItemFromCart(String itemID) {
+    public void removeFromCart(String itemID) {
         this.myCart.removeItem(itemID);
     }
 
@@ -47,28 +53,5 @@ public class Customer extends Person {
 
     public void sendOrderForm(Catalog whatCatalog, Product[] whatItems) {
 
-    }
-
-    public boolean makePayment(double amount, String paymentMethod) {
-        // Payment payment = new Payment(amount, paymentMethod);
-        // return payment.verify();
-
-        return false;
-    }
-
-    public boolean confirmOrder(Order customerOrder) {
-        // System.out.println("Order Details:");
-        // System.out.println(customerOrder);
-
-        // Scanner scanner = new Scanner(System.in);
-        // System.out.println("Do you confirm the order? (yes/no)");
-        // String confirmation = scanner.nextLine();
-
-        // if (confirmation.equalsIgnoreCase("yes")) {
-        //     if (makePayment(customerOrder.getTotalAmount(), customerOrder.getPayMethod())) {
-        //         return true;
-        //     }
-        // }
-        return false;
     }
 }

@@ -13,7 +13,7 @@ public class Payment {
         if (this instanceof CheckPayment) {this.payMethod = Method.CHECK;}
         else if (this instanceof CreditCardPayment) {this.payMethod = Method.CREDIT_CARD;}
     }
-    public String toString() {return "Php. "+Float.toString(amount);}
+    public Payment() {}
 
     // Setter Methods
     public void setAmount(float myFlt) {amount = myFlt;}
@@ -24,17 +24,15 @@ public class Payment {
     public Status getStatus() {return paymentStatus;}
     public Method getMethod() {return payMethod;}
     
-    
-    // public abstract void verify();
-    //implementation of CheckPayment and CreditCardPayment
-    //CheckPayment placeholder
-    //CreditCardPayment placeholder
 
 
     public static enum SupportedBanks {
         Metrobank, Union_Bank, BPI, BDO,
-        PNB, AUB, RBank, Security_Bank,
+        PNB, AUB, RCBC, Security_Bank,
         Citibank, Landbank
+    }
+    public static enum SupportedCreditCards {
+        VISA, MasterCard, AmericanExpress, UnionPay, JCB
     }
     public static enum Status {
         PENDING,

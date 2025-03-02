@@ -11,7 +11,13 @@ public class OrderTaker extends Employee implements Worker {
         super(name, ID, phone, SSN);
     }
 
-    public void setOrderToProcess(Order orderToProcess) {this.orderToProcess = orderToProcess;}
+
+    @Override
+    public void startWork() {processStep = 1;}
+
+    @Override
+    public void setWorkload(Order order) {this.orderToProcess = order;}
+
     public Order getOrderToProcess() {return orderToProcess;}
 
 
@@ -26,10 +32,12 @@ public class OrderTaker extends Employee implements Worker {
             default: break;
         }
     }
+
     @Override
     public void completeWork() {
 
     }
+    
     @Override
     public boolean isOccupied() {return orderToProcess != null;}
 

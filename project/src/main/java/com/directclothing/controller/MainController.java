@@ -1,6 +1,7 @@
 package com.directclothing.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,22 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.directclothing.dto.CartUpdateDTO;
+import com.directclothing.dto.CartUpdateRequest;
 import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.business.Item;
-import com.directclothing.service.business.Product;
-import com.directclothing.service.general.Address;
-import com.directclothing.service.general.Date;
 import com.directclothing.service.people.Customer;
-import com.directclothing.service.people.Supplier;
 
-import jakarta.annotation.PostConstruct;
 
 
 @Controller
 public class MainController {
+<<<<<<< HEAD
 
         // Setting up a dummy object for the clothing system
         private static DirectClothing clothingSystem = new DirectClothing();
@@ -114,12 +113,19 @@ public class MainController {
         for (Catalog cat : catalogList)
             clothingSystem.addToCatalogs(cat);
     }
+=======
+    
+    // Setting up a dummy object for the clothing system and customer
+    @Autowired private DirectClothing clothingSystem;
+    @Autowired private Customer customer1;
+    
+>>>>>>> 0344cef17f5a9f4f7f6a6092c158a66c5999411a
         
 
     @GetMapping("/")
     public String home(Model model) {
 
-        model.addAttribute("catalogs", catalogList);
+        model.addAttribute("catalogs", clothingSystem.getCatalogs().values());
         model.addAttribute("cartItems", customer1.getCart().getItems().values());
         model.addAttribute("cartSize", customer1.getCart().getCartSize());
 
@@ -148,7 +154,7 @@ public class MainController {
         int qtyInStock = catalog.getItemBySKU(data).getProduct().getQuantityInStock();
     
         try {
-            customer1.placeInCart(catalog, data);
+            customer1.addToCart(catalog, data);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(qtyInStock);
         }
@@ -156,16 +162,19 @@ public class MainController {
         return ResponseEntity.ok(customer1.getCart().getCartSize());
     }
 
-    @PostMapping("/item-removed")
-    public ResponseEntity<Integer> removeItemFromCart(@RequestBody String data) {
+    @PostMapping(value = "/item-removed", consumes="text/plain", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<CartUpdateDTO> removeItemFromCart(@RequestBody String data) {
 
         try {
-            customer1.removeItemFromCart(data);
+            customer1.removeFromCart(data);
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(customer1.getCart().getCartSize());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
-        return ResponseEntity.ok(customer1.getCart().getCartSize());
+        CartUpdateDTO cartUpdate = new CartUpdateDTO(data, 0, 0.0f, 0.0f, customer1.getCart().getFinalPrice(), customer1.getCart().getCartSize());
+
+        return ResponseEntity.ok(cartUpdate);
     }
 
     @PostMapping("/get-customercart")
@@ -182,16 +191,32 @@ public class MainController {
         return "shoppingbag";
     }
 
-    @PostMapping("/change-qty")
-    public ResponseEntity<Integer> changeQuantity(@RequestParam("itemID") String itemID, @RequestParam("newQty") Integer newQty) {
+    @PostMapping(value = "/change-qty", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<CartUpdateDTO> changeQuantity(@RequestBody CartUpdateRequest data) {
+        String itemID = data.getItemID();
+        int newQty = data.getNewQty();
 
         int qtyInStock = customer1.getCart().getItems().get(itemID).getItem().getProduct().getQuantityInStock();
+
         if (qtyInStock < newQty)
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(qtyInStock);
-            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 
         customer1.changeCartItemQty(itemID, newQty);
-        return ResponseEntity.ok(customer1.getCart().getItems().get(itemID).getQuantity());
+        Cart.CartItem cartItem = customer1.getCart().getItems().get(itemID);
+
+        CartUpdateDTO cartUpdate = new CartUpdateDTO(itemID, newQty, cartItem.getRawPrice(), cartItem.getFinalPrice(), customer1.getCart().getFinalPrice(), customer1.getCart().getCartSize());
+
+        return ResponseEntity.ok(cartUpdate);
+    }
+
+    @GetMapping("/payment-page")
+    public String directToPaymentPage(Model model) {
+
+        model.addAttribute("cartItems", customer1.getCart().getItems().values());
+        model.addAttribute("totalAmount", customer1.getCart().getFinalPrice());
+
+        return "paymentpage";
     }
     
 }

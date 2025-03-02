@@ -2,35 +2,28 @@ package com.directclothing.service.order;
 
 import com.directclothing.service.general.Date;
 import com.directclothing.service.people.Customer;
-import com.directclothing.service.people.Employee;
- 
+
 public class Order {
     private String orderID;
-    private Date dateOrdered;
+    private Date dateFilled;
     private OrderLine[] itemsOrdered;
     private Customer customer;
     private Status orderStatus;
-    private Employee placedBy;
  
-    public Order(String id, Date date, OrderLine[] items, Customer customer, Status status, Employee placedBy) {
+    public Order(String id, Date date, OrderLine[] items, Customer customer, Status status) {
         this.orderID = id;
-        this.dateOrdered = date;
+        this.dateFilled = date;
         this.itemsOrdered = items;
         this.customer = customer;
         this.orderStatus = status;
-        this.placedBy = placedBy;
-    }
- 
-    public String toString() {
-        return this.orderID;
     }
  
     // Setter Methods
     public void setOrderID(String myOrderID) {
         orderID = myOrderID;
     }
-    public void setDateOrdered(Date date) {
-        dateOrdered = date;
+    public void setDateFilled(Date date) {
+        dateFilled = date;
     }
     public void setItemsOrdered(OrderLine[] myItems) {
         itemsOrdered = myItems;
@@ -41,16 +34,13 @@ public class Order {
     public void setStatus(Status current) {
         orderStatus = current;
     }
-    public void setPlacedBy(Employee placedBy) {
-        this.placedBy = placedBy;
-    }
  
     // Getter Methods
     public String getOrderID() {
         return orderID;
     }
-    public Date getDateOrdered() {
-        return dateOrdered;
+    public Date getDateFilled() {
+        return dateFilled;
     }
     public OrderLine[] getItemsOrdered() {
         return itemsOrdered;
@@ -61,9 +51,7 @@ public class Order {
     public Status getStatus() {
         return orderStatus;
     }
-    public Employee getPlacedBy() {
-        return placedBy;
-    }
+    
    
     public float calcAmountOwed() {
         float totalAmount = 0.00f;

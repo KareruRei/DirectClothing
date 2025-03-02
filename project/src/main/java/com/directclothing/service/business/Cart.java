@@ -7,8 +7,9 @@ import java.util.List; // tbf idk if im even gonna be using these often
 import com.directclothing.service.general.Date;
 import com.directclothing.service.order.Order;
 import com.directclothing.service.order.OrderLine;
-import com.directclothing.service.people.Customer; //  THE ENTIRE Order CLASS STUFF HAHASDASUDAJS
+import com.directclothing.service.people.Customer;
 import com.directclothing.service.people.Employee;
+
 
 public class Cart {
   private HashMap<String, CartItem> items = new HashMap<>();
@@ -47,6 +48,9 @@ public class Cart {
         if (items.containsKey(itemID)) { // if item exists in cart, updates the quantity
           CartItem cartItem = items.get(itemID);
           cartItem.setQuantity(cartItem.getQuantity() + quantity);
+          if (cartItem.getQuantity() < 1) {
+            cartItem.setQuantity(1);
+          }
         }
         else { // create a new CartItem and adds it to the item collection
           cartSize++;
@@ -77,18 +81,22 @@ public class Cart {
   public float getRawPrice() {
     float total = 0.0f;
     for (CartItem cartItem : items.values()) {
-      total += cartItem.getItem().getPrice() * cartItem.getQuantity();
+      total += cartItem.getRawPrice();
     }
-    return total;
+
+    String formatted = String.format("%.2f", total);
+    return Float.parseFloat(formatted);
   }
 
   public float getFinalPrice() {
     float total = 0.0f;
 
     for (CartItem cartItem : items.values()) {
-      total += cartItem.getItem().getDiscountedPrice() * cartItem.getQuantity();
+      total += cartItem.getFinalPrice();
     }
-    return total;
+    
+    String formatted = String.format("%.2f", total);
+    return Float.parseFloat(formatted);
   }
 
   public int getItemCount() {
@@ -121,10 +129,10 @@ public class Cart {
     
     int index = 0;
     for (CartItem cartItem : items.values()) { // an ORDERLINE FOR EACH ITEM IS CRAZY / gets each cartitem in the item collection
-      orderLines[index++] = new OrderLine(cartItem.getQuantity(), cartItem.getItem(), Date.now()); // creates ANOTHER ORDERLINE OBJECT for each cartitem to get quantity
+      orderLines[index++] = new OrderLine(cartItem.getQuantity(), cartItem.getItem()); // creates ANOTHER ORDERLINE OBJECT for each cartitem to get quantity
     }
 
-    Order order = new Order(orderID, dateOrdered, orderLines, customer, Order.Status.PENDING, placedBy); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
+    Order order = new Order(orderID, dateOrdered, orderLines, customer, Order.Status.PENDING); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
     clearCart(); // this should clear the cart after the checkout
 
     return order; // this should return the order that was just created
@@ -150,6 +158,18 @@ public class Cart {
       }
       public void setQuantity(int quantity) {
         this.quantity = quantity;
+      }
+      public float getRawPrice() {
+        float price = item.getPrice() * quantity;
+
+        String formatted = String.format("%.2f", price);
+        return Float.parseFloat(formatted);
+      }
+      public float getFinalPrice() {
+        float price = item.getDiscountedPrice() * quantity;
+
+        String formatted = String.format("%.2f", price);
+        return Float.parseFloat(formatted);
       }
     }
   }

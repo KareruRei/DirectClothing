@@ -1,11 +1,10 @@
 package com.directclothing.service.payment;
 
-import com.directclothing.service.people.Customer;
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.order.Order;
+import com.directclothing.service.people.Customer;
 
 
-public class CheckPayment extends Payment {
+public class CheckPayment extends Payment implements PaymentInterface {
     private Customer drawer; // The customer who wrote the check
     private SupportedBanks drawee; // The bank instructed to pay funds
     private DirectClothing payee; // The business getting paid
@@ -32,27 +31,13 @@ public class CheckPayment extends Payment {
     public int getCheckNum() {return checkNumber;}
 
 
-    public void verify(Order theOrder) {
-        /*
-        @Override
-        public void verify(Order theOrder) {
-        System.out.println("Verifying Check Payment with Order...");
-
-        if (drawer == null || drawee == null || payee == null || checkNumber <= 0 || theOrder == null) {
-            System.out.println("Verification failed. Invalid check details or order (null or invalid values).");
+    @Override
+    public boolean verify() {
+        if (drawer == null || drawee == null || payee == null || checkNumber <= 0) {
             setStatus(Status.REFUSED);
-            return;
+            return false;
         }
 
-        if (drawer.getDirectClothing() != payee) {
-            System.out.println("Verification failed. Invalid check.");
-            setStatus(Status.REFUSED);
-            return;
-        }
-
-        return false;
-
-        idk if tama to :')
-        */
+        return true;
     }
 }  
