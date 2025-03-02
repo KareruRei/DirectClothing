@@ -263,7 +263,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .tab.active {
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid black;
 }
 
 .payment-form {
@@ -291,7 +291,7 @@ input, select {
 }
 
 input[type="submit"] {
-    background: blue;
+    background: black;
     color: white;
     border: none;
     cursor: pointer;
@@ -300,5 +300,6 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background: darkblue;
+    background: grey;
+    color: black;
 }
