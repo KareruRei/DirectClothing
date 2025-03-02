@@ -1,7 +1,6 @@
 
 window.onload = function() {
-    var cart = document.getElementById("cart-container");
-    var cards = cart.children;
+    var cards = document.getElementsByClassName("card");
 
     for (let card of cards) {
         let cardID = card.id;
