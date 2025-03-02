@@ -193,3 +193,13 @@ function openPaymentInput() {
 function closePaymentInput() {
     document.getElementById('payment-window').style.display = "none";
 }
+function showTab(tab) {
+    document.querySelectorAll('.payment-form').forEach(form => form.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tab + '-form').classList.add('active');
+    document.querySelector(".tab[onclick='showTab(\'" + tab + "\')']").classList.add('active');
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    showTab('check'); // Ensure check tab is visible on load
+});
