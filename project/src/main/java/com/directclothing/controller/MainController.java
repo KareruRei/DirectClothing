@@ -38,6 +38,7 @@ public class MainController {
         model.addAttribute("catalogs", catalogs);
         model.addAttribute("cartItems", customer1.getCart().getItems().values());
         model.addAttribute("cartSize", customer1.getCart().getCartSize());
+        model.addAttribute("featured", catalogs[0].getMonthlySpecials().values());
 
         return "homepage";
     }

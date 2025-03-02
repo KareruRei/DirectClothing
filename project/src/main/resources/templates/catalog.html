@@ -27,7 +27,6 @@
             <h2>Your Cart</h2>
             <div id="cart-items">
                 <div class="cart-item" th:each="cartItem : ${cartItems}" th:id="${cartItem.item.getSKU()}">
-
                     <img th:src="@{'/' + ${cartItem.item.getProduct().getImageLink()}}">
                     <div>
                         <p th:text="${cartItem.item.getProduct().getDescription()}"></p>
@@ -58,7 +57,7 @@
                     <img th:src="@{'/' + ${catalogItem.getProduct().getImageLink()}}">
                     <p th:text="${catalogItem.getProduct().getDescription()}"></p>
                     <p class="if-discount" th:if="${catalogItem.getDiscount() != 0.00}" th:text="'Php. ' + ${catalogItem.getPrice()}"></p>
-                    <p class="normal"th:text="'PHP ' + ${catalogItem.getPrice()}"></p>
+                    <p class="normal" th:text="'PHP ' + ${catalogItem.getPrice()}"></p>
                 </div>
             </div>
         </div>

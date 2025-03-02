@@ -1,3 +1,13 @@
+const miniCart = document.getElementById("cart-ui");
+const miniCartButton = document.getElementById("mini-cart-button");
+
+document.addEventListener('click', function(event) {
+    if (window.getComputedStyle(miniCart).display === 'flex' && !miniCartButton.contains(event.target) && !miniCart.contains(event.target)) {
+        closeCart();
+    }
+});
+
+
 function openPopup(itemID, image, title, price) {
     document.getElementById('popup-img').src = image;
     document.getElementById('popup-title').innerText = title;

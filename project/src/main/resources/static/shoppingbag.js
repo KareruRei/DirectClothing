@@ -14,6 +14,15 @@ window.onload = function() {
     }
 };
 
+const miniCart = document.getElementById("cart-ui");
+const miniCartButton = document.getElementById("mini-cart-button");
+
+document.addEventListener('click', function(event) {
+    if (window.getComputedStyle(miniCart).display === 'flex' && !miniCartButton.contains(event.target) && !miniCart.contains(event.target)) {
+        closeCart();
+    }
+});
+
 function changeQty(itemID, change) {
     var qtyNum = document.getElementById('quantity_id' + itemID);
     var orderLineQty = document.getElementById('orderLineQty_id' + itemID);
@@ -151,6 +160,7 @@ function removeFromCart(itemID) {
 
 function closeCart() {
     document.getElementById('cart-ui').style.display = "none";
+    enableCardEventListeners();
 }
 
 function openCart() {
@@ -160,4 +170,17 @@ function openCart() {
     }
 
     document.getElementById('cart-ui').style.display = "flex";
+    disableCardEventListeners();
+}
+
+function enableCardEventListeners() {
+    const cards = document.querySelectorAll(".product");
+
+    cards.forEach(card => {card.style.pointerEvents = 'auto';});
+}
+
+function disableCardEventListeners() {
+    const cards = document.querySelectorAll(".product");
+
+    cards.forEach(card => {card.style.pointerEvents = 'none';});
 }
