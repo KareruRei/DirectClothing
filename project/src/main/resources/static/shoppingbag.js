@@ -1,4 +1,3 @@
-
 window.onload = function() {
     var cards = document.getElementsByClassName("card");
 
@@ -14,13 +13,35 @@ window.onload = function() {
     }
 };
 
-const miniCart = document.getElementById("cart-ui");
-const miniCartButton = document.getElementById("mini-cart-button");
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('payment-window').style.display = "none";
 
-document.addEventListener('click', function(event) {
-    if (window.getComputedStyle(miniCart).display === 'flex' && !miniCartButton.contains(event.target) && !miniCart.contains(event.target)) {
-        closeCart();
+    const checkoutButton = document.querySelector("#order-summary button");
+    if (checkoutButton) {
+        checkoutButton.addEventListener("click", function() {
+            document.getElementById('payment-window').style.display = "block";
+        });
     }
+
+    const closeButton = document.querySelector("#payment-window .close");
+    if (closeButton) {
+        closeButton.addEventListener("click", function() {
+            document.getElementById('payment-window').style.display = "none";
+        });
+    }
+
+    // Restore Tab Switching for Payment Options
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", function() {
+            let selectedTab = this.getAttribute("onclick").replace("showTab('", "").replace("')", "");
+
+            document.querySelectorAll('.payment-form').forEach(form => form.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            document.getElementById(selectedTab + "-form").classList.add('active');
+            this.classList.add('active');
+        });
+    });
 });
 
 function changeQty(itemID, change) {
@@ -59,6 +80,7 @@ function changeQty(itemID, change) {
         alert(error);
     });
 }
+<<<<<<< HEAD
 
 function inputQty(itemID, newQty) {
     var qtyNum = document.getElementById('quantity_id' + itemID);
@@ -203,3 +225,5 @@ function showTab(tab) {
 document.addEventListener("DOMContentLoaded", function() {
     showTab('check'); // Ensure check tab is visible on load
 });
+=======
+>>>>>>> 256eb4abd77d638b95867b03d7cea8e86b9cb13b
