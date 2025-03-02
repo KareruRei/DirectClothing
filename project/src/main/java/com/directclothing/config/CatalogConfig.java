@@ -97,7 +97,30 @@ public class CatalogConfig {
         return new Catalog("Winter", "2LJRU8H2HSV5", winterCatalogItems, Date.create(2025, 11, 3));
     }
 
+<<<<<<< HEAD
     
+=======
+    @Bean
+    public List<Catalog> prioritizedCatalogs() { // TO PRIORITIZE THE RECENT CATALOGS ( SUMMER / WINTER ) 🐎🐎
+        List<Catalog> catalogs = new ArrayList<>();
+
+        catalogs.add(maleCatalog());
+        catalogs.add(femaleCatalog());
+        catalogs.add(summerCatalog());
+        catalogs.add(winterCatalog());
+
+        // Sort catalogs by dateProduced in descending order
+        Collections.sort(catalogs, new Comparator<Catalog>() {
+            @Override
+            public int compare(Catalog c1, Catalog c2) {
+                return c2.getDateProduced().compareTo(c1.getDateProduced());
+            }
+        });
+
+        return catalogs; // Return the prioritized list of catalogs
+    }
+
+>>>>>>> 47ef467b7321cedf70143a0d759f8543f0abe8b3
     private Item[] combineSummerItems() {  // combine male and female items for summer and winter  catalog
         Item[] summerItems = new Item[maleCatalogItems.length + femaleCatalogItems.length];
         System.arraycopy(maleCatalogItems, 0, summerItems, 0, maleCatalogItems.length);
@@ -111,4 +134,8 @@ public class CatalogConfig {
         System.arraycopy(femaleCatalogItems, 0, winterItems, maleCatalogItems.length, femaleCatalogItems.length);
         return winterItems;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 47ef467b7321cedf70143a0d759f8543f0abe8b3

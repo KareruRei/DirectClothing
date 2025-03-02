@@ -110,8 +110,32 @@ Payment confirmation page.
         }
     </style>
 
+<<<<<<< HEAD
     <script src="/paymentpage.js">
+=======
+    <script>
+        //Get order and put it in an array. If no order, create empty array
+        /*const orderInfo = JSON.parse(localStorage.getItem("orderInfo")) || [];
+>>>>>>> 47ef467b7321cedf70143a0d759f8543f0abe8b3
 
+        const orderTable = document.getElementById("orderItems");
+        const orderTotalPrice = document.getElementById("orderTotal");
+        let orderTotal = 0;
+
+        orderInfo.forEach(item => {
+            const row = orderTable.insertRow();
+            const productName = row.insertCell(0);
+            const productPrice = row.insertCell(1);
+            productName.textContent = item.name;
+            productPrice.textContent = item.price.toFixed(2);
+            orderTotal += item.price;
+        });
+        
+
+        //Display total price
+        orderTotalPrice.textContent = orderTotal.toFixed(2);
+        */
+       
         //Payment Method
         const paymentMethodSelect = document.getElementById("paymentMethod");
         const checkDetailsDiv = document.getElementById("checkDetails");
