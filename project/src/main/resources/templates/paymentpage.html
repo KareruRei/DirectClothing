@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns=""http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 
 <!--
 Payment confirmation page.
@@ -44,26 +44,34 @@ Payment confirmation page.
     </div>
 
     <!--Payment method selection-->
-    <label for="payment-type">Payment Method:</label>
+    <div>
+        <input type="radio" name="pay-method" id="check" value="check">
+        <label for="check">Check</label><br>
+        <input type="radio" name="pay-method" id="creditCard" value="creditCard">
+        <label for="creditCard">Credit Card</label><br>
+    </div>
+
+
+    <!-- <label for="payment-type">Payment Method:</label>
     <select id="payment-type">
         <option value="credit-card">Credit Card</option>
         <option value="check">Check</option>
-    </select>
+    </select> -->
 
     <!--Credit Card Payment-->
     <div id="credit-card-payment" class="payment-method">
         <h3>Credit Card Payment</h3>
-        <label for="creditCard">Credit Card Bank:</label>
-        <input type="text" id="creditCard" name="creditCard"><br><br>
+        <label for="creditCard">Credit Card Bank:</label><br>
+        <input type="text" id="creditCard" name="creditCard"><br>
 
-        <label for="creditCardNumber">Credit Card Number:</label>
-        <input type="text" id="creditCardNumber" name="creditCardNumber"><br><br>
+        <label for="creditCardNumber">Credit Card Number:</label><br>
+        <input type="text" id="creditCardNumber" name="creditCardNumber"><br>
 
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv"><br><br>
+        <label for="cvv">CVV:</label><br>
+        <input type="text" id="cvv" name="cvv"><br>
 
-        <label for="cardHolderName">Card Holder Name:</label>
-        <input type="text" id="cardHolderName" name="cardHolderName"><br><br>
+        <label for="cardHolderName">Card Holder Name:</label><br>
+        <input type="text" id="cardHolderName" name="cardHolderName"><br>
     </div>
 
     <!--Check Payment-->
@@ -83,7 +91,7 @@ Payment confirmation page.
     </div>
 
     <!--Confirmation Button-->
-    <button id="confirm-purchase">Confirm Purchase</button>
+    <button id="confirm-purchase">Place Order</button>
 
     <style>
         .payment-method {

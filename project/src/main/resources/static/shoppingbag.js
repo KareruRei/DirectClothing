@@ -5,31 +5,18 @@ window.onload = function() {
 
     for (let card of cards) {
         let cardID = card.id;
-        let cardChildren = card.children;
-
-        cardChildren[0].children[1].children[2].id = "removeButton_id"+cardID;
-
-        // cardChildren[1].children[0].id = "subButton_id"+cardID;
-        // cardChildren[1].children[1].id = "quantity_id"+cardID;
-        // cardChildren[1].children[2].id = "addButton_id"+cardID;
 
         var qtyNum = document.getElementById('quantity_id' + cardID);
-        qtyNum.addEventListener("input", function() {inputQty(card.id, qtyNum.value);});
+        qtyNum.addEventListener("input", function() {inputQty(cardID, qtyNum.value);});
 
-        document.getElementById("subButton_id"+cardID).addEventListener("click", function() {changeQty(card.id, -1);});
-        document.getElementById("addButton_id"+cardID).addEventListener("click", function() {changeQty(card.id, 1);});
-        document.getElementById("removeButton_id"+cardID).addEventListener("click", function() {toggleItemRemoval(card.id);});
+        document.getElementById("subButton_id"+cardID).addEventListener("click", function() {changeQty(cardID, -1);});
+        document.getElementById("addButton_id"+cardID).addEventListener("click", function() {changeQty(cardID, 1);});
+        document.getElementById("removeButton_id"+cardID).addEventListener("click", function() {toggleItemRemoval(cardID);});
     }
 };
-function payment() {
-    alert("Paying na!");
-    closePopup();
-}
 
 function changeQty(itemID, change) {
     var qtyNum = document.getElementById('quantity_id' + itemID);
-    var rawPrice = document.getElementById('rawPrice_id' + itemID);
-    var discountedPrice = document.getElementById('discountedPrice_id' + itemID);
     var orderLineQty = document.getElementById('orderLineQty_id' + itemID);
     var orderLinePrice = document.getElementById('orderLinePrice_id' + itemID);
     var total = document.getElementById('totalAmt');
@@ -54,16 +41,11 @@ function changeQty(itemID, change) {
     })
     .then(cartUpdate => {
         qtyNum.value = cartUpdate.newQty;
-        discountedPrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         orderLineQty.textContent = "Qty. " + cartUpdate.newQty;
         orderLinePrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         total.textContent = "PHP " + cartUpdate.totalPrice;
-
-        if (rawPrice !== null) {
-            rawPrice.textContent = "PHP " + cartUpdate.rawPrice;
-        }
     })
     .catch(error => {
         alert(error);
@@ -72,8 +54,6 @@ function changeQty(itemID, change) {
 
 function inputQty(itemID, newQty) {
     var qtyNum = document.getElementById('quantity_id' + itemID);
-    var rawPrice = document.getElementById('rawPrice_id' + itemID);
-    var discountedPrice = document.getElementById('discountedPrice_id' + itemID);
     var orderLineQty = document.getElementById('orderLineQty_id' + itemID);
     var orderLinePrice = document.getElementById('orderLinePrice_id' + itemID);
     var total = document.getElementById('totalAmt');
@@ -98,16 +78,11 @@ function inputQty(itemID, newQty) {
     })
     .then(cartUpdate => {
         qtyNum.value = cartUpdate.newQty;
-        discountedPrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         orderLineQty.textContent = "Qty. " + cartUpdate.newQty;
         orderLinePrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         total.textContent = "PHP " + cartUpdate.totalPrice;
-
-        if (rawPrice !== null) {
-            rawPrice.textContent = "PHP " + cartUpdate.rawPrice;
-        }
     })
     .catch(error => {
         alert(error);

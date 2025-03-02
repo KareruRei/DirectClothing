@@ -10,6 +10,7 @@ import com.directclothing.service.order.OrderLine;
 import com.directclothing.service.people.Customer;
 import com.directclothing.service.people.Employee;
 
+
 public class Cart {
   private HashMap<String, CartItem> items = new HashMap<>();
   private int cartSize = 0;
@@ -128,10 +129,10 @@ public class Cart {
     
     int index = 0;
     for (CartItem cartItem : items.values()) { // an ORDERLINE FOR EACH ITEM IS CRAZY / gets each cartitem in the item collection
-      orderLines[index++] = new OrderLine(cartItem.getQuantity(), cartItem.getItem(), Date.now()); // creates ANOTHER ORDERLINE OBJECT for each cartitem to get quantity
+      orderLines[index++] = new OrderLine(cartItem.getQuantity(), cartItem.getItem()); // creates ANOTHER ORDERLINE OBJECT for each cartitem to get quantity
     }
 
-    Order order = new Order(orderID, dateOrdered, orderLines, customer, Order.Status.PENDING, placedBy); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
+    Order order = new Order(orderID, dateOrdered, orderLines, customer, Order.Status.PENDING); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
     clearCart(); // this should clear the cart after the checkout
 
     return order; // this should return the order that was just created

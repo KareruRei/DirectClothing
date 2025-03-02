@@ -38,6 +38,7 @@ function removeFromCart(itemID) {
             var cartContainer = document.getElementById('cart-items');
 
             document.getElementById('cart-count').innerText = cartUpdate.cartSize;
+
             if (cartUpdate.cartSize === 0) {
                 document.getElementById('cart-count').style.display = "none";
                 cartContainer.innerHTML = "<p>Cart is empty</p>";
