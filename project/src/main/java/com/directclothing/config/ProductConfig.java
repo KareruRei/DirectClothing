@@ -82,4 +82,79 @@ public class ProductConfig {
     public Product jumpsuit() {
         return new Product("Elegant Black Jumpsuit", "345WXY678ZAB", 859, "img/Elegant Black Jumpsuit.jpg");
     }
+
+    @Bean
+    public Product hoodie() {
+        return new Product("Loose Fit Cotton Hoodie", "10XP3XQ07VVMCVB9", 439, "img/Loose Fit Cotton Hoodie.jpg");
+    }
+
+    @Bean
+    public Product chinos() {
+        return new Product("Slim Fit Navy Chinos", "1JTHTJM4VUP20GV9", 547, "img/Slim Fit Navy Chinos.jpg");
+    }
+
+    @Bean
+    public Product bomberJacket() {
+        return new Product("Black Bomber Jacket", "1ANJCY4437WRWHQ9", 401, "img/Black Bomber Jacket.jpg");
+    }
+
+    @Bean
+    public Product turtleneck() {
+        return new Product("Ribbed Turtleneck Sweater", "1IF7MF9IPDD4VET9", 387, "img/Ribbed Turtleneck Sweater.jpg");
+    }
+
+    @Bean
+    public Product wrapSkirt() {
+        return new Product("Wrap Midi Skirt", "12CZB14MEC8LIYD9", 461, "img/Wrap Midi Skirt.jpg");
+    }
+
+    @Bean
+    public Product henleyShirt() {
+        return new Product("Long Sleeve Henley Shirt", "1S51UGMNMPFAF099", 526, "img/Long Sleeve Henley Shirt.jpg");
+    }
+
+    @Bean
+    public Product cargoPants() {
+        return new Product("Relaxed Fit Cargo Pants", "123ABC456DEF", 599, "img/Relaxed Fit Cargo Pants.jpg");
+    }
+
+    @Bean
+    public Product maxiDress() {
+        return new Product("Bohemian Maxi Dress", "789GHI012JKL", 729, "img/Bohemian Maxi Dress.jpg");
+    }
+
+    @Bean
+    public Product denimShorts() {
+        return new Product("High-Waisted Denim Shorts", "345MNO678PQR", 399, "img/High-Waisted Denim Shorts.jpg");
+    }
+
+    @Bean
+    public Product peacoat() {
+        return new Product("Wool Blend Peacoat", "567STU890VWX", 899, "img/Wool Blend Peacoat.webp");
+    }
+
+    @Bean
+    public Product fleeceSweater() {
+        return new Product("Soft Fleece Pullover", "901YZA234BCD", 649, "img/Soft Fleece Pullover.jpg");
+    }
+
+    @Bean
+    public Product joggers() {
+        return new Product("Tapered Fit Joggers", "567EFG890HIJ", 479, "img/Tapered Fit Joggers.webp");
+    }
+
+    @Bean
+    public Product dungarees() {
+        return new Product("Classic Denim Dungarees", "135KLM246NOP", 699, "img/Classic Denim Dungarees.jpg");
+    }
+
+    @Bean
+    public Product parkaCoat() {
+        return new Product("Waterproof Parka Coat", "789QRS012TUV", 1029, "img/Waterproof Parka Coat.jpg");
+    }
+
+    @Bean
+    public Product romper() {
+        return new Product("Casual Cotton Romper", "345WXY678ZAB", 859, "img/Casual Cotton Romper.jpg");
+    }
 }
