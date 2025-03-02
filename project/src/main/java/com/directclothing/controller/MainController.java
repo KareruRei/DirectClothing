@@ -1,6 +1,7 @@
 package com.directclothing.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,100 +12,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.directclothing.dto.CartUpdateDTO;
+import com.directclothing.dto.CartUpdateRequest;
 import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
-import com.directclothing.service.business.Item;
-import com.directclothing.service.business.Product;
-import com.directclothing.service.general.Address;
-import com.directclothing.service.general.Date;
 import com.directclothing.service.people.Customer;
-import com.directclothing.service.people.Supplier;
-
-import jakarta.annotation.PostConstruct;
 
 
 
 @Controller
 public class MainController {
-
-        // Setting up a dummy object for the clothing system
-        private static DirectClothing clothingSystem = new DirectClothing();
-
-        private static Address billingAndShippingAddress = new Address();
-        private static Customer customer1 = new Customer("Gabb Agot", 140317, "0915-3769-436", billingAndShippingAddress, billingAndShippingAddress);
-
-        // Creating objects of supplier class
-        private static Address supplierAddress1 = new Address("8751 Paseo de Roxas", 
-                                               "9/F, Equitable Bank Tower", 
-                                               "Makati", 
-                                               1473, 
-                                               "Metro Manila", 
-                                               "Philippines");
-        private static Address supplierAddress2 = new Address("551 Padre Faura St.", 
-                                               "Ermita 1000", 
-                                               "Manila", 
-                                               2021, 
-                                               "Metro Manila", 
-                                               "Philippines");
-        private static Supplier supplier1 = new Supplier("Smith & Son, Inc.", supplierAddress1, 85732, "0937-436-2491");
-        private static Supplier supplier2 = new Supplier("Specter Fabric, Inc.", supplierAddress2, 94712, "0925-214-6523");
-
-        // Creating objects of the item class
-        private static Product tshirt = new Product("Medium-size, Cotton Fabric T-shirt", "10XP3XQ07VVMCVB9", 439, supplier1, "img/Cotton Fabric T-shirt.jpg");
-        private static Product pants = new Product("Gray Slim Fit Khaki pants", "1JTHTJM4VUP20GV9", 547, supplier1, "img/Gray Slim Fit Khaki pants.jpg");
-        private static Product jacket = new Product("Beige Oversized hoodie jacket", "1ANJCY4437WRWHQ9", 401, supplier1, "img/Beige Oversized hoodie jacket.webp");
-        private static Product cardigan = new Product("Loose Knit Sweater Cardigan", "1IF7MF9IPDD4VET9", 387, supplier2, "img/Loose Knit Sweater Cardigan.jpg");
-        private static Product skirt = new Product("Long Cotton Skirt Casual", "12CZB14MEC8LIYD9", 461, supplier2, "img/Long Cotton Skirt Casual.jpg");
-        private static Product polo = new Product("XL Beige Polo Shirt", "1S51UGMNMPFAF099", 526, supplier2, "img/XL Beige Polo Shirt.webp");
-        private static Product jeans = new Product("Slim Fit Blue Jeans", "123ABC456DEF", 599, supplier1, "img/Slim Fit Blue Jeans.jpg");
-        private static Product dress = new Product("Floral Summer Dress", "789GHI012JKL", 729, supplier2, "img/Floral Summer Dress.jpg");
-        private static Product shorts = new Product("Casual Cotton Shorts", "345MNO678PQR", 399, supplier1, "img/Casual Cotton Shorts.jpg");
-        private static Product blazer = new Product("Formal Black Blazer", "567STU890VWX", 899, supplier2, "img/Formal Black Blazer.jpg");
-        private static Product sweater = new Product("Wool Blend Sweater", "901YZA234BCD", 649, supplier1, "img/Wool Blend Sweater.jpg");
-        private static Product leggings = new Product("High Waist Leggings", "567EFG890HIJ", 479, supplier2, "img/High Waist Leggings.jpg");
-        private static Product overalls = new Product("Denim Overalls", "135KLM246NOP", 699, supplier1, "img/Denim Overalls.jpg");
-        private static Product trenchCoat = new Product("Long Trench Coat", "789QRS012TUV", 1029, supplier2, "img/Long Trench Coat.webp");
-        private static Product jumpsuit = new Product("Elegant Black Jumpsuit", "345WXY678ZAB", 859, supplier1, "img/Elegant Black Jumpsuit.jpg");
-
-        private static Item[] maleCatalogItems = {
-            new Item(tshirt, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A001"),
-            new Item(pants, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A002"),
-            new Item(jacket, 1199.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A003"),
-            new Item(polo, 749.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A004"),
-            new Item(jeans, 599.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A005"),
-            new Item(shorts, 399.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A006"),
-            new Item(blazer, 899.99f, Catalog.Section.CLOSEOUT_ITEM, 25.00f, "A007"),
-            new Item(sweater, 649.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A008"),
-            new Item(overalls, 699.99f, Catalog.Section.NORMAL_ITEM, 0.00f, "A009")
-        };
-        private static Item[] femaleCatalogItems = {
-            new Item(cardigan, 799.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A010"),
-            new Item(skirt, 499.99f, Catalog.Section.CLOSEOUT_ITEM, 50.00f, "A011"),
-            new Item(dress, 729.99f, Catalog.Section.MONTHLY_SPECIAL, 10.00f, "A012"),
-            new Item(leggings, 479.99f, Catalog.Section.MONTHLY_SPECIAL, 15.00f, "A013"),
-            new Item(trenchCoat, 1029.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A014"),
-            new Item(jumpsuit, 859.99f, Catalog.Section.CLOSEOUT_ITEM, 30.00f, "A015")
-};
-
-        private static Catalog maleCatalog = new Catalog("Male", "2URJYRLU1PP5", maleCatalogItems, Date.create(2024, 2, 14));
-        private static Catalog femaleCatalog = new Catalog("Female", "2G7Q5EOBNDG5", femaleCatalogItems, Date.create(2024, 11, 27));
-
-        private static Catalog[] catalogList = {maleCatalog, femaleCatalog};
-
-
-
-    @PostConstruct
-    public void init() {
-        for (Catalog cat : catalogList)
-            clothingSystem.addToCatalogs(cat);
-    }
+    
+    // Setting up a dummy object for the clothing system and customer
+    @Autowired private DirectClothing clothingSystem;
+    @Autowired private Customer customer1;
+    
         
 
     @GetMapping("/")
     public String home(Model model) {
 
-        model.addAttribute("catalogs", catalogList);
+        model.addAttribute("catalogs", clothingSystem.getCatalogs().values());
         model.addAttribute("cartItems", customer1.getCart().getItems().values());
         model.addAttribute("cartSize", customer1.getCart().getCartSize());
 
@@ -133,7 +62,7 @@ public class MainController {
         int qtyInStock = catalog.getItemBySKU(data).getProduct().getQuantityInStock();
     
         try {
-            customer1.placeInCart(catalog, data);
+            customer1.addToCart(catalog, data);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(qtyInStock);
         }
@@ -146,7 +75,7 @@ public class MainController {
     public ResponseEntity<CartUpdateDTO> removeItemFromCart(@RequestBody String data) {
 
         try {
-            customer1.removeItemFromCart(data);
+            customer1.removeFromCart(data);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
@@ -187,6 +116,15 @@ public class MainController {
         CartUpdateDTO cartUpdate = new CartUpdateDTO(itemID, newQty, cartItem.getRawPrice(), cartItem.getFinalPrice(), customer1.getCart().getFinalPrice(), customer1.getCart().getCartSize());
 
         return ResponseEntity.ok(cartUpdate);
+    }
+
+    @GetMapping("/payment-page")
+    public String directToPaymentPage(Model model) {
+
+        model.addAttribute("cartItems", customer1.getCart().getItems().values());
+        model.addAttribute("totalAmount", customer1.getCart().getFinalPrice());
+
+        return "paymentpage";
     }
     
 }

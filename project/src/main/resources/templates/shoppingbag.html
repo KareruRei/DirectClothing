@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xlmns="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,7 +83,7 @@
                 <p class="total" th:text="'PHP ' + ${totalAmount}" id="totalAmt"></p>
             </div>
             
-            <button onclick="payment()"><a href="#">Place Order</a></button>
+            <button onclick="window.location.href = '/payment-page'">Check Out</button>
         </div>             
     </div>
 

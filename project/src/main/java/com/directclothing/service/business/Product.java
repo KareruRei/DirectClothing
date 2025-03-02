@@ -11,14 +11,12 @@ public class Product {
     private float price;
     private String imageLink;
 
-    public Product(String desc, String id, int qty, Supplier supp, String imageLink) {
+    public Product(String desc, String id, int qty, String imageLink) {
         this.description = desc;
         this.productID = id;
         this.quantityInStock = qty;
-        this.supplier = supp;
         this.imageLink = imageLink;
     }
-    public String toString() {return this.description;}
 
     // Setter Methods
     public void setDescription(String myDesc) {description = myDesc;}

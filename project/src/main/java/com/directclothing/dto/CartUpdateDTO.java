@@ -1,4 +1,4 @@
-package com.directclothing.controller;
+package com.directclothing.dto;
 
 public class CartUpdateDTO {
     private String itemID;

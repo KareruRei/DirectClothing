@@ -4,24 +4,26 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.directclothing.service.order.Order;
+import com.directclothing.service.payment.PaymentInterface;
 
 
 // This class acts as a dummy class to store catalogs
 public final class DirectClothing {
     private double funds = 1000.00f;
-    private HashMap<String, Catalog> currentCatalogs = new HashMap<>();  // Key: catalog key
-    private Queue<Order> orderQueue = new LinkedList<>();
-
-
-    public String toString() {return "DirectClothing Design";}
+    private final HashMap<String, Catalog> currentCatalogs = new HashMap<>();  // Key: catalog key
+    private final Queue<Order> orderQueue = new LinkedList<>();
+    private final Queue<PaymentInterface> paymentQueue = new LinkedList<>();
 
 
     public synchronized void enqueueOrder(Order newOrder) {orderQueue.add(newOrder);}
     public synchronized Order dequeueOrder() {return orderQueue.poll();}
     public synchronized boolean orderQueueIsEmpty() {return orderQueue.isEmpty();}
-    public synchronized Order peekOrder() {return orderQueue.peek();}
+    public synchronized Order peekOrderQueue() {return orderQueue.peek();}
 
-    public synchronized String getOrderQueueString() {return orderQueue.toString();}
+    public synchronized void enqueuePayment(PaymentInterface newPayment) {paymentQueue.add(newPayment);}
+    public synchronized PaymentInterface dequeuePayment() {return paymentQueue.poll();}
+    public synchronized boolean paymentQueueIsEmpty() {return paymentQueue.isEmpty();}
+    public synchronized PaymentInterface peekPaymentQueue() {return paymentQueue.peek();}
 
     // Setter Methods
     public void setFunds(double newFunds) {funds = newFunds;}

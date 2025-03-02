@@ -8,7 +8,7 @@ function showTab(tabName) {
         tabButtons[i].classList.remove('active');
     }
     document.getElementById(tabName).classList.add('active');
-    event.currentTarget.classList.add('active');
+    document.getElementById(tabName + "-button").classList.add('active');
 }
 
 

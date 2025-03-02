@@ -11,8 +11,6 @@ public class Employee extends Person {
         this.SSN = SSN;
     }
 
-    public void startWork() {processStep = 1;}
-
     // Setter Methods
     public void setSSN(int mySSN) {SSN = mySSN;}
 
