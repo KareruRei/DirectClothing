@@ -35,15 +35,28 @@ public class PeopleConfig {
                                             "Metro Manila", 
                                             "Philippines");
 
+    // 
     @Autowired
-    public PeopleConfig(Product tshirt, Product pants, Product jacket, Product cardigan, Product skirt, 
-                          Product polo, Product jeans, Product dress, Product shorts, Product blazer, 
-                          Product sweater, Product leggings, Product overalls, Product trenchCoat, Product jumpsuit) {
+    public PeopleConfig(Product tshirt, Product pants, Product jacket, Product cardigan, Product skirt, Product polo, 
+                        Product jeans, Product dress, Product shorts, Product blazer, Product sweater, Product leggings, 
+                        Product overalls, Product trenchCoat, Product jumpsuit, Product hoodie, Product chinos, Product bomberJacket, 
+                        Product turtleneck, Product wrapSkirt, Product henleyShirt, Product cargoPants, Product maxiDress, Product denimShorts, 
+                        Product peacoat, Product fleeceSweater, Product joggers, Product dungarees, Product parkaCoat, Product romper) {
 
-        this.supplier1Products = new Product[] {tshirt, pants, jacket, cardigan, skirt, polo, jeans, dress};
-        this.supplier2Products = new Product[] {shorts, blazer, sweater, leggings, overalls, trenchCoat, jumpsuit};
+        // Distribute products evenly across two suppliers (15 products each)
+        this.supplier1Products = new Product[] {
+            tshirt, pants, jacket, cardigan, skirt, polo, 
+            jeans, dress, shorts, blazer, sweater, leggings, 
+            overalls, trenchCoat, jumpsuit
+        };
+
+        this.supplier2Products = new Product[] {
+            hoodie, chinos, bomberJacket, turtleneck, wrapSkirt, henleyShirt, 
+            cargoPants, maxiDress, denimShorts, peacoat, fleeceSweater, joggers, 
+            dungarees, parkaCoat, romper
+        };
     }
-
+                                            
     @Bean
     public Supplier supplier1() {
         return new Supplier("Smith & Son, Inc.", supplierAddress1, 85732, "0937-436-2491", supplier1Products);

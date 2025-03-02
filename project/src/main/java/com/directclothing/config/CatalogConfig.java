@@ -16,6 +16,8 @@ public class CatalogConfig {
 
     private final Item[] maleCatalogItems;
     private final Item[] femaleCatalogItems;
+    private final Item[] summerCatalogItems;
+    private final Item[] winterCatalogItems;
 
     // Constructor injection
     @Autowired
@@ -69,6 +71,9 @@ public class CatalogConfig {
             new Item(parkaCoat, 1029.99f, Catalog.Section.MONTHLY_SPECIAL, 20.00f, "A029"),
             new Item(romper, 859.99f, Catalog.Section.CLOSEOUT_ITEM, 30.00f, "A030")
         };
+    
+        this.summerCatalogItems = combineSummerItems();
+        this.winterCatalogItems = combineWinterItems();
     }
 
     // Beans for Catalogs
@@ -80,5 +85,30 @@ public class CatalogConfig {
     @Bean
     public Catalog femaleCatalog() {
         return new Catalog("Female", "2G7Q5EOBNDG5", femaleCatalogItems, Date.create(2024, 11, 27));
+    }
+
+    @Bean
+    public Catalog summerCatalog() { // phillipines summer months - march to may (may hottest month) 🔥🔥🔥 I CAN ADD EMOJIS??
+        return new Catalog("Summer", "2BRJF39RJFK5", summerCatalogItems, Date.create(2025, 3, 7));
+    }
+
+    @Bean
+    public Catalog winterCatalog() { // philippines winter months - november to febraury (jan coldest month)
+        return new Catalog("Winter", "2LJRU8H2HSV5", winterCatalogItems, Date.create(2025, 11, 3));
+    }
+
+    
+    private Item[] combineSummerItems() {  // combine male and female items for summer and winter  catalog
+        Item[] summerItems = new Item[maleCatalogItems.length + femaleCatalogItems.length];
+        System.arraycopy(maleCatalogItems, 0, summerItems, 0, maleCatalogItems.length);
+        System.arraycopy(femaleCatalogItems, 0, summerItems, maleCatalogItems.length, femaleCatalogItems.length);
+        return summerItems;
+    }
+
+    private Item[] combineWinterItems() {
+        Item[] winterItems = new Item[maleCatalogItems.length + femaleCatalogItems.length];
+        System.arraycopy(maleCatalogItems, 0, winterItems, 0, maleCatalogItems.length);
+        System.arraycopy(femaleCatalogItems, 0, winterItems, maleCatalogItems.length, femaleCatalogItems.length);
+        return winterItems;
     }
 }

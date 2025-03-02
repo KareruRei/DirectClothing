@@ -13,6 +13,8 @@ public class BusinessConfig {
 
     @Autowired Catalog maleCatalog;
     @Autowired Catalog femaleCatalog;
+    @Autowired Catalog summerCatalog;
+    @Autowired Catalog winterCatalog;
     
     @Bean
     public DirectClothing clothingSystem() {
@@ -20,6 +22,8 @@ public class BusinessConfig {
 
         clothingSystem.addToCatalogs(maleCatalog);
         clothingSystem.addToCatalogs(femaleCatalog);
+        clothingSystem.addToCatalogs(summerCatalog);
+        clothingSystem.addToCatalogs(winterCatalog);
 
         return clothingSystem;
     }
