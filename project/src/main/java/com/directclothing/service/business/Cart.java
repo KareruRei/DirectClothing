@@ -20,10 +20,6 @@ public class Cart {
     this.customer = customer;
   }
 
-
-  private String generateOrderID() {
-    return "Order:" + System.currentTimeMillis();
-  }
   public void clearCart() {
     items.clear();
   }
@@ -119,11 +115,11 @@ public class Cart {
     return items;
   }
 
-  public Order checkOut(Employee placedBy) { // ok so this is supposed to connect to order HOPEFULLY 
+  public Order checkOut() { // ok so this is supposed to connect to order HOPEFULLY 
     if (items.isEmpty()) {
       throw new IllegalStateException ("Cannot checkout with an empty cart.");
     }
-    String orderID = generateOrderID();
+    
     Date dateOrdered = Date.now();
     OrderLine[] orderLines = new OrderLine[items.size()]; // creates an array equal to the size of items in cart
     
@@ -132,7 +128,7 @@ public class Cart {
       orderLines[index++] = new OrderLine(cartItem.getQuantity(), cartItem.getItem()); // creates ANOTHER ORDERLINE OBJECT for each cartitem to get quantity
     }
 
-    Order order = new Order(orderID, dateOrdered, orderLines, customer, Order.Status.PENDING); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
+    Order order = new Order(dateOrdered, orderLines, customer, Order.Status.PENDING); // creates the order HOPEFULLY IDK IF THIS WORK HASHDASDAS
     clearCart(); // this should clear the cart after the checkout
 
     return order; // this should return the order that was just created

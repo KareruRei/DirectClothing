@@ -6,20 +6,16 @@ public class Payment_FormData {
     private String cvv;
     private String cardHolderName;
     
+    private String bank;
     private String drawer;
     private String accountNum;
     private String payee;
     private String routingNum;
     private String checkNum;
 
-    public Payment_FormData(String creditCard, String creditCardNumber, String cvv, String cardHolderName) {
-        this.creditCard = creditCard;
-        this.creditCardNumber = creditCardNumber;
-        this.cvv = cvv;
-        this.cardHolderName = cardHolderName;
-    }
+    public Payment_FormData() {}
 
-    public Payment_FormData(String drawer, String accountNum, String payee, String routingNum, String checkNum) {
+    public Payment_FormData(String bank, String drawer, String accountNum, String payee, String routingNum, String checkNum) {
         this.drawer = drawer;
         this.accountNum = accountNum;
         this.payee = payee;
@@ -97,5 +93,13 @@ public class Payment_FormData {
 
     public String getCheckNum() {
         return checkNum;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public String getBank() {
+        return bank;
     }
 }

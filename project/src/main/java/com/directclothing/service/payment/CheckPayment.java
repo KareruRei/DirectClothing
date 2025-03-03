@@ -1,6 +1,7 @@
 package com.directclothing.service.payment;
 
 import com.directclothing.service.business.DirectClothing;
+import com.directclothing.service.order.Order;
 import com.directclothing.service.people.Customer;
 
 
@@ -14,7 +15,7 @@ public class CheckPayment extends Payment implements PaymentInterface {
 
     private static int checkBatchNum = 1;
 
-    public CheckPayment(float amt, Customer drawer, SupportedBanks drawee, DirectClothing payee, String accountNumber) {
+    public CheckPayment(Order order, float amt, Customer drawer, SupportedBanks drawee, DirectClothing payee, String accountNumber) {
         super(amt);
         this.drawer = drawer;
         this.drawee = drawee;
@@ -22,6 +23,7 @@ public class CheckPayment extends Payment implements PaymentInterface {
         this.accountNumber = accountNumber;
         this.checkNumber = generateCheckNum();
         this.routingNumber = Integer.toString(drawee.getRoutingNumber());
+        setOrderToPayFor(order);
     }
 
     // Getter Methods
@@ -43,6 +45,17 @@ public class CheckPayment extends Payment implements PaymentInterface {
         return true;
     }
 
+    @Override
+    public void continueOrderProcess() {
+        this.getOrderToPayFor().setStatus(Order.Status.AWAITING_FULFILLMENT);
+    }
+
+    @Override
+    public void cancelOrderProcess() {
+        getOrderToPayFor().setStatus(Order.Status.CANCELLED);
+    }
+
+    
     public static String generateCheckNum() {
         return String.format("%06d", checkBatchNum++);
     }

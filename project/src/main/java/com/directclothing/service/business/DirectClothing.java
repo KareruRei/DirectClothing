@@ -1,9 +1,11 @@
 package com.directclothing.service.business;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import com.directclothing.service.order.Order;
+import com.directclothing.service.payment.Payment;
 import com.directclothing.service.payment.PaymentInterface;
 
 
@@ -13,6 +15,8 @@ public final class DirectClothing {
     private final HashMap<String, Catalog> currentCatalogs = new HashMap<>();  // Key: catalog key
     private final Queue<Order> orderQueue = new LinkedList<>();
     private final Queue<PaymentInterface> paymentQueue = new LinkedList<>();
+    private ArrayList<Order> orderHistory = new ArrayList<>();
+    private ArrayList<Payment> paymentHistory = new ArrayList<>();
 
 
     public synchronized void enqueueOrder(Order newOrder) {orderQueue.add(newOrder);}
@@ -24,6 +28,9 @@ public final class DirectClothing {
     public synchronized PaymentInterface dequeuePayment() {return paymentQueue.poll();}
     public synchronized boolean paymentQueueIsEmpty() {return paymentQueue.isEmpty();}
     public synchronized PaymentInterface peekPaymentQueue() {return paymentQueue.peek();}
+
+    public synchronized void addToOrderHistory(Order newOrder) {orderHistory.add(newOrder);}
+    public synchronized void addToPaymentHistory(Payment newPayment) {paymentHistory.add(newPayment);}
 
     // Setter Methods
     public void setFunds(double newFunds) {funds = newFunds;}

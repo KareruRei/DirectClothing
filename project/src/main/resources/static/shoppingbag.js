@@ -13,6 +13,7 @@ window.onload = function() {
     }
 };
 
+
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('payment-window').style.display = "none";
 
@@ -49,6 +50,7 @@ function changeQty(itemID, change) {
     var orderLineQty = document.getElementById('orderLineQty_id' + itemID);
     var orderLinePrice = document.getElementById('orderLinePrice_id' + itemID);
     var total = document.getElementById('totalAmt');
+    var paymentWindowTotal = document.getElementById("payment-window-total");
 
     var newQty = Number(qtyNum.value) - change;
     if (newQty < 1) newQty = 1;
@@ -75,18 +77,19 @@ function changeQty(itemID, change) {
         orderLinePrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         total.textContent = "PHP " + cartUpdate.totalPrice;
+        paymentWindowTotal.textContent = "PHP " + cartUpdate.totalPrice;
     })
     .catch(error => {
         alert(error);
     });
 }
-<<<<<<< HEAD
 
 function inputQty(itemID, newQty) {
     var qtyNum = document.getElementById('quantity_id' + itemID);
     var orderLineQty = document.getElementById('orderLineQty_id' + itemID);
     var orderLinePrice = document.getElementById('orderLinePrice_id' + itemID);
     var total = document.getElementById('totalAmt');
+    var paymentWindowTotal.textContent = document.getElementById("payment-window-total");
     
     if (newQty < 1 || newQty === "") newQty = 1;
 
@@ -113,6 +116,7 @@ function inputQty(itemID, newQty) {
         orderLinePrice.textContent = "PHP " + cartUpdate.discountedPrice;
 
         total.textContent = "PHP " + cartUpdate.totalPrice;
+        paymentWindowTotal.textContent = "PHP " + cartUpdate.totalPrice;
     })
     .catch(error => {
         alert(error);
@@ -141,6 +145,8 @@ function toggleItemRemoval(itemID) {
 
             let total = document.getElementById('totalAmt');
             total.textContent = "PHP " + cartUpdate.totalPrice;
+            let paymentWindowTotal = document.getElementById("payment-window-total");
+            paymentWindowTotal.textContent = "PHP " + cartUpdate.totalPrice;
         });
     })
 }
@@ -219,11 +225,80 @@ function showTab(tab) {
     document.querySelectorAll('.payment-form').forEach(form => form.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(tab + '-form').classList.add('active');
-    document.querySelector(".tab[onclick='showTab(\'" + tab + "\')']").classList.add('active');
+    document.querySelector(".tab[onclick=\"showTab('" + tab + "')\"]").classList.add('active');
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     showTab('check'); // Ensure check tab is visible on load
 });
-=======
->>>>>>> 256eb4abd77d638b95867b03d7cea8e86b9cb13b
+
+
+const cForm = document.getElementById("c-form");
+const ccForm = document.getElementById("cc-form");
+
+cForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const bank = document.getElementById("bank").value;
+    const drawer = document.getElementById("drawer").value;
+    const accountNum = document.getElementById("accountNum").value;
+    const payee = document.getElementById("payee").value;
+    const routingNum = document.getElementById("routingNum").value;
+    const checkNum = document.getElementById("checkNum").value;
+
+    if (!drawer || !accountNum || !payee || !routingNum || !checkNum) {
+        alert("Please fill in all required fields!");
+        return;
+    }
+
+    fetch("/place-order?payMethod=cp", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'text/plain'
+        },
+        body: JSON.stringify({ bank: bank, drawer: drawer, accountNum: accountNum, payee: payee, routingNum: routingNum, checkNum: checkNum })
+    })
+    .then(response => {
+        if (response.ok) return response.text();
+    })
+    .then(message => {
+        alert(message);
+    })
+    .catch(error => {
+        alert(error);
+    })
+});
+
+ccForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const creditCard = document.getElementById("creditCard").value;
+    const creditCardNumber = document.getElementById("creditCardNumber").value;
+    const cvv = document.getElementById("cvv").value;
+    const cardHolderName = document.getElementById("cardHolderName").value;
+
+
+    if (!creditCardNumber || !cvv || !cardHolderName || !creditCard) {
+        alert("Please fill in all required fields!");
+        return;
+    }
+
+    fetch("/place-order?payMethod=ccp", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accepts': 'text/plain'
+        },
+        body: JSON.stringify({ creditCard: creditCard, creditCardNumber: creditCardNumber, cvv: cvv, cardHolderName: cardHolderName })
+    })
+    .then(response => {
+        if (response.ok) return response.text();
+    })
+    .then(message => {
+        alert(message);
+    })
+    .catch(error => {
+        alert(error);
+    })
+});

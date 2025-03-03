@@ -3,6 +3,8 @@ package com.directclothing.service.payment;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.directclothing.service.order.Order;
+
 
 public class CreditCardPayment extends Payment implements PaymentInterface {
     private final SupportedCreditCards creditCard;
@@ -11,12 +13,13 @@ public class CreditCardPayment extends Payment implements PaymentInterface {
     private final String cardHolderName;
     
 
-    public CreditCardPayment(float amt, SupportedCreditCards creditCard, String creditCardNum, String cvv, String cardHolderName) {
+    public CreditCardPayment(Order order, float amt, SupportedCreditCards creditCard, String creditCardNum, String cvv, String cardHolderName) {
         super(amt);
         this.creditCard = creditCard;
         this.creditCardNumber = creditCardNum;
         this.cvv = cvv; // card verfication value THE 4 DIGITS ON THE BACK
         this.cardHolderName = cardHolderName;
+        setOrderToPayFor(order);
     }
 
     // Getter Methods
@@ -30,6 +33,17 @@ public class CreditCardPayment extends Payment implements PaymentInterface {
     public boolean verify() {
         return isValidCVV() && isValidCreditCardNumber() && isValidCardHolderName();
     }
+
+    @Override
+    public void continueOrderProcess() {
+        getOrderToPayFor().setStatus(Order.Status.AWAITING_FULFILLMENT);
+    }
+
+    @Override
+    public void cancelOrderProcess() {
+        getOrderToPayFor().setStatus(Order.Status.CANCELLED);
+    }
+
 
     public boolean isValidCVV() {
         return cvv.length() == 3 || cvv.length() == 4;

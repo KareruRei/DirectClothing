@@ -3,6 +3,9 @@ package com.directclothing.service.order;
 import com.directclothing.service.general.Date;
 import com.directclothing.service.people.Customer;
 
+import java.util.Random;
+
+
 public class Order {
     private String orderID;
     private Date dateFilled;
@@ -10,8 +13,8 @@ public class Order {
     private Customer customer;
     private Status orderStatus;
  
-    public Order(String id, Date date, OrderLine[] items, Customer customer, Status status) {
-        this.orderID = id;
+    public Order(Date date, OrderLine[] items, Customer customer, Status status) {
+        this.orderID = Order.generateOrderID();
         this.dateFilled = date;
         this.itemsOrdered = items;
         this.customer = customer;
@@ -64,6 +67,28 @@ public class Order {
     public void cancelOrder() {
         this.orderStatus = Status.CANCELLED;
     }
+
+    public static String generateOrderID() {
+        Random rng = new Random();
+        String id = "";
+
+        boolean digitOrChar;
+        int ascii;
+
+        for (int i=0; i < 8; i++) {
+            digitOrChar = rng.nextInt(10) > 5;
+
+            if (digitOrChar)
+                ascii = rng.nextInt(48, 58);
+            else
+                ascii = rng.nextInt(65, 91);
+
+            id += (char) ascii;
+        }
+
+        return id;
+    }
+
  
     public static enum Status {
         PENDING,

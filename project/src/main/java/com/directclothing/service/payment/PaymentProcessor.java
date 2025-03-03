@@ -15,7 +15,11 @@ public class PaymentProcessor extends Thread {
 
             synchronized (business) {
                 if (!business.paymentQueueIsEmpty()) {
-                    business.dequeuePayment().verify();
+                    
+                    PaymentInterface payment = business.dequeuePayment();
+
+                    if (payment.verify()) payment.continueOrderProcess();
+                    else payment.cancelOrderProcess();
                 }
             }
 

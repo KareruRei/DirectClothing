@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.directclothing.service.business.Product;
+import com.directclothing.service.business.DirectClothing;
 import com.directclothing.service.general.Address;
 import com.directclothing.service.people.Customer;
+import com.directclothing.service.people.OrderTaker;
+import com.directclothing.service.people.WorkerThread;
 import com.directclothing.service.people.Supplier;
 
 
@@ -71,4 +74,18 @@ public class PeopleConfig {
     public Customer customer1() {
         return new Customer("Gabb Agot", 140317, "0915-3769-436", billingAndShippingAddress, billingAndShippingAddress);
     }
+
+    
+    private OrderTaker[] orderTakers = new OrderTaker[] {
+        new OrderTaker("John Doe", 12345, "0987-654-3210", 623453),
+        new OrderTaker("Jane Smith", 67890, "0912-345-6789", 732512)
+    };
+
+    @Autowired DirectClothing clothingSystem;
+
+    @Bean
+    public WorkerThread workerThread() {
+        return new WorkerThread(clothingSystem, orderTakers);
+    }
+
 }

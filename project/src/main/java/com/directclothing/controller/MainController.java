@@ -15,11 +15,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.directclothing.dto.CartUpdateDTO;
 import com.directclothing.dto.CartUpdateRequest;
+import com.directclothing.dto.EnumModel;
 import com.directclothing.dto.Payment_FormData;
 import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
 import com.directclothing.service.business.DirectClothing;
 import com.directclothing.service.people.Customer;
+import com.directclothing.service.people.WorkerThread;
+import com.directclothing.service.general.Date;
+import com.directclothing.service.order.Order;
+
+import jakarta.annotation.PostConstruct;
+
+import com.directclothing.service.payment.CreditCardPayment;
+import com.directclothing.service.payment.CheckPayment;
+import com.directclothing.service.payment.PaymentProcessor;
 
 
 
@@ -29,6 +39,15 @@ public class MainController {
     // Setting up a dummy object for the clothing system and customer
     @Autowired private DirectClothing clothingSystem;
     @Autowired private Customer customer1;
+    @Autowired private WorkerThread workerThread;
+    @Autowired private PaymentProcessor paymentProcessor;
+
+
+    @PostConstruct
+    public void init() {
+        workerThread.start();
+        paymentProcessor.start();    
+    }
     
 
     @GetMapping("/")
@@ -100,6 +119,13 @@ public class MainController {
         model.addAttribute("shoppingItems", customer1.getCart().viewCartItems());        
         model.addAttribute("totalAmount", customer1.getCart().getFinalPrice());
 
+        EnumModel enumModel = new EnumModel();
+        enumModel.setSupportedBanks(CheckPayment.SupportedBanks.BPI);
+        enumModel.setSupportedCreditCards(CreditCardPayment.SupportedCreditCards.VISA);
+
+        model.addAttribute("paymentenum", enumModel);
+        model.addAttribute("checkNumber", CheckPayment.generateCheckNum());
+
         return "shoppingbag";
     }
 
@@ -122,21 +148,34 @@ public class MainController {
         return ResponseEntity.ok(cartUpdate);
     }
 
-    @GetMapping("/payment-page")
-    public String directToPaymentPage(Model model) {
+    @PostMapping("/place-order")
+    @ResponseBody
+    public ResponseEntity<String> placeOrder(@RequestBody Payment_FormData formData, @RequestParam String payMethod) {
+        float amount = customer1.getCart().getFinalPrice();
 
-        model.addAttribute("cartItems", customer1.getCart().getItems().values());
-        model.addAttribute("totalAmount", customer1.getCart().getFinalPrice());
+        Order customerOrder = customer1.getCart().checkOut();
+        clothingSystem.enqueueOrder(customerOrder);
+        
+        if (payMethod.equals("ccp")) {
+            
+            CreditCardPayment.SupportedCreditCards creditCard = CreditCardPayment.SupportedCreditCards.valueOf(formData.getCreditCard());
 
-        return "paymentpage";
+            CreditCardPayment customerPayment = new CreditCardPayment(customerOrder, amount, creditCard, formData.getCreditCardNumber(), formData.getCvv(), formData.getCardHolderName());
+            clothingSystem.addToPaymentHistory(customerPayment);
+            clothingSystem.enqueuePayment(customerPayment);
+            
+        } else if (payMethod.equals("cp")) {
+
+            CheckPayment.SupportedBanks bank = CheckPayment.SupportedBanks.valueOf(formData.getBank());
+
+            CheckPayment customerPayment = new CheckPayment(customerOrder, amount, customer1, bank, clothingSystem, formData.getAccountNum()); 
+            clothingSystem.addToPaymentHistory(customerPayment);
+            clothingSystem.enqueuePayment(customerPayment);
+        }           
+        
+        return ResponseEntity.ok("Order Placement Complete!");
     }
 
-    @PostMapping("/order")
-    public String directToOrder(@ModelAttribute Payment_FormData formData, Model model) {
-
-        
-        
-
-        return "orderdetails";
-    }
+    @PostMapping("/order-n-payment-update")
+    public void getUpdate() {}
 }

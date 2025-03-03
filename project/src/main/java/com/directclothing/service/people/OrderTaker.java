@@ -23,19 +23,29 @@ public class OrderTaker extends Employee implements Worker {
 
     @Override
     public void doWork() {
+
+        if (orderToProcess.getStatus() == Order.Status.CANCELLED) {
+            orderToProcess = null;
+            processStep = 0;
+        }
+
+        System.out.println(getName() + ": Doing Work on Order ID -> " + orderToProcess.getOrderID());
         switch (processStep) {
             case 1: processInfo(); break;
             case 2: waitForPayment(); break;
             case 3: checkInventory(); break;
             case 4: allocateStock(); break;
-            case 5: completeOrder(); break;
+            case 5: completeWork(); break;
             default: break;
         }
     }
 
     @Override
     public void completeWork() {
+        orderToProcess = null;
+        processStep = 0;
 
+        orderToProcess.setStatus(Order.Status.COMPLETED);
     }
     
     @Override
@@ -43,9 +53,9 @@ public class OrderTaker extends Employee implements Worker {
 
 
     public void processInfo() {
-        // do stuff
-        orderToProcess = null;
+        processStep++;
     }
+
 
     public void waitForPayment() {
         if (orderToProcess.getStatus() == Order.Status.AWAITING_FULFILLMENT)
@@ -55,8 +65,7 @@ public class OrderTaker extends Employee implements Worker {
     public void checkInventory() {
         for (OrderLine line : orderToProcess.getItemsOrdered())
             if (line.getCatalogItem().getProduct().getQuantityInStock() < line.getQuantity()) {
-                // do stuff
-                return;
+                orderToProcess.setStatus(Order.Status.CANCELLED);
             }
         
         processStep++;
@@ -65,13 +74,7 @@ public class OrderTaker extends Employee implements Worker {
     public void allocateStock() {
         for (OrderLine line : orderToProcess.getItemsOrdered())
             line.getCatalogItem().getProduct().sellInventory(line.getQuantity());
-    }
 
-    public void completeOrder() {
-        // do stuff
-
-        orderToProcess = null;
-        processStep = 0;
+        processStep++;
     }
-    
 }

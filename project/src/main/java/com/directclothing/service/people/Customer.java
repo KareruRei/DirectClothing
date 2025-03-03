@@ -2,9 +2,9 @@ package com.directclothing.service.people;
 
 import com.directclothing.service.business.Cart;
 import com.directclothing.service.business.Catalog;
-import com.directclothing.service.business.Product;
 import com.directclothing.service.general.Address;
-import com.directclothing.service.order.OrderLine;
+import com.directclothing.service.order.Order;
+import com.directclothing.service.payment.Payment;
 
 
 public class Customer extends Person {
@@ -12,6 +12,7 @@ public class Customer extends Person {
     private Address billingAddress;
     private Cart myCart;
     private int paymentAttempts;
+
 
     public Customer(String name, int ID, String phone, Address shippingAddress, Address billingAddress) {
         super(name, ID, phone);
@@ -45,13 +46,5 @@ public class Customer extends Person {
     }
     public void removeFromCart(String itemID) {
         this.myCart.removeItem(itemID);
-    }
-
-    public void placeOnlineOrder(Catalog whatCatalog, OrderLine[] whatItems) {
-        
-    }
-
-    public void sendOrderForm(Catalog whatCatalog, Product[] whatItems) {
-
     }
 }
